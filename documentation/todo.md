@@ -2,66 +2,83 @@
 
 **Objective:** To generate all necessary Software Development Life Cycle (SDLC) documents for Project Nexus.
 
-**Source of Truth:** All documents listed below **must** be derived from the information and specifications detailed in the **`Master Product & Business Specification` (Version 1.0)**. Use this master document as your single source of context and requirements to ensure perfect alignment across the entire project.
+**Tech Stack Confirmed:**
+*   **Framework:** Next.js 15+ (with TypeScript)
+*   **Styling:** Tailwind CSS
+*   **Design System:** Cupertino (Apple's macOS/iOS aesthetic)
+*   **Backend-as-a-Service (BaaS):** Supabase (Remote Instance for PostgreSQL DB, Auth, Storage)
+*   **ORM:** Prisma
+*   **Local Development:** Docker Compose
+*   **Deployment:** Vercel
+
+**Source of Truth:** All documents must be derived from the `Master Product & Business Specification` and adhere to the confirmed tech stack and design principles above.
 
 ## Phase 1: Project Scoping & Requirements Analysis
 
 - [ ] **1.1. Software Requirements Specification (SRS)**
     - **File:** `docs/requirements/Software_Requirements_Specification.md`
-    - **Description:** Create a detailed document that formalizes all functional and non-functional requirements. This includes elaborating on each feature from Section 5.0 of the master spec (e.g., AI Assessment Engine, Gamification), defining user roles (Free User, Premium User, Admin, Expert), and specifying performance, security, and privacy requirements from Section 8.0.
+    - **Description:** **[ADJUSTED]** Formalize all functional and non-functional requirements. Pay special attention to:
+        - **UI/UX Requirement:** The user interface **must** adhere to Cupertino design principles (cleanliness, translucency, SF Pro font, native iOS/macOS interaction patterns).
+        - **Performance Requirement:** Define the caching strategy as a core feature. Specify expected load times and the behavior of cached data.
+        - **Mobile Readiness:** State that the backend API layer must be decoupled from the web frontend to support future mobile clients.
 
 - [ ] **1.2. Use Case & User Story Documentation**
     - **File:** `docs/requirements/User_Stories_and_Use_Cases.md`
-    - **Description:** Based on Section 4.0 ("Target Audience & User Journey"), generate detailed user stories for the MVP. Use the format: "As a [user type], I want to [action] so that [benefit]." Create use case diagrams for key user flows, such as "User Completes a Node," "User Upgrades to Pro," and "AI Provides Assessment Feedback."
+    - **Description:** *No changes from previous version.*
 
-## Phase 2: System Design & Architecture
+## Phase 2: System Design & Architecture **[ADJUSTED]**
 
 - [ ] **2.1. System Architecture Design Document**
     - **File:** `docs/architecture/System_Architecture_Design.md`
-    - **Description:** Based on Section 8.0 ("Technical Strategy & Architecture"), create a comprehensive architecture document. This must include:
-        - A high-level diagram illustrating the microservices architecture (User Service, Content Service, AI Service, etc.).
-        - A description of the communication protocols between services (e.g., REST APIs, gRPC, message queues).
-        - Justification for the proposed technology stack (React, Node.js, databases).
+    - **Description:** **[ADJUSTED]** Create a comprehensive architecture document. This must include:
+        - **Core Architecture:** A diagram showing the Next.js application interacting with the remote Supabase instance for all BaaS needs.
+        - **API Layer Strategy:** Detail how Next.js API Routes will function as a **client-agnostic backend**, ready to serve the web app and future mobile applications.
+        - **Caching Strategy:** Document the multi-layered caching approach:
+            - **Next.js Data Cache:** For caching fetched data from Supabase on the server.
+            - **Next.js Full Route Cache:** For statically rendering pages where possible.
+            - **API Route Caching:** Plan for in-memory or Redis-based caching on critical, high-traffic API routes.
+        - **Local Development Environment:** **[NEW]** Describe the local setup using Docker Compose. The `docker-compose.yml` file should define at least two services for the Next.js app: one for standard development and another configured to route traffic through a proxy for testing purposes. Both services will connect to the *remote* Supabase instance using environment variables.
 
 - [ ] **2.2. API Specification**
-    - **File:** `docs/architecture/API_Specification_v1.yaml`
-    - **Description:** Generate a formal OpenAPI (Swagger) specification for the RESTful APIs that will connect the frontend to the backend microservices. Detail the endpoints, request/response payloads, and authentication methods (e.g., JWT). Key endpoints will include user authentication, roadmap data retrieval, and assessment submission.
+    - **File:** `docs/architecture/API_Specification_v1.md`
+    - **Description:** **[ADJUSTED]** Document the internal API layer built using Next.js API Routes. **Crucially, the design must be stateless and client-agnostic.** The response payloads must be pure JSON, containing no web-specific markup. Each endpoint's contract must be clear enough for a separate mobile development team to use without referencing the web frontend's code.
 
 - [ ] **2.3. Database Schema Design**
-    - **File:** `docs/architecture/Database_Schema.md`
-    - **Description:** Create the logical and physical database schema.
-        - **SQL Schema:** Design tables for Users, Subscriptions, Achievements, etc. Include relationships and constraints.
-        - **NoSQL Schema:** Design the document structure for `Roadmaps` and `Nodes`, accommodating flexible, nested content.
+    - **File:** `docs/architecture/Database_Schema.prisma`
+    - **Description:** *No changes from previous version.* Create the formal `schema.prisma` file.
 
 - [ ] **2.4. AI Integration Architecture**
     - **File:** `docs/architecture/AI_Integration_Architecture.md`
-    - **Description:** Detail the specific architecture for the "AI as a Coach" feature. Diagram how a user submission (e.g., audio file) is processed: which service handles the upload, how it calls the external LLM API, how the feedback is parsed from the LLM's response, and how it is stored and delivered back to the user.
+    - **Description:** *No changes from previous version.* The documented flow will operate within the now clearly defined client-agnostic Next.js API route.
 
-## Phase 3: Development & Implementation Plan
+## Phase 3: Development & Implementation Plan **[ADJUSTED]**
 
 - [ ] **3.1. MVP Feature & Task Breakdown**
     - **File:** `project_management/MVP_Task_Breakdown.md`
-    - **Description:** Convert the MVP features listed in Section 9.1 of the master spec into a detailed list of programmable tasks (e.g., "Implement user registration endpoint," "Build React component for node view," "Set up Streak counter logic"). This document will be used to populate a project management tool like Jira or Trello.
+    - **Description:** **[ADJUSTED]** Convert MVP features into detailed tasks specific to the tech stack. Add tasks for:
+        - "Create `docker-compose.yml` for local development per the architecture spec."
+        - "Establish base UI component library in React/Tailwind based on Cupertino design principles (e.g., create `Card`, `Button`, `Modal` components)."
+        - "Implement caching wrapper for Supabase data fetching functions."
+        - "Prototype and build a key feature UI (e.g., Roadmap View) to validate the Cupertino style."
 
 - [ ] **3.2. CI/CD Pipeline Design**
     - **File:** `docs/devops/CI_CD_Pipeline.md`
-    - **Description:** Document the plan for the Continuous Integration and Continuous Deployment pipeline. Specify the tools (e.g., GitHub Actions, Jenkins), the stages (Build, Test, Deploy), and the branching strategy (e.g., GitFlow) that will be used.
+    - **Description:** *No changes from previous version.* Document the Vercel/GitHub pipeline.
 
-## Phase 4: Testing & Quality Assurance
+## Phase 4: Testing & Quality Assurance **[ADJUSTED]**
 
 - [ ] **4.1. Master Test Plan**
     - **File:** `docs/qa/Master_Test_Plan.md`
-    - **Description:** Create a comprehensive test plan for the MVP. This should include:
-        - **Unit Testing Strategy:** Define the scope and required coverage for backend services and frontend components.
-        - **Integration Testing Strategy:** Plan for testing the interactions between microservices.
-        - **End-to-End (E2E) Testing Strategy:** Outline test cases for key user flows, like the full user journey described in Section 4.0.
-        - **Performance & Load Testing Strategy:** Define how you will test system performance against expected user load.
+    - **Description:** **[ADJUSTED]** Outline the comprehensive test plan. Add specific test cases for:
+        - **Caching Logic:** Verify that data is cached correctly and that cache invalidation works as expected when underlying data changes.
+        - **API Client Agnosticism:** Include tests that simulate requests from a non-browser client to ensure API responses are pure JSON.
+        - **UI Conformance:** As part of E2E testing, verify that the UI components render correctly according to the Cupertino design system's visual specifications.
 
 ## Phase 5: Deployment & Operations
 
 - [ ] **5.1. Infrastructure & Deployment Plan**
     - **File:** `docs/devops/Infrastructure_and_Deployment_Plan.md`
-    - **Description:** Detail the cloud infrastructure (e.g., on AWS, GCP, or Azure). Specify which services will be used (e.g., Kubernetes for container orchestration, S3 for storage, RDS for the database). Document the step-by-step deployment process for both the initial launch and subsequent updates.
+    - **Description:** *No changes from previous version.* The plan remains focused on the production environment (Vercel + Supabase).
 
 ## Phase 6: User-Facing Documentation
 
