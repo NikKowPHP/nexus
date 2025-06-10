@@ -26,8 +26,14 @@ WithColor.args = {
   color: 'red',
 };
 
+export const WithDot = Template.bind({});
+WithDot.args = {
+  label: 'Online',
+  dot: true,
+};
+
 export const WithIcon = Template.bind({});
 WithIcon.args = {
   label: 'New',
-  icon: '🆕',
+  icon: '🔍',
 };
