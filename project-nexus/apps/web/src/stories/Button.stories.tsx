@@ -21,14 +21,26 @@ Secondary.args = {
   variant: 'secondary',
 };
 
-export const Disabled = Template.bind({});
-Disabled.args = {
-  label: 'Disabled Button',
-  disabled: true,
+export const Success = Template.bind({});
+Success.args = {
+  label: 'Success Button',
+  variant: 'success',
+};
+
+export const Danger = Template.bind({});
+Danger.args = {
+  label: 'Danger Button',
+  variant: 'danger',
 };
 
 export const WithIcon = Template.bind({});
 WithIcon.args = {
   label: 'Button with Icon',
   icon: '🔍',
+};
+
+export const Disabled = Template.bind({});
+Disabled.args = {
+  label: 'Disabled Button',
+  disabled: true,
 };
