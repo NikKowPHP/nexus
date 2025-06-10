@@ -11,11 +11,32 @@ const Template: StoryFn = (args) => <NavBar {...args} />;
 
 export const Default = Template.bind({});
 Default.args = {
-  items: ['Home', 'About', 'Contact'],
+  items: [
+    { label: 'Home', path: '/' },
+    { label: 'About', path: '/about' },
+    { label: 'Contact', path: '/contact' },
+  ],
 };
 
 export const WithLogo = Template.bind({});
 WithLogo.args = {
-  items: ['Home', 'About', 'Contact'],
+  items: [
+    { label: 'Home', path: '/' },
+    { label: 'About', path: '/about' },
+    { label: 'Contact', path: '/contact' },
+  ],
   logo: 'https://example.com/logo.png',
+};
+
+export const WithUserMenu = Template.bind({});
+WithUserMenu.args = {
+  items: [
+    { label: 'Home', path: '/' },
+    { label: 'About', path: '/about' },
+    { label: 'Contact', path: '/contact' },
+  ],
+  userMenu: {
+    name: 'John Doe',
+    avatar: 'https://example.com/avatar.jpg',
+  },
 };
