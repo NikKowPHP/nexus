@@ -31,7 +31,7 @@
 *   **Goal:** Build the essential features that allow a user to complete the primary learning loop.
 *   **Status:** [ ] Incomplete
 
-- [ ] **2.1. Build the UI Component Library**
+- [x] **2.1. Build the UI Component Library**
     - Create the fundamental, reusable Cupertino-styled UI components.
 
 - [ ] **2.2. Implement Roadmap & Node Viewing**
