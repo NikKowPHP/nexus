@@ -11,51 +11,57 @@ const Template: StoryFn = (args) => <TabBar {...args} />;
 
 export const Default = Template.bind({});
 Default.args = {
-  tabs: [
-    { label: 'Home', path: '/' },
-    { label: 'Profile', path: '/profile' },
-    { label: 'Settings', path: '/settings' },
-  ],
-};
-
-export const WithIcons = Template.bind({});
-WithIcons.args = {
-  tabs: [
-    { label: 'Home', path: '/', icon: '🏠' },
-    { label: 'Profile', path: '/profile', icon: '👤' },
-    { label: 'Settings', path: '/settings', icon: '⚙️' },
-  ],
-};
-
-export const WithActiveTab = Template.bind({});
-WithActiveTab.args = {
-  tabs: [
-    { label: 'Home', path: '/' },
-    { label: 'Profile', path: '/profile' },
-    { label: 'Settings', path: '/settings' },
-  ],
-  activeTab: '/profile',
-};
-
-export const WithBadge = Template.bind({});
-WithBadge.args = {
-  tabs: [
-    { label: 'Home', path: '/' },
-    { label: 'Notifications', path: '/notifications', badge: 5 },
-    { label: 'Settings', path: '/settings' },
+  items: [
+    { label: 'Home', icon: '🏠' },
+    { label: 'Search', icon: '🔍' },
+    { label: 'Notifications', icon: '🔔', count: 5 },
+    { label: 'Profile', icon: '👤' },
   ],
 };
 
 export const WithCustomStyles = Template.bind({});
 WithCustomStyles.args = {
-  tabs: [
-    { label: 'Home', path: '/' },
-    { label: 'Profile', path: '/profile' },
-    { label: 'Settings', path: '/settings' },
+  items: [
+    { label: 'Home', icon: '🏠' },
+    { label: 'Search', icon: '🔍' },
+    { label: 'Notifications', icon: '🔔' },
+    { label: 'Profile', icon: '👤' },
   ],
   styles: {
-    backgroundColor: '#f8f9fa',
-    activeColor: '#007bff',
-    inactiveColor: '#6c757d',
+    backgroundColor: '#fff',
+    borderTop: '1px solid #ddd',
+    padding: '8px 0',
   },
+};
+
+export const WithActiveTab = Template.bind({});
+WithActiveTab.args = {
+  items: [
+    { label: 'Home', icon: '🏠' },
+    { label: 'Search', icon: '🔍' },
+    { label: 'Notifications', icon: '🔔' },
+    { label: 'Profile', icon: '👤' },
+  ],
+  activeTab: 1,
+};
+
+export const WithOnClick = Template.bind({});
+WithOnClick.args = {
+  items: [
+    { label: 'Home', icon: '🏠' },
+    { label: 'Search', icon: '🔍' },
+    { label: 'Notifications', icon: '🔔' },
+    { label: 'Profile', icon: '👤' },
+  ],
+  onClick: (index: number) => alert(`Tab ${index} clicked`),
+};
+
+export const WithBadge = Template.bind({});
+WithBadge.args = {
+  items: [
+    { label: 'Home', icon: '🏠' },
+    { label: 'Search', icon: '🔍' },
+    { label: 'Notifications', icon: '🔔', badge: 'New' },
+    { label: 'Profile', icon: '👤' },
+  ],
 };
