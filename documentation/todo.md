@@ -84,36 +84,36 @@ Here is the `tasker_todo.md` for the Architect model. Its job is to take all exi
     - **(Target File):** `project_management/tasks/2.2_roadmap_node_viewing.md` (Overwrite)
     - **(LLM Action):** "Analyze the source file and convert its contents into the ultra-granular format. Separate the tasks for data fetching logic from the tasks for UI rendering."
 
-- [ ] **2.3. Re-format AI Assessment Loop**
+- [x] **2.3. Re-format AI Assessment Loop**
     - **(Source File):** `project_management/tasks/2.3_ai_assessment_loop.md`
     - **(Target File):** `project_management/tasks/2.3_ai_assessment_loop.md` (Overwrite)
     - **(LLM Action):** "Analyze the source file and convert its contents into the ultra-granular format. Create distinct tasks for the frontend file upload UI, the Next.js API route creation, the LLM API call logic within the route, and the frontend logic to display the returned feedback."
 
-- [ ] **2.4. Re-format Gamification & Progress Tracking**
+- [x] **2.4. Re-format Gamification & Progress Tracking**
     - **(Source File):** `project_management/tasks/2.4_gamification_progress_tracking.md`
     - **(Target File):** `project_management/tasks/2.4_gamification_progress_tracking.md` (Overwrite)
     - **(LLM Action):** "Analyze the source file and convert its contents into the ultra-granular format. Separate database logic (e.g., SQL function for updating streaks) from the API endpoint that calls it, and the frontend component that displays it."
 
 ## Phase 3: Re-format Monetization & Admin Tasks
 
-- [ ] **3.1. Re-format Stripe Subscription**
+- [x] **3.1. Re-format Stripe Subscription**
     - **(Source File):** `project_management/tasks/3.1_stripe_subscription.md`
     - **(Target File):** `project_management/tasks/3.1_stripe_subscription.md` (Overwrite)
     - **(LLM Action):** "Analyze the source file and convert its contents into the ultra-granular format. Follow the successful pattern of separating tasks for UI, API routes, and webhook logic."
 
-- [ ] **3.2. Re-format Admin Dashboard**
+- [x] **3.2. Re-format Admin Dashboard**
     - **(Source File):** `project_management/tasks/3.2_admin_dashboard.md`
     - **(Target File):** `project_management/tasks/3.2_admin_dashboard.md` (Overwrite)
     - **(LLM Action):** "Analyze the source file and convert its contents into the ultra-granular format. Create separate tasks for the protected admin layout, the user list table UI, the data fetching API for users, and the user editing modal."
 
 ## Phase 4: Re-format Production Readiness Tasks
 
-- [ ] **4.1. Re-format CI/CD Pipeline**
+- [x] **4.1. Re-format CI/CD Pipeline**
     - **(Source File):** `project_management/tasks/4.1_ci_cd_pipeline.md`
     - **(Target File):** `project_management/tasks/4.1_ci_cd_pipeline.md` (Overwrite)
     - **(LLM Action):** "Analyze the source file and convert its contents into the ultra-granular format. Detail the exact YAML configuration for GitHub Actions or configuration steps in the Vercel dashboard."
 
-- [ ] **4.2. Re-format Monitoring & Alerting**
+- [x] **4.2. Re-format Monitoring & Alerting**
     - **(Source File):** `project_management/tasks/4.2_monitoring_alerting.md`
     - **(Target File):** `project_management/tasks/4.2_monitoring_alerting.md` (Overwrite)
     - **(LLM Action):** "Analyze the source file and convert its contents into the ultra-granular format. Specify the code needed to initialize Sentry's SDK and the steps to set up a basic alert in the Sentry dashboard."
