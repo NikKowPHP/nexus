@@ -14,64 +14,29 @@ Default.args = {
   label: 'Default Button',
 };
 
-export const Primary = Template.bind({});
-Primary.args = {
-  label: 'Primary Button',
-  variant: 'primary',
-};
-
-export const Secondary = Template.bind({});
-Secondary.args = {
-  label: 'Secondary Button',
-  variant: 'secondary',
-};
-
-export const Success = Template.bind({});
-Success.args = {
-  label: 'Success Button',
-  variant: 'success',
-};
-
-export const Danger = Template.bind({});
-Danger.args = {
-  label: 'Danger Button',
-  variant: 'danger',
-};
-
-export const Warning = Template.bind({});
-Warning.args = {
-  label: 'Warning Button',
-  variant: 'warning',
-};
-
-export const Info = Template.bind({});
-Info.args = {
-  label: 'Info Button',
-  variant: 'info',
-};
-
-export const Light = Template.bind({});
-Light.args = {
-  label: 'Light Button',
-  variant: 'light',
-};
-
-export const Dark = Template.bind({});
-Dark.args = {
-  label: 'Dark Button',
-  variant: 'dark',
-};
-
-export const Outline = Template.bind({});
-Outline.args = {
-  label: 'Outline Button',
-  variant: 'outline',
-};
-
 export const WithIcon = Template.bind({});
 WithIcon.args = {
   label: 'Button with Icon',
   icon: '🔍',
+};
+
+export const WithColor = Template.bind({});
+WithColor.args = {
+  label: 'Primary Button',
+  color: 'blue',
+};
+
+export const WithBackgroundColor = Template.bind({});
+WithBackgroundColor.args = {
+  label: 'Success Button',
+  backgroundColor: 'green',
+};
+
+export const WithTextColor = Template.bind({});
+WithTextColor.args = {
+  label: 'Warning Button',
+  textColor: 'white',
+  backgroundColor: 'orange',
 };
 
 export const WithSize = Template.bind({});
@@ -80,10 +45,16 @@ WithSize.args = {
   size: 'large',
 };
 
-export const WithFullWidth = Template.bind({});
-WithFullWidth.args = {
-  label: 'Full Width Button',
-  fullWidth: true,
+export const WithRounded = Template.bind({});
+WithRounded.args = {
+  label: 'Rounded Button',
+  rounded: 'full',
+};
+
+export const WithOutline = Template.bind({});
+WithOutline.args = {
+  label: 'Outline Button',
+  outline: true,
 };
 
 export const WithDisabled = Template.bind({});
@@ -92,8 +63,59 @@ WithDisabled.args = {
   disabled: true,
 };
 
+export const WithLoading = Template.bind({});
+WithLoading.args = {
+  label: 'Loading Button',
+  loading: true,
+};
+
 export const WithOnClick = Template.bind({});
 WithOnClick.args = {
   label: 'Clickable Button',
   onClick: () => alert('Button clicked'),
+};
+
+export const WithTooltip = Template.bind({});
+WithTooltip.args = {
+  label: 'Tooltip Button',
+  tooltip: 'This is a tooltip',
+};
+
+export const WithFullWidth = Template.bind({});
+WithFullWidth.args = {
+  label: 'Full Width Button',
+  fullWidth: true,
+};
+
+export const WithCustomStyle = Template.bind({});
+WithCustomStyle.args = {
+  label: 'Custom Styled Button',
+  style: { border: '2px solid #000', padding: '10px 20px' },
+};
+
+export const WithLeftIcon = Template.bind({});
+WithLeftIcon.args = {
+  label: 'Left Icon Button',
+  icon: '🔍',
+  iconPosition: 'left',
+};
+
+export const WithRightIcon = Template.bind({});
+WithRightIcon.args = {
+  label: 'Right Icon Button',
+  icon: '🔍',
+  iconPosition: 'right',
+};
+
+export const WithBadge = Template.bind({});
+WithBadge.args = {
+  label: 'Badge Button',
+  badge: '99+',
+};
+
+export const WithBadgeColor = Template.bind({});
+WithBadgeColor.args = {
+  label: 'Badge Color Button',
+  badge: '3',
+  badgeColor: 'red',
 };
