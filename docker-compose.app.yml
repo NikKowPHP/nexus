@@ -1,0 +1,25 @@
+services:
+  next-dev:
+    image: node:18
+    working_dir: /app
+    volumes:
+      - .:/app
+    ports:
+      - "3350:3000"
+    command: npm run dev
+    environment:
+      SUPABASE_URL: ${SUPABASE_URL}
+      SUPABASE_KEY: ${SUPABASE_KEY}
+
+  next-proxy:
+    image: node:18
+    working_dir: /app
+    volumes:
+      - .:/app
+    ports:
+      - "3351:3000"
+    command: npm run dev
+    environment:
+      HTTP_PROXY: http://proxy.example.com:8080
+      SUPABASE_URL: ${SUPABASE_URL}
+      SUPABASE_KEY: ${SUPABASE_KEY}

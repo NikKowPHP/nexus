@@ -12,11 +12,11 @@
 - [x] **1.1. Initialize Project & Version Control**
     - Create the Git repository and define the monorepo structure.
 
-- [ ] **1.2. Set Up Cloud Infrastructure**
+- [!] **1.2. Set Up Cloud Infrastructure**
     - Configure Supabase (Auth, DB, Storage) and Vercel (Hosting, CI/CD).
 
-- [ ] **1.3. Establish Local Development Environment**
-    - Implement and test the Docker Compose setup for consistent local development.
+- [x] **1.3. Establish Local Development Environment**
+     - Implement and test the Docker Compose setup for consistent local development.
 
 - [ ] **1.4. Define Core Data Structures**
     - Implement the Prisma schema and run the initial database migration.
@@ -24,6 +24,8 @@
 - [ ] **1.5. Implement Core Authentication**
     - Build the complete user signup, login, and session management flow.
 
+
+! - human interaction (agent skip this)
 ---
 
 ## Phase 2: Core Feature Implementation (The User's Journey)
