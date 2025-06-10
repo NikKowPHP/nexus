@@ -78,3 +78,41 @@ _This section requires clarification from stakeholders regarding specific layout
 ---
 
 _This document completes Task 1.1 from todo.md. Subsequent sections will be updated as more information becomes available from the Master Product & Business Specification._
+## 4. Tailwind CSS Configuration
+
+```javascript
+module.exports = {
+  theme: {
+    extend: {
+      colors: {
+        primary: '#007bff',
+        secondary: '#6c757d',
+        accent: '#ff6b6b',
+        background: '#f8f9fa',
+        'text-primary': '#212529',
+        'text-secondary': '#495057',
+      },
+      fontFamily: {
+        sans: ['Inter', 'sans-serif'],
+      },
+    },
+  },
+  plugins: [],
+}
+```
+## 5. Complex Component Specs: Interactive Roadmap
+
+### Node States (Visuals)
+- **Locked:** Grayed out (#e9ecef), small size (24px), no border
+- **Unlocked:** Primary color (#007bff), normal size (32px), 1px solid border
+- **Active:** Glowing border (0 0 8px rgba(0,123,255,0.5)), larger size (40px)
+- **Completed:** Muted primary color (rgba(0,123,255,0.5)), checkmark icon, normal size
+
+### Edge States (Lines)
+- **Default:** Light gray (#dee2e6), 1px solid
+- **Path-to-Active:** Primary color (#007bff), 2px solid with animation (pulse effect)
+
+### Interaction Behavior
+- **Hover:** Show tooltip with node title and status
+- **Click:** Navigate to corresponding node page
+- **Zoom/Pan:** Smooth transitions with 300ms easing
