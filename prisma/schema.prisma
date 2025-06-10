@@ -1,119 +1,119 @@
 // Database Schema for Project Nexus
-// Generated from Master Product & Business Specification
+  // Generated from Master Product & Business Specification
 
-generator client {
-  provider = "prisma-client-js"
-}
+  generator client {
+    provider = "prisma-client-js"
+  }
 
-datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
-}
+  datasource db {
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
+  }
 
-model User {
-  id            String    @id @default(uuid())
-  email         String    @unique
-  name          String?
-  password      String
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
+  model User {
+    id            String    @id @default(uuid())
+    email         String    @unique
+    name          String?
+    password      String
+    createdAt     DateTime  @default(now())
+    updatedAt     DateTime  @updatedAt
 
-  // Progress tracking
-  completedNodes NodeProgress[]
-  streaks       Streak[]
-  xp            XP[]
-  badges        Badge[]
+    // Progress tracking
+    completedNodes NodeProgress[]
+    streaks       Streak[]
+    xp            XP[]
+    badges        Badge[]
 
-  // Real-world application tracking
-  habits       Habit[]
-}
+    // Real-world application tracking
+    habits       Habit[]
+  }
 
-model Roadmap {
-  id          String    @id @default(uuid())
-  title       String
-  description String?
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
+  model Roadmap {
+    id          String    @id @default(uuid())
+    title       String
+    description String?
+    createdAt   DateTime  @default(now())
+    updatedAt   DateTime  @updatedAt
 
-  // Hierarchy
-  parentRoadmap Roadmap? @relation("RoadmapHierarchy", fields: [parentId], references: [id])
-  parentId     String?
-  children     Roadmap[] @relation("RoadmapHierarchy")
+    // Hierarchy
+    parentRoadmap Roadmap? @relation("RoadmapHierarchy", fields: [parentId], references: [id])
+    parentId     String?
+    children     Roadmap[] @relation("RoadmapHierarchy")
 
-  nodes       Node[]
-}
+    nodes       Node[]
+  }
 
-model Node {
-  id          String    @id @default(uuid())
-  title       String
-  description String
-  type        NodeType  // theory/practice/quiz
-  estimatedTime Int
-  /// Expected JSON structure for 'content' field:
-  /// - type: "video", "text", "quiz", "image", etc.
-  /// - url: String (for video/image)
-  /// - transcript: String (for video/audio)
-  /// - questions: Array (for quiz)
-  /// - text: String (for text)
-  content     Json?
+  model Node {
+    id          String    @id @default(uuid())
+    title       String
+    description String
+    type        NodeType  // theory/practice/quiz
+    estimatedTime Int
+    /// Expected JSON structure for 'content' field:
+    /// - type: "video", "text", "quiz", "image", etc.
+    /// - url: String (for video/image)
+    /// - transcript: String (for video/audio)
+    /// - questions: Array (for quiz)
+    /// - text: String (for text)
+    content     Json?
 
-  roadmap     Roadmap   @relation(fields: [roadmapId], references: [id])
-  roadmapId   String
+    roadmap     Roadmap   @relation(fields: [roadmapId], references: [id])
+    roadmapId   String
 
-  // Progress tracking
-  progress    NodeProgress[]
-}
+    // Progress tracking
+    progress    NodeProgress[]
+  }
 
-enum NodeType {
-  THEORY
-  PRACTICE
-  QUIZ
-}
+  enum NodeType {
+    THEORY
+    PRACTICE
+    QUIZ
+  }
 
-model NodeProgress {
-  id        String   @id @default(uuid())
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId    String
-  node      Node     @relation(fields: [nodeId], references: [id])
-  nodeId    String
-  completed Boolean  @default(false)
-  completedAt DateTime?
+  model NodeProgress {
+    id        String   @id @default(uuid())
+    user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    userId    String
+    node      Node     @relation(fields: [nodeId], references: [id])
+    nodeId    String
+    completed Boolean  @default(false)
+    completedAt DateTime?
 
-  @@index([userId])
-}
+    @@index([userId])
+  }
 
-model Streak {
-  id        String   @id @default(uuid())
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId    String
-  count     Int
-  lastUpdated DateTime @default(now())
-}
+  model Streak {
+    id        String   @id @default(uuid())
+    user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    userId    String
+    count     Int
+    lastUpdated DateTime @default(now())
+  }
 
-model XP {
-  id        String   @id @default(uuid())
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId    String
-  amount    Int
-  source    String   // e.g., "node_completion", "habit_completion"
-  earnedAt  DateTime @default(now())
-}
+  model XP {
+    id        String   @id @default(uuid())
+    user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    userId    String
+    amount    Int
+    source    String   // e.g., "node_completion", "habit_completion"
+    earnedAt  DateTime @default(now())
+  }
 
-model Badge {
-  id        String   @id @default(uuid())
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId    String
-  name      String
-  earnedAt  DateTime @default(now())
-}
+  model Badge {
+    id        String   @id @default(uuid())
+    user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    userId    String
+    name      String
+    earnedAt  DateTime @default(now())
+  }
 
-model Habit {
-  id        String   @id @default(uuid())
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId    String
-  description String
-  completed Boolean  @default(false)
-  completedAt DateTime?
+  model Habit {
+    id        String   @id @default(uuid())
+    user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    userId    String
+    description String
+    completed Boolean  @default(false)
+    completedAt DateTime?
 
-  @@index([userId])
-}
+    @@index([userId])
+  }
