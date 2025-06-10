@@ -2,15 +2,20 @@ import React from 'react';
 import styles from './Badge.module.css';
 
 interface BadgeProps {
-  text: string;
-  size?: 'small' | 'medium' | 'large';
+  text?: string;
+  icon?: string;
+  color?: string;
 }
 
-const Badge: React.FC<BadgeProps> = ({ text, size = 'medium' }) => {
+const Badge: React.FC<BadgeProps> = ({ text = '', icon, color }) => {
   return (
-    <div className={`${styles.badge} ${styles[size]}`}>
-      {text}
-    </div>
+    <span
+      className={styles.badge}
+      style={{ backgroundColor: color || '#ccc', color: '#fff' }}
+    >
+      {icon && <span className={styles.icon}>{icon}</span>}
+      {text && <span className={styles.text}>{text}</span>}
+    </span>
   );
 };
 
