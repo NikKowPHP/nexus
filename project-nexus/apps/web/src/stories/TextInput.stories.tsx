@@ -14,8 +14,14 @@ Default.args = {
   placeholder: 'Enter text',
 };
 
-export const Error = Template.bind({});
-Error.args = {
+export const WithValue = Template.bind({});
+WithValue.args = {
   placeholder: 'Enter text',
-  error: 'This field is required',
+  value: 'Initial value',
+};
+
+export const WithLabel = Template.bind({});
+WithLabel.args = {
+  placeholder: 'Enter text',
+  label: 'Label Text',
 };
