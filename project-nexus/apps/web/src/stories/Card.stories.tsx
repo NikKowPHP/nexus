@@ -44,8 +44,8 @@ WithCustomStyles.args = {
   title: 'Styled Card',
   content: 'This card has custom styles.',
   styles: {
-    backgroundColor: '#f0f0f0',
-    border: '1px solid #ccc',
+    backgroundColor: '#f8f9fa',
+    border: '1px solid #ddd',
     borderRadius: '8px',
     padding: '16px',
   },
