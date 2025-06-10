@@ -26,3 +26,9 @@ Disabled.args = {
   label: 'Disabled Button',
   disabled: true,
 };
+
+export const WithIcon = Template.bind({});
+WithIcon.args = {
+  label: 'Button with Icon',
+  icon: '🔍',
+};
