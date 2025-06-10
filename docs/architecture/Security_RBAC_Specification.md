@@ -15,8 +15,8 @@ _This document outlines the security architecture and Role-Based Access Control 
 - **Middleware Logic**:  
   ```typescript
   export function middleware(request: NextRequest) {
-    const user = getAuthenticatedUser(request);
-    if (request.nextUrl.pathname.startsWith('/pro') && !user.roles.includes('pro')) {
+    const { user, subscription } = await getUserWithSubscription(request);
+    if (request.nextUrl.pathname.startsWith('/pro') && subscription?.status !== 'ACTIVE') {
       return NextResponse.redirect('/upgrade');
     }
     // Additional role checks...

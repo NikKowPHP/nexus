@@ -64,3 +64,10 @@ Based on [Master Product & Business Specification Section 9.1](business_plan.md)
 - [ ] Component snapshot testing (Jest)  
 - [ ] E2E test for learning flow (Cypress)  
 - [ ] Performance testing for caching system
+## Stripe & Monetization
+- [ ] [Infra] Add all Stripe environment variables to Vercel and .env.example
+- [ ] [Backend] Create API route for Stripe webhook handler with signature verification
+- [ ] [Backend] Create API route to create a Stripe Checkout session
+- [ ] [UI] Build the pricing/upgrade page
+- [ ] [UI] Build the Stripe Checkout redirect flow
+- [ ] [Feature] Implement the 'useSubscription' hook for frontend feature gating

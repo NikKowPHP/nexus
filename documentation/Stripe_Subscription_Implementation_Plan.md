@@ -1,114 +1,45 @@
 # Stripe Subscription Implementation Plan for Project Nexus
-**Version:** 1.0  
-**Date:** June 10, 2025  
+**Version:** 2.0 (Refined)
+**Date:** 6/10/2025
 
-## Overview
-This document details the implementation plan for integrating Stripe subscription management into Project Nexus, enabling premium features through recurring billing.
+## 1. Overview
+This document details the refined, production-ready plan for integrating Stripe subscriptions, including environment management, local testing, and secure webhook handling.
 
-## Architecture Diagram
-```mermaid
-graph TD
-    A[User Actions] --> B(Select Plan)
-    B --> C[Stripe Checkout]
-    C --> D[Payment Processing]
-    D --> E[Webhook Events]
-    E --> F[Update User Status]
-    F --> G[Enable Pro Features]
-    
-    subgraph Backend
-        E --> H[Stripe Webhook Handler]
-        H --> I[Database Update]
-        I --> J[Sync with Auth System]
-    end
-    
-    subgraph Frontend
-        B --> K[Plan Selection UI]
-        G --> L[Feature Gating]
-    end
-```
+## 2. Environment Variables
+The application will use the following environment variables to manage Stripe environments.
 
-## Implementation Details
+| Variable Name                  | Environment | Purpose                                                 | Example Value                        |
+| ------------------------------ | ----------- | ------------------------------------------------------- | ------------------------------------ |
+| `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` | Production  | Frontend key to initialize Stripe.js                | `pk_live_...`                        |
+| `STRIPE_SECRET_KEY`            | Production  | Backend key for all Stripe API calls.                 | `sk_live_...`                        |
+| `STRIPE_WEBHOOK_SECRET`        | Production  | Secret to verify incoming webhooks from Stripe.       | `whsec_...`                          |
+| `STRIPE_PRO_MONTHLY_PRICE_ID`  | Production  | The ID of the "Pro Monthly" plan in Stripe.             | `price_...`                          |
+| `STRIPE_PRO_ANNUAL_PRICE_ID`   | Production  | The ID of the "Pro Annual" plan in Stripe.              | `price_...`                          |
+| `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` | Development | **Test Mode** key for the frontend.                     | `pk_test_...`                        |
+| `STRIPE_SECRET_KEY`            | Development | **Test Mode** key for the backend.                      | `sk_test_...`                        |
+| `STRIPE_WEBHOOK_SECRET`        | Development | **Test Mode** webhook secret from Stripe CLI.           | `whsec_...`                          |
 
-### 1. Database Schema Extension
-```prisma
-model Subscription {
-  id                 String   @id @default(cuid())
-  user               User     @relation(fields: [userId], references: [id])
-  userId             String
-  stripeSubscription String   @unique
-  status             String   // active, canceled, past_due
-  planId             String   // free, pro_monthly, pro_annual
-  currentPeriodEnd   DateTime
-  createdAt          DateTime @default(now())
-  updatedAt          DateTime @updatedAt
-}
-```
+## 3. Local Development & Testing (Mocking)
+To avoid using real payment methods during development, we will use Stripe's Test Mode and the Stripe CLI.
 
-### 2. Stripe Integration Endpoints
-- `POST /api/subscriptions/create-checkout-session`
-- `POST /api/subscriptions/webhook`
-- `GET /api/subscriptions/current`
+1.  **Use Test Keys:** The `.env.local` file will contain the Stripe **Test Mode** API keys.
+2.  **Use Test Cards:** Stripe provides a set of test credit card numbers that can be used in the checkout form without incurring real charges.
+3.  **Use Stripe CLI for Webhooks:**
+    *   Install the Stripe CLI.
+    *   Run `stripe login`.
+    *   Run the command `stripe listen --forward-to localhost:3000/api/webhooks/stripe`.
+    *   This will provide a webhook signing secret (`whsec_...`) to be placed in `.env.local`. This allows Stripe's test events to be securely sent to the local development server.
 
-### 3. User Flow
-```mermaid
-sequenceDiagram
-    User->>Frontend: Clicks "Upgrade"
-    Frontend->>Backend: GET /api/subscriptions/plans
-    Backend-->>Frontend: Plan options
-    User->>Frontend: Selects plan
-    Frontend->>Backend: POST /create-checkout-session
-    Backend->>Stripe: Create Session
-    Stripe-->>Backend: Session ID
-    Backend-->>Frontend: Session ID
-    Frontend->>Stripe: Redirect to Checkout
-    Stripe->>User: Payment form
-    User->>Stripe: Submit payment
-    Stripe->>Backend: Webhook event
-    Backend->>Database: Update status
-    Backend->>User: Welcome email
-```
+## 4. Secure Webhook Handler
+The webhook handler is the most critical part of the integration.
 
-### 4. Feature Gating
-**Frontend Component:**
-```jsx
-const FeatureFlag = ({ feature, children }) => {
-  const { subscription } = useSubscription();
-  
-  if (feature === 'pro' && subscription.status !== 'active') {
-    return <UpgradePrompt />;
-  }
-  
-  return children;
-};
-```
+-   **Endpoint:** `POST /api/webhooks/stripe`
+-   **Security:** The first step **must** be to verify the `stripe-signature` header using the `STRIPE_WEBHOOK_SECRET`. Reject any request that fails verification.
+-   **Logic:** Use a `switch` statement to handle key Stripe events:
+    *   `checkout.session.completed`: A user has successfully paid for the first time. Create a `Subscription` record in our database, linking the `userId` to the `stripeCustomerId` and `stripeSubscriptionId`.
+    *   `customer.subscription.updated`: A user's subscription has changed (e.g., upgraded, downgraded, or past due). Update the `status` and `stripeCurrentPeriodEnd` in our database.
+    *   `customer.subscription.deleted`: A user has canceled their subscription. Update the `status` in our database to `CANCELED`.
 
-**Backend Middleware:**
-```typescript
-export const requirePro = (req: Request, res: Response, next: NextFunction) => {
-  if (req.user.subscriptionStatus !== 'active') {
-    return res.status(403).json({ error: 'Pro subscription required' });
-  }
-  next();
-};
-```
-
-### 5. Testing Strategy
-| Test Type | Tools | Coverage |
-|-----------|-------|----------|
-| Unit Tests | Jest, Stripe-mock | Payment flows, edge cases |
-| Integration | Cypress, Stripe test cards | Full checkout flow |
-| Security | OWASP ZAP, PCI scans | Vulnerability assessment |
-
-### 6. Deployment Plan
-1. **Staging Phase** (June 15-20):
-   - Test mode integration
-   - Team validation
-2. **Limited Release** (June 21-30):
-   - 10% user rollout
-   - Monitor conversion metrics
-3. **Full Release** (July 1):
-   - Enable for all users
-   - Implement monitoring alerts
-
-## Next Steps
-Switch to code implementation mode to begin development.
+## 5. Feature Gating & Access Control
+-   **Backend:** The Next.js middleware defined in the `Security_RBAC_Specification.md` will check the user's `Subscription.status`. If the status is not `ACTIVE` or `TRIALING`, it will block access to Pro features.
+-   **Frontend:** A React hook (e.g., `useSubscription()`) will provide the user's subscription status to UI components, allowing them to conditionally render "Upgrade" prompts or "Pro" badges.

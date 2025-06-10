@@ -1,63 +1,186 @@
-# Refinement Phase Todo List for Nexus AI Architect
+Excellent point. This is a critical detail for moving from architecture to real-world implementation. A robust payment system requires a clear distinction between testing and production environments, and this must be reflected in our core documentation.
 
-**Objective:** To transform the draft SDLC documents into implementation-ready blueprints by adding depth, granularity, and addressing strategic gaps.
+You are right to identify this gap. We will now refine the existing documents to create a production-grade plan for Stripe integration. This involves specifying environment variables, local testing procedures with mocking, and how the subscription status translates into access control.
 
-**Source of Truth:** Continue to use the `Master Product & Business Specification` and the existing v1.0 documents as your context.
+Here is the comprehensive plan to update the necessary documents.
 
-## Phase 1: Quality Control & Polishing
+---
 
-- [x] **1.1. Sanitize AI Artifacts**
-    - **Action:** Systematically scan all generated documents for any non-English text, placeholder artifacts (like "极狐"), or formatting errors.
-    - **File(s) to Edit:** `documentation/todo.md` and any other affected files.
-    - **Outcome:** All documents are professionally polished and free of generation errors.
+### **Refinement Plan: Production-Ready Stripe Integration**
 
-## Phase 2: Adding Granularity & Detail
+I will now outline the necessary updates to our SDLC documents. Then, I will provide a new `todo.md` file for your 4B LLM to execute these refinements.
 
-- [x] **2.1. Deepen the API Specification**
-    - **Action:** Edit the `API_Specification_v1.md` to include critical implementation details. For each endpoint, add:
-        - **Request Validation Rules:** (e.g., `email` must be a valid email format, `password` must be >8 characters).
-        - **Detailed Error Codes:** Define specific error responses (e.g., `{"error": {"code": "user_not_found"}}`, `{"error": {"code": "invalid_payload"}}`).
-        - **Pagination Contracts:** For list endpoints like `/roadmaps`, define the pagination mechanism (e.g., cursor-based or offset/limit).
-    - **File(s) to Edit:** `docs/architecture/API_Specification_v1.md`
+#### **1. Updates to `docs/architecture/Database_Schema.prisma`**
 
-- [x] **2.2. Refine the Database Schema**
-    - **Action:** Edit the `Database_Schema.prisma` file to add production-ready details.
-        - **Indexes:** Add `@@index([userId])` to performance-critical models like `NodeProgress` and `Habit` for faster lookups.
-        - **Foreign Key Actions:** Specify `onDelete` and `onUpdate` behavior for relations (e.g., if a `User` is deleted, what happens to their `NodeProgress`? It should be `Cascade`d).
-        - **Define JSON Structures:** For the `content` field on the `Node` model, add a comment (`///`) detailing the expected JSON structure (e.g., `{ "type": "video", "url": "...", "transcript": "..." }`).
-    - **File(s) to Edit:** `docs/architecture/Database_Schema.prisma`
+The `Stripe_Subscription_Implementation_Plan.md` proposed a `Subscription` model. We will now officially integrate it and refine it.
 
-- [x] **2.3. Granulate the MVP Task Breakdown**
-    - **Action:** Edit the `MVP_Task_Breakdown.md` to break down high-level tasks into smaller, developer-sized tickets.
-        - **Example:** Change "Implement Prisma ORM setup" to:
-            - `[ ] [Data] Define User and Roadmap models in schema.prisma`
-            - `[ ] [Data] Create initial database migration script with 'prisma migrate dev'`
-            - `[ ] [Data] Write seed script to populate initial flagship roadmaps`
-    - **File(s) to Edit:** `project_management/MVP_Task_Breakdown.md`
+**Action:** Add the `Subscription` model and link it to the `User` model.
 
-## Phase 3: Closing Strategic Gaps
+```prisma
+// Add to the bottom of the file
 
-- [x] **3.1. Create Content Management & Expert Tooling Architecture [NEW DOCUMENT]**
-    - **Action:** Create a new document that details the architecture for the "Augmented Expert" tools mentioned in the Master Spec. This is a critical missing piece.
-    - **File to Create:** `docs/architecture/Content_Management_Architecture.md`
-    - **Content:**
-        - **UI/UX:** A description of the admin dashboard for SMEs.
-        - **Workflow:** How an SME initiates AI content generation, reviews, edits, and publishes a roadmap.
-        - **RBAC:** Define roles (Admin, SME) and their permissions.
-        - **API:** Specify the API endpoints for the admin panel (e.g., `/api/admin/roadmaps`, `/api/admin/ai/generate-draft`).
+model Subscription {
+  id                 String   @id @default(cuid())
+  userId             String   @unique
+  user               User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-- [x] **3.2. Create Security & RBAC Specification [NEW DOCUMENT]**
-    - **Action:** Create a new, dedicated document for security and Role-Based Access Control.
-    - **File to Create:** `docs/architecture/Security_RBAC_Specification.md`
-    - **Content:**
-        - **API Route Protection:** Detail how middleware will be used in Next.js to protect routes based on user roles (e.g., a Free user cannot access a Pro-level node).
-        - **Supabase Policies:** Define the Row-Level Security (RLS) policies that will be implemented in Supabase to ensure users can only access their own data.
-        - **Input Validation:** Formalize the strategy for validating all user input on the server-side to prevent XSS, SQL injection, etc.
+  stripeCustomerId      String   @unique
+  stripeSubscriptionId  String?  @unique
+  stripePriceId         String?
+  stripeCurrentPeriodEnd DateTime?
 
-- [x] **3.3. Expand the AI Integration Architecture**
-    - **Action:** Edit the existing AI architecture document to include crucial implementation details.
-    - **File(s) to Edit:** `docs/architecture/AI_Integration_Architecture.md`
-    - **Content to Add:**
-        - **Prompt Engineering Strategy:** Provide examples of the specific prompts that will be sent to the LLM for different tasks (e.g., audio feedback, text summarization).
-        - **Structured Feedback Schema:** Define the JSON structure of the feedback object returned by the AI. This is vital for the frontend to render it consistently.
-        - **Abuse & Cost Mitigation:** Outline strategies to prevent prompt injection and to monitor/limit API calls to the LLM to control costs.
+  status             SubscriptionStatus @default(INCOMPLETE)
+
+  @@index([userId])
+}
+
+enum SubscriptionStatus {
+  ACTIVE
+  CANCELED
+  INCOMPLETE
+  PAST_DUE
+  TRIALING
+}
+
+// Add to the User model
+model User {
+  // ... existing fields
+  subscription   Subscription?
+}
+```
+
+#### **2. Updates to `documentation/Stripe_Subscription_Implementation_Plan.md`**
+
+This document will be significantly enhanced with environment details and webhook logic.
+
+**Action:** Replace the existing content with this more detailed version.
+
+```markdown
+# Stripe Subscription Implementation Plan for Project Nexus
+**Version:** 2.0 (Refined)
+**Date:** [Current Date]
+
+## 1. Overview
+This document details the refined, production-ready plan for integrating Stripe subscriptions, including environment management, local testing, and secure webhook handling.
+
+## 2. Environment Variables
+The application will use the following environment variables to manage Stripe environments.
+
+| Variable Name                  | Environment | Purpose                                                 | Example Value                        |
+| ------------------------------ | ----------- | ------------------------------------------------------- | ------------------------------------ |
+| `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` | Production  | Frontend key to initialize Stripe.js                | `pk_live_...`                        |
+| `STRIPE_SECRET_KEY`            | Production  | Backend key for all Stripe API calls.                 | `sk_live_...`                        |
+| `STRIPE_WEBHOOK_SECRET`        | Production  | Secret to verify incoming webhooks from Stripe.       | `whsec_...`                          |
+| `STRIPE_PRO_MONTHLY_PRICE_ID`  | Production  | The ID of the "Pro Monthly" plan in Stripe.             | `price_...`                          |
+| `STRIPE_PRO_ANNUAL_PRICE_ID`   | Production  | The ID of the "Pro Annual" plan in Stripe.              | `price_...`                          |
+| `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` | Development | **Test Mode** key for the frontend.                     | `pk_test_...`                        |
+| `STRIPE_SECRET_KEY`            | Development | **Test Mode** key for the backend.                      | `sk_test_...`                        |
+| `STRIPE_WEBHOOK_SECRET`        | Development | **Test Mode** webhook secret from Stripe CLI.           | `whsec_...`                          |
+
+## 3. Local Development & Testing (Mocking)
+To avoid using real payment methods during development, we will use Stripe's Test Mode and the Stripe CLI.
+
+1.  **Use Test Keys:** The `.env.local` file will contain the Stripe **Test Mode** API keys.
+2.  **Use Test Cards:** Stripe provides a set of test credit card numbers that can be used in the checkout form without incurring real charges.
+3.  **Use Stripe CLI for Webhooks:**
+    *   Install the Stripe CLI.
+    *   Run `stripe login`.
+    *   Run the command `stripe listen --forward-to localhost:3000/api/webhooks/stripe`.
+    *   This will provide a webhook signing secret (`whsec_...`) to be placed in `.env.local`. This allows Stripe's test events to be securely sent to the local development server.
+
+## 4. Secure Webhook Handler
+The webhook handler is the most critical part of the integration.
+
+-   **Endpoint:** `POST /api/webhooks/stripe`
+-   **Security:** The first step **must** be to verify the `stripe-signature` header using the `STRIPE_WEBHOOK_SECRET`. Reject any request that fails verification.
+-   **Logic:** Use a `switch` statement to handle key Stripe events:
+    *   `checkout.session.completed`: A user has successfully paid for the first time. Create a `Subscription` record in our database, linking the `userId` to the `stripeCustomerId` and `stripeSubscriptionId`.
+    *   `customer.subscription.updated`: A user's subscription has changed (e.g., upgraded, downgraded, or past due). Update the `status` and `stripeCurrentPeriodEnd` in our database.
+    *   `customer.subscription.deleted`: A user has canceled their subscription. Update the `status` in our database to `CANCELED`.
+
+## 5. Feature Gating & Access Control
+-   **Backend:** The Next.js middleware defined in the `Security_RBAC_Specification.md` will check the user's `Subscription.status`. If the status is not `ACTIVE` or `TRIALING`, it will block access to Pro features.
+-   **Frontend:** A React hook (e.g., `useSubscription()`) will provide the user's subscription status to UI components, allowing them to conditionally render "Upgrade" prompts or "Pro" badges.
+```
+
+#### **3. Updates to `docs/architecture/Security_RBAC_Specification.md`**
+
+We need to connect the abstract concept of a "pro role" to the concrete `Subscription.status`.
+
+**Action:** Update Section 1.1 "Middleware Logic" to be more specific.
+
+```typescript
+// Update in docs/architecture/Security_RBAC_Specification.md
+
+// ...
+### 1.1 Next.js Middleware Implementation
+// ...
+- **Middleware Logic**:  
+  ```typescript
+  import { getUserWithSubscription } from 'lib/auth'; // Hypothetical function
+
+  export async function middleware(request: NextRequest) {
+    const { user, subscription } = await getUserWithSubscription(request);
+
+    // Redirect unauthenticated users from protected routes
+    if (!user && (request.nextUrl.pathname.startsWith('/pro') || request.nextUrl.pathname.startsWith('/admin'))) {
+      return NextResponse.redirect('/login');
+    }
+
+    // Check for Pro subscription status
+    if (request.nextUrl.pathname.startsWith('/pro') && subscription?.status !== 'ACTIVE') {
+      return NextResponse.redirect('/upgrade'); // Redirect to pricing/upgrade page
+    }
+
+    // Check for Admin role
+    if (request.nextUrl.pathname.startsWith('/admin') && user?.role !== 'ADMIN') {
+        return new Response('Forbidden', { status: 403 });
+    }
+    
+    return NextResponse.next();
+  }
+  ```
+```
+
+---
+
+### **The Updated `todo.md` for LLM Execution**
+
+This new plan is clear, actionable, and ensures all related documents are updated consistently.
+
+```markdown
+# Refinement Phase 2: Stripe Integration Todo List
+
+**Objective:** To update all relevant SDLC documents with a production-ready plan for Stripe subscription integration, including environment management and local testing.
+
+---
+
+- [ ] **1. [Database] Update the Database Schema**
+    - **Action:** Edit the `docs/architecture/Database_Schema.prisma` file.
+    - **Details:**
+        - Add the new `Subscription` model as specified in the refinement plan.
+        - Add the new `SubscriptionStatus` enum.
+        - Add the `subscription Subscription?` relation to the `User` model.
+    - **Source:** Refinement Plan, Section 1.
+
+- [ ] **2. [Architecture] Overhaul the Stripe Implementation Plan**
+    - **Action:** Replace the entire content of `documentation/Stripe_Subscription_Implementation_Plan.md` with the new, detailed Version 2.0 content.
+    - **Details:** Ensure the new content includes sections on Environment Variables, Local Development with Stripe CLI, and Secure Webhook Handling.
+    - **Source:** Refinement Plan, Section 2.
+
+- [ ] **3. [Security] Refine the Access Control Middleware**
+    - **Action:** Edit the `docs/architecture/Security_RBAC_Specification.md` file.
+    - **Details:** Update the TypeScript code snippet for the middleware logic to specifically check for `subscription.status === 'ACTIVE'`, as detailed in the refinement plan.
+    - **Source:** Refinement Plan, Section 3.
+
+- [ ] **4. [Project Management] Update the MVP Task Breakdown**
+    - **Action:** Edit the `project_management/MVP_Task_Breakdown.md` file.
+    - **Details:** Add a new top-level section for "Stripe & Monetization" with the following granular tasks:
+        - `[ ] [Infra] Add all Stripe environment variables to Vercel and .env.example`
+        - `[ ] [Backend] Create API route for Stripe webhook handler with signature verification`
+        - `[ ] [Backend] Create API route to create a Stripe Checkout session`
+        - `[ ] [UI] Build the pricing/upgrade page`
+        - `[ ] [UI] Build the Stripe Checkout redirect flow`
+        - `[ ] [Feature] Implement the 'useSubscription' hook for frontend feature gating`
+    - **Source:** General task breakdown based on the refined Stripe plan.
+```
