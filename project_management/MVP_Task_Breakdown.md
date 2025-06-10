@@ -34,7 +34,9 @@ Based on [Master Product & Business Specification Section 9.1](business_plan.md)
   - Caching layer (Redis integration)  
   - Automatic cache invalidation  
   - TypeScript interfaces  
-- [ ] Implement Prisma ORM setup and schema migration  
+- [ ] [Data] Define User and Roadmap models in schema.prisma
+- [ ] [Data] Create initial database migration script with 'prisma migrate dev'
+- [ ] [Data] Write seed script to populate initial flagship roadmaps
 
 ### Core Feature Implementation  
 - [ ] Roadmap Viewer:  

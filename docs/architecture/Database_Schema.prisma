@@ -49,7 +49,13 @@ model Node {
   description String
   type        NodeType  // theory/practice/quiz
   estimatedTime Int
-  content     Json?     // Rich media content
+  /// Expected JSON structure for 'content' field:
+  /// - type: "video", "text", "quiz", "image", etc.
+  /// - url: String (for video/image)
+  /// - transcript: String (for video/audio)
+  /// - questions: Array (for quiz)
+  /// - text: String (for text)
+  content     Json?
 
   roadmap     Roadmap   @relation(fields: [roadmapId], references: [id])
   roadmapId   String
@@ -66,17 +72,19 @@ enum NodeType {
 
 model NodeProgress {
   id        String   @id @default(uuid())
-  user      User     @relation(fields: [userId], references: [id])
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    String
   node      Node     @relation(fields: [nodeId], references: [id])
   nodeId    String
   completed Boolean  @default(false)
   completedAt DateTime?
+
+  @@index([userId])
 }
 
 model Streak {
   id        String   @id @default(uuid())
-  user      User     @relation(fields: [userId], references: [id])
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    String
   count     Int
   lastUpdated DateTime @default(now())
@@ -84,7 +92,7 @@ model Streak {
 
 model XP {
   id        String   @id @default(uuid())
-  user      User     @relation(fields: [userId], references: [id])
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    String
   amount    Int
   source    String   // e.g., "node_completion", "habit_completion"
@@ -93,7 +101,7 @@ model XP {
 
 model Badge {
   id        String   @id @default(uuid())
-  user      User     @relation(fields: [userId], references: [id])
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    String
   name      String
   earnedAt  DateTime @default(now())
@@ -101,9 +109,11 @@ model Badge {
 
 model Habit {
   id        String   @id @default(uuid())
-  user      User     @relation(fields: [userId], references: [id])
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    String
   description String
   completed Boolean  @default(false)
   completedAt DateTime?
+
+  @@index([userId])
 }

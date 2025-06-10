@@ -44,7 +44,70 @@ graph LR
 - **Strict Validation:**  
   All AI-generated content requires human approval
 
-## 6. Security & Compliance  
+## 6. Prompt Engineering Strategy
+
+### 6.1 Core Prompt Patterns
+```text
+// Audio feedback analysis prompt
+"As an expert educator, analyze this audio response from a learner.
+Identify 3 strengths and 3 areas for improvement in their understanding.
+Focus on clarity, technical accuracy, and conceptual grasp.
+Return analysis in this JSON format: {strengths: [], improvements: []}"
+
+// Text summarization prompt
+"Summarize this technical content for a beginner audience in 3 bullet points.
+Maintain accuracy while simplifying terminology.
+Each bullet should be under 15 words."
+```
+
+### 6.2 Specialized Task Prompts
+- **Content Generation**: (TBD: Master Spec Section 4.2)
+- **Error Diagnosis**: (TBD: Master Spec Section 4.3)
+- **Adaptive Learning**: (TBD: Master Spec Section 4.4)
+
+## 7. Structured Feedback Schema
+```typescript
+interface AIFeedback {
+  type: "audio" | "text" | "quiz";
+  score: number; // 0-100
+  dimensions: {
+    accuracy: number; // 0-5
+    completeness: number; // 0-5
+    clarity: number; // 0-5
+  };
+  suggestions: string[]; // Specific improvement suggestions
+  highlights: { // For text/audio analysis
+    text: string;
+    comment: string;
+    type: "strength" | "weakness";
+  }[];
+}
+```
+
+## 8. Abuse & Cost Mitigation
+
+### 8.1 Prompt Injection Defense
+- Input sanitization pipeline
+- Suspicious pattern detection
+- Context-aware validation
+
+### 8.2 Cost Controls
+```mermaid
+graph TD
+    A[API Request] --> B{Rate Limit?}
+    B -->|Yes| C[Process Normally]
+    B -->|No| D[Return 429]
+    C --> E{High Cost?}
+    E -->|Yes| F[Use Lightweight Model]
+    E -->|No| G[Use Full Model]
+```
+
+### 8.3 Monitoring
+- Real-time API cost dashboard
+- Alert thresholds for abnormal usage
+- Monthly budget caps per feature
+
+## 9. Security & Compliance
 - **Data Anonymization:**  
   PII stripping before processing
 - **EU GDPR Compliance:**  
