@@ -18,22 +18,14 @@ Default.args = {
 export const WithValue = Template.bind({});
 WithValue.args = {
   label: 'Input with Value',
-  placeholder: 'Enter text here',
   value: 'Pre-filled text',
 };
 
 export const WithIcon = Template.bind({});
 WithIcon.args = {
   label: 'Input with Icon',
-  placeholder: 'Enter text here',
+  placeholder: 'Search...',
   icon: '🔍',
-};
-
-export const Disabled = Template.bind({});
-Disabled.args = {
-  label: 'Disabled Input',
-  placeholder: 'Enter text here',
-  disabled: true,
 };
 
 export const WithError = Template.bind({});
@@ -43,28 +35,37 @@ WithError.args = {
   error: 'This field is required',
 };
 
+export const WithHelperText = Template.bind({});
+WithHelperText.args = {
+  label: 'Input with Helper Text',
+  placeholder: 'Enter your email',
+  helperText: 'We will never share your email.',
+};
+
 export const Password = Template.bind({});
 Password.args = {
   label: 'Password Input',
-  placeholder: 'Enter password',
   type: 'password',
+  placeholder: 'Enter your password',
+};
+
+export const Disabled = Template.bind({});
+Disabled.args = {
+  label: 'Disabled Input',
+  placeholder: 'This input is disabled',
+  disabled: true,
 };
 
 export const WithOnChange = Template.bind({});
 WithOnChange.args = {
   label: 'Input with onChange',
-  placeholder: 'Enter text here',
+  placeholder: 'Type something',
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => alert(`Value changed: ${e.target.value}`),
 };
 
-export const WithCustomStyles = Template.bind({});
-WithCustomStyles.args = {
-  label: 'Styled Input',
-  placeholder: 'Enter text here',
-  styles: {
-    backgroundColor: '#f8f9fa',
-    border: '1px solid #ddd',
-    borderRadius: '5px',
-    padding: '10px',
-  },
+export const WithMaxLength = Template.bind({});
+WithMaxLength.args = {
+  label: 'Input with Max Length',
+  placeholder: 'Enter text (max 10 chars)',
+  maxLength: 10,
 };
