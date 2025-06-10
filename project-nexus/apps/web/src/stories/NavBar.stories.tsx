@@ -14,18 +14,20 @@ Default.args = {
   items: [
     { label: 'Home', path: '/' },
     { label: 'About', path: '/about' },
+    { label: 'Services', path: '/services' },
     { label: 'Contact', path: '/contact' },
   ],
 };
 
 export const WithLogo = Template.bind({});
 WithLogo.args = {
-  logo: 'https://example.com/logo.png',
   items: [
     { label: 'Home', path: '/' },
     { label: 'About', path: '/about' },
+    { label: 'Services', path: '/services' },
     { label: 'Contact', path: '/contact' },
   ],
+  logo: 'https://example.com/logo.png',
 };
 
 export const WithDropdown = Template.bind({});
@@ -34,22 +36,42 @@ WithDropdown.args = {
     { label: 'Home', path: '/' },
     {
       label: 'Services',
+      path: '/services',
       dropdownItems: [
-        { label: 'Service 1', path: '/services/1' },
-        { label: 'Service 2', path: '/services/2' },
-        { label: 'Service 3', path: '/services/3' },
+        { label: 'Web Design', path: '/services/web-design' },
+        { label: 'SEO', path: '/services/seo' },
+        { label: 'Marketing', path: '/services/marketing' },
       ],
     },
     { label: 'Contact', path: '/contact' },
   ],
 };
 
-export const WithUserMenu = Template.bind({});
-WithUserMenu.args = {
-  user: { name: 'John Doe', avatar: 'https://example.com/avatar.jpg' },
+export const WithAuth = Template.bind({});
+WithAuth.args = {
   items: [
     { label: 'Home', path: '/' },
     { label: 'About', path: '/about' },
+  ],
+  auth: {
+    isLoggedIn: true,
+    userName: 'John Doe',
+    loginPath: '/login',
+    logoutPath: '/logout',
+  },
+};
+
+export const WithCustomStyles = Template.bind({});
+WithCustomStyles.args = {
+  items: [
+    { label: 'Home', path: '/' },
+    { label: 'About', path: '/about' },
+    { label: 'Services', path: '/services' },
     { label: 'Contact', path: '/contact' },
   ],
+  styles: {
+    backgroundColor: '#333',
+    color: '#fff',
+    activeColor: '#ff0',
+  },
 };
