@@ -11,7 +11,7 @@ const Template: StoryFn = (args) => <Badge {...args} />;
 
 export const Default = Template.bind({});
 Default.args = {
-  label: 'Default',
+  label: 'Default Badge',
 };
 
 export const WithCount = Template.bind({});
@@ -20,10 +20,21 @@ WithCount.args = {
   count: 5,
 };
 
-export const WithColor = Template.bind({});
-WithColor.args = {
-  label: 'Important',
-  color: 'red',
+export const WithCustomStyles = Template.bind({});
+WithCustomStyles.args = {
+  label: 'Custom Badge',
+  styles: {
+    backgroundColor: '#4caf50',
+    color: '#fff',
+    borderRadius: '12px',
+    padding: '4px 8px',
+  },
+};
+
+export const WithIcon = Template.bind({});
+WithIcon.args = {
+  label: 'New',
+  icon: '🆕',
 };
 
 export const WithDot = Template.bind({});
@@ -32,8 +43,8 @@ WithDot.args = {
   dot: true,
 };
 
-export const WithIcon = Template.bind({});
-WithIcon.args = {
-  label: 'New',
-  icon: '🔍',
+export const WithTooltip = Template.bind({});
+WithTooltip.args = {
+  label: 'Info',
+  tooltip: 'This is an informational badge',
 };
