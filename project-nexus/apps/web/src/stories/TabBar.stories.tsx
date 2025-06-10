@@ -18,8 +18,8 @@ Default.args = {
   ],
 };
 
-export const WithIcon = Template.bind({});
-WithIcon.args = {
+export const WithIcons = Template.bind({});
+WithIcons.args = {
   tabs: [
     { label: 'Home', icon: '🏠', onClick: () => alert('Home clicked') },
     { label: 'Profile', icon: '👤', onClick: () => alert('Profile clicked') },
@@ -27,37 +27,63 @@ WithIcon.args = {
   ],
 };
 
+export const WithBadges = Template.bind({});
+WithBadges.args = {
+  tabs: [
+    { label: 'Home', badge: '99+', onClick: () => alert('Home clicked') },
+    { label: 'Profile', badge: '3', onClick: () => alert('Profile clicked') },
+    { label: 'Settings', onClick: () => alert('Settings clicked') },
+  ],
+};
+
 export const WithActiveTab = Template.bind({});
 WithActiveTab.args = {
-  tabs: [
-    { label: 'Home', onClick: () => alert('Home clicked') },
-    { label: 'Profile', active: true, onClick: () => alert('Profile clicked') },
-    { label: 'Settings', onClick: () => alert('Settings clicked') },
-  ],
-};
-
-export const WithBadge = Template.bind({});
-WithBadge.args = {
-  tabs: [
-    { label: 'Home', onClick: () => alert('Home clicked') },
-    { label: 'Messages', badge: '5', onClick: () => alert('Messages clicked') },
-    { label: 'Settings', onClick: () => alert('Settings clicked') },
-  ],
-};
-
-export const WithCustomStyles = Template.bind({});
-WithCustomStyles.args = {
   tabs: [
     { label: 'Home', onClick: () => alert('Home clicked') },
     { label: 'Profile', onClick: () => alert('Profile clicked') },
     { label: 'Settings', onClick: () => alert('Settings clicked') },
   ],
-  styles: {
-    backgroundColor: '#f8f9fa',
-    border: '1px solid #ddd',
-    borderRadius: '8px',
-    padding: '10px',
-  },
+  activeTab: 1,
+};
+
+export const WithVertical = Template.bind({});
+WithVertical.args = {
+  tabs: [
+    { label: 'Home', onClick: () => alert('Home clicked') },
+    { label: 'Profile', onClick: () => alert('Profile clicked') },
+    { label: 'Settings', onClick: () => alert('Settings clicked') },
+  ],
+  vertical: true,
+};
+
+export const WithFullWidth = Template.bind({});
+WithFullWidth.args = {
+  tabs: [
+    { label: 'Home', onClick: () => alert('Home clicked') },
+    { label: 'Profile', onClick: () => alert('Profile clicked') },
+    { label: 'Settings', onClick: () => alert('Settings clicked') },
+  ],
+  fullWidth: true,
+};
+
+export const WithCentered = Template.bind({});
+WithCentered.args = {
+  tabs: [
+    { label: 'Home', onClick: () => alert('Home clicked') },
+    { label: 'Profile', onClick: () => alert('Profile clicked') },
+    { label: 'Settings', onClick: () => alert('Settings clicked') },
+  ],
+  centered: true,
+};
+
+export const WithCustomStyle = Template.bind({});
+WithCustomStyle.args = {
+  tabs: [
+    { label: 'Home', onClick: () => alert('Home clicked') },
+    { label: 'Profile', onClick: () => alert('Profile clicked') },
+    { label: 'Settings', onClick: () => alert('Settings clicked') },
+  ],
+  style: { backgroundColor: '#f0f8ff', color: '#333' },
 };
 
 export const WithOnTabChange = Template.bind({});
@@ -67,7 +93,7 @@ WithOnTabChange.args = {
     { label: 'Profile', onClick: () => alert('Profile clicked') },
     { label: 'Settings', onClick: () => alert('Settings clicked') },
   ],
-  onTabChange: (tab: { label: string }) => alert(`Tab changed to: ${tab.label}`),
+  onTabChange: (index: number) => alert(`Tab changed to: ${index}`),
 };
 
 export const WithDisabledTab = Template.bind({});
@@ -79,22 +105,15 @@ WithDisabledTab.args = {
   ],
 };
 
-export const WithVerticalOrientation = Template.bind({});
-WithVerticalOrientation.args = {
+export const WithOverflow = Template.bind({});
+WithOverflow.args = {
   tabs: [
     { label: 'Home', onClick: () => alert('Home clicked') },
     { label: 'Profile', onClick: () => alert('Profile clicked') },
     { label: 'Settings', onClick: () => alert('Settings clicked') },
+    { label: 'Messages', onClick: () => alert('Messages clicked') },
+    { label: 'Notifications', onClick: () => alert('Notifications clicked') },
+    { label: 'More', onClick: () => alert('More clicked') },
   ],
-  vertical: true,
-};
-
-export const WithFullWidthTabs = Template.bind({});
-WithFullWidthTabs.args = {
-  tabs: [
-    { label: 'Home', onClick: () => alert('Home clicked') },
-    { label: 'Profile', onClick: () => alert('Profile clicked') },
-    { label: 'Settings', onClick: () => alert('Settings clicked') },
-  ],
-  fullWidth: true,
+  overflow: true,
 };
