@@ -12,45 +12,50 @@ const Template: StoryFn = (args) => <TabBar {...args} />;
 export const Default = Template.bind({});
 Default.args = {
   tabs: [
-    { label: 'Home', icon: '🏠' },
-    { label: 'Search', icon: '🔍' },
-    { label: 'Notifications', icon: '🔔', count: 5 },
-    { label: 'Profile', icon: '👤' },
+    { label: 'Home', path: '/' },
+    { label: 'Profile', path: '/profile' },
+    { label: 'Settings', path: '/settings' },
+  ],
+};
+
+export const WithIcons = Template.bind({});
+WithIcons.args = {
+  tabs: [
+    { label: 'Home', path: '/', icon: '🏠' },
+    { label: 'Profile', path: '/profile', icon: '👤' },
+    { label: 'Settings', path: '/settings', icon: '⚙️' },
   ],
 };
 
 export const WithActiveTab = Template.bind({});
 WithActiveTab.args = {
   tabs: [
-    { label: 'Home', icon: '🏠' },
-    { label: 'Search', icon: '🔍' },
-    { label: 'Notifications', icon: '🔔', count: 5 },
-    { label: 'Profile', icon: '👤' },
+    { label: 'Home', path: '/' },
+    { label: 'Profile', path: '/profile' },
+    { label: 'Settings', path: '/settings' },
   ],
-  activeTab: 1,
+  activeTab: '/profile',
 };
 
 export const WithBadge = Template.bind({});
 WithBadge.args = {
   tabs: [
-    { label: 'Home', icon: '🏠' },
-    { label: 'Search', icon: '🔍' },
-    { label: 'Notifications', icon: '🔔', count: 5, badge: 'New' },
-    { label: 'Profile', icon: '👤' },
+    { label: 'Home', path: '/' },
+    { label: 'Notifications', path: '/notifications', badge: 5 },
+    { label: 'Settings', path: '/settings' },
   ],
 };
 
 export const WithCustomStyles = Template.bind({});
 WithCustomStyles.args = {
   tabs: [
-    { label: 'Home', icon: '🏠' },
-    { label: 'Search', icon: '🔍' },
-    { label: 'Notifications', icon: '🔔', count: 5 },
-    { label: 'Profile', icon: '👤' },
+    { label: 'Home', path: '/' },
+    { label: 'Profile', path: '/profile' },
+    { label: 'Settings', path: '/settings' },
   ],
   styles: {
-    backgroundColor: '#333',
-    color: '#fff',
-    activeTabColor: '#ff0',
+    backgroundColor: '#f8f9fa',
+    activeColor: '#007bff',
+    inactiveColor: '#6c757d',
   },
 };
