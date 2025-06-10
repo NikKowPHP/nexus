@@ -73,28 +73,43 @@ WithUserMenu.args = {
   ],
 };
 
-export const WithCustomStyles = Template.bind({});
-WithCustomStyles.args = {
+export const WithDarkMode = Template.bind({});
+WithDarkMode.args = {
   title: 'My App',
-  styles: {
-    backgroundColor: '#333',
-    color: '#fff',
-    padding: '10px 20px',
-  },
+  darkMode: true,
   items: [
     { label: 'Home', onClick: () => alert('Home clicked') },
     { label: 'About', onClick: () => alert('About clicked') },
   ],
 };
 
-export const WithMobileMenu = Template.bind({});
-WithMobileMenu.args = {
+export const WithSticky = Template.bind({});
+WithSticky.args = {
   title: 'My App',
-  mobile: true,
+  sticky: true,
   items: [
     { label: 'Home', onClick: () => alert('Home clicked') },
     { label: 'About', onClick: () => alert('About clicked') },
-    { label: 'Contact', onClick: () => alert('Contact clicked') },
+  ],
+};
+
+export const WithFullWidth = Template.bind({});
+WithFullWidth.args = {
+  title: 'My App',
+  fullWidth: true,
+  items: [
+    { label: 'Home', onClick: () => alert('Home clicked') },
+    { label: 'About', onClick: () => alert('About clicked') },
+  ],
+};
+
+export const WithCustomStyle = Template.bind({});
+WithCustomStyle.args = {
+  title: 'My App',
+  style: { backgroundColor: '#333', color: '#fff' },
+  items: [
+    { label: 'Home', onClick: () => alert('Home clicked') },
+    { label: 'About', onClick: () => alert('About clicked') },
   ],
 };
 
@@ -109,12 +124,14 @@ WithOnSearch.args = {
   ],
 };
 
-export const WithActiveItem = Template.bind({});
-WithActiveItem.args = {
+export const WithCollapsible = Template.bind({});
+WithCollapsible.args = {
   title: 'My App',
+  collapsible: true,
   items: [
     { label: 'Home', onClick: () => alert('Home clicked') },
-    { label: 'About', active: true, onClick: () => alert('About clicked') },
+    { label: 'About', onClick: () => alert('About clicked') },
+    { label: 'Services', onClick: () => alert('Services clicked') },
     { label: 'Contact', onClick: () => alert('Contact clicked') },
   ],
 };
