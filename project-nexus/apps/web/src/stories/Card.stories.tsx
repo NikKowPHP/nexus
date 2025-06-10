@@ -19,7 +19,21 @@ export const WithImage = Template.bind({});
 WithImage.args = {
   title: 'Card with Image',
   image: 'https://example.com/image.jpg',
-  content: 'This card includes an image at the top.',
+  content: 'This card has an image at the top.',
+};
+
+export const WithFooter = Template.bind({});
+WithFooter.args = {
+  title: 'Card with Footer',
+  content: 'This card has a footer section.',
+  footer: 'Card Footer',
+};
+
+export const WithHeader = Template.bind({});
+WithHeader.args = {
+  title: 'Card with Header',
+  header: 'Card Header',
+  content: 'This card has a header section.',
 };
 
 export const WithActions = Template.bind({});
@@ -32,52 +46,58 @@ WithActions.args = {
   ],
 };
 
-export const WithFooter = Template.bind({});
-WithFooter.args = {
-  title: 'Card with Footer',
-  content: 'This card has a footer section.',
-  footer: 'Footer content goes here.',
+export const WithBackground = Template.bind({});
+WithBackground.args = {
+  title: 'Card with Background',
+  content: 'This card has a custom background color.',
+  style: { backgroundColor: '#f0f8ff', padding: '20px' },
 };
 
-export const WithCustomStyles = Template.bind({});
-WithCustomStyles.args = {
-  title: 'Styled Card',
-  content: 'This card has custom styles applied.',
-  styles: {
-    backgroundColor: '#f8f9fa',
-    border: '1px solid #ddd',
-    borderRadius: '8px',
-    padding: '20px',
-  },
+export const WithBorder = Template.bind({});
+WithBorder.args = {
+  title: 'Card with Border',
+  content: 'This card has a custom border.',
+  style: { border: '2px solid #007bff', borderRadius: '8px' },
 };
 
-export const WithHeader = Template.bind({});
-WithHeader.args = {
-  title: 'Card with Header',
-  header: 'Header content goes here',
-  content: 'This card has a header section.',
+export const WithShadow = Template.bind({});
+WithShadow.args = {
+  title: 'Card with Shadow',
+  content: 'This card has a shadow effect.',
+  style: { boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)' },
 };
 
-export const WithLoading = Template.bind({});
-WithLoading.args = {
-  title: 'Loading Card',
-  loading: true,
-  content: 'Content is loading...',
+export const WithPadding = Template.bind({});
+WithPadding.args = {
+  title: 'Card with Padding',
+  content: 'This card has custom padding.',
+  style: { padding: '30px' },
 };
 
-export const WithOnClick = Template.bind({});
-WithOnClick.args = {
-  title: 'Clickable Card',
-  content: 'Click anywhere on this card.',
-  onClick: () => alert('Card clicked'),
+export const WithMargin = Template.bind({});
+WithMargin.args = {
+  title: 'Card with Margin',
+  content: 'This card has custom margin.',
+  style: { margin: '20px' },
 };
 
-export const WithMedia = Template.bind({});
-WithMedia.args = {
-  title: 'Card with Media',
-  media: {
-    type: 'video',
-    src: 'https://example.com/video.mp4',
-  },
-  content: 'This card includes a video.',
+export const WithMaxWidth = Template.bind({});
+WithMaxWidth.args = {
+  title: 'Card with Max Width',
+  content: 'This card has a maximum width.',
+  style: { maxWidth: '400px', margin: '0 auto' },
+};
+
+export const WithFullWidth = Template.bind({});
+WithFullWidth.args = {
+  title: 'Full Width Card',
+  content: 'This card takes up the full width of its container.',
+  style: { width: '100%' },
+};
+
+export const WithCustomClasses = Template.bind({});
+WithCustomClasses.args = {
+  title: 'Card with Custom Classes',
+  content: 'This card uses custom CSS classes.',
+  className: 'custom-card-class',
 };
