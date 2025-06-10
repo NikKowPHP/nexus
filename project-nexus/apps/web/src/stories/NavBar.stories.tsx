@@ -11,7 +11,7 @@ const Template: StoryFn = (args) => <NavBar {...args} />;
 
 export const Default = Template.bind({});
 Default.args = {
-  title: 'My App',
+  title: 'Default NavBar',
   items: [
     { label: 'Home', onClick: () => alert('Home clicked') },
     { label: 'About', onClick: () => alert('About clicked') },
@@ -21,24 +21,24 @@ Default.args = {
 
 export const WithLogo = Template.bind({});
 WithLogo.args = {
-  title: 'My App',
+  title: 'NavBar with Logo',
   logo: 'https://example.com/logo.png',
   items: [
     { label: 'Home', onClick: () => alert('Home clicked') },
-    { label: 'About', onClick: () => alert('About clicked') },
+    { label: 'Services', onClick: () => alert('Services clicked') },
   ],
 };
 
 export const WithDropdown = Template.bind({});
 WithDropdown.args = {
-  title: 'My App',
+  title: 'NavBar with Dropdown',
   items: [
     { label: 'Home', onClick: () => alert('Home clicked') },
     {
       label: 'Services',
       dropdownItems: [
-        { label: 'Consulting', onClick: () => alert('Consulting clicked') },
-        { label: 'Development', onClick: () => alert('Development clicked') },
+        { label: 'Web Design', onClick: () => alert('Web Design clicked') },
+        { label: 'SEO', onClick: () => alert('SEO clicked') },
       ],
     },
     { label: 'Contact', onClick: () => alert('Contact clicked') },
@@ -47,35 +47,57 @@ WithDropdown.args = {
 
 export const WithSearch = Template.bind({});
 WithSearch.args = {
-  title: 'My App',
+  title: 'NavBar with Search',
+  showSearch: true,
   items: [
     { label: 'Home', onClick: () => alert('Home clicked') },
-    { label: 'About', onClick: () => alert('About clicked') },
+    { label: 'Blog', onClick: () => alert('Blog clicked') },
   ],
-  search: true,
 };
 
 export const WithCustomStyles = Template.bind({});
 WithCustomStyles.args = {
-  title: 'My App',
-  items: [
-    { label: 'Home', onClick: () => alert('Home clicked') },
-    { label: 'About', onClick: () => alert('About clicked') },
-  ],
+  title: 'Styled NavBar',
   styles: {
     backgroundColor: '#333',
     color: '#fff',
     padding: '10px 20px',
   },
+  items: [
+    { label: 'Home', onClick: () => alert('Home clicked') },
+    { label: 'Portfolio', onClick: () => alert('Portfolio clicked') },
+  ],
 };
 
 export const Responsive = Template.bind({});
 Responsive.args = {
-  title: 'My App',
+  title: 'Responsive NavBar',
+  responsive: true,
   items: [
     { label: 'Home', onClick: () => alert('Home clicked') },
     { label: 'About', onClick: () => alert('About clicked') },
+    { label: 'Services', onClick: () => alert('Services clicked') },
     { label: 'Contact', onClick: () => alert('Contact clicked') },
   ],
-  responsive: true,
+};
+
+export const WithUserMenu = Template.bind({});
+WithUserMenu.args = {
+  title: 'NavBar with User Menu',
+  user: { name: 'John Doe', avatar: 'https://example.com/avatar.jpg' },
+  items: [
+    { label: 'Home', onClick: () => alert('Home clicked') },
+    { label: 'Dashboard', onClick: () => alert('Dashboard clicked') },
+  ],
+};
+
+export const WithOnSearch = Template.bind({});
+WithOnSearch.args = {
+  title: 'NavBar with onSearch',
+  showSearch: true,
+  onSearch: (query: string) => alert(`Searching for: ${query}`),
+  items: [
+    { label: 'Home', onClick: () => alert('Home clicked') },
+    { label: 'Products', onClick: () => alert('Products clicked') },
+  ],
 };
