@@ -9,6 +9,11 @@ export default {
 
 const Template: StoryFn = (args) => <Button {...args} />;
 
+export const Default = Template.bind({});
+Default.args = {
+  label: 'Default Button',
+};
+
 export const Primary = Template.bind({});
 Primary.args = {
   label: 'Primary Button',
@@ -33,28 +38,40 @@ Danger.args = {
   variant: 'danger',
 };
 
+export const Warning = Template.bind({});
+Warning.args = {
+  label: 'Warning Button',
+  variant: 'warning',
+};
+
+export const Info = Template.bind({});
+Info.args = {
+  label: 'Info Button',
+  variant: 'info',
+};
+
+export const Light = Template.bind({});
+Light.args = {
+  label: 'Light Button',
+  variant: 'light',
+};
+
+export const Dark = Template.bind({});
+Dark.args = {
+  label: 'Dark Button',
+  variant: 'dark',
+};
+
+export const Outline = Template.bind({});
+Outline.args = {
+  label: 'Outline Button',
+  variant: 'outline',
+};
+
 export const WithIcon = Template.bind({});
 WithIcon.args = {
   label: 'Button with Icon',
   icon: '🔍',
-};
-
-export const WithOnClick = Template.bind({});
-WithOnClick.args = {
-  label: 'Clickable Button',
-  onClick: () => alert('Button clicked'),
-};
-
-export const Disabled = Template.bind({});
-Disabled.args = {
-  label: 'Disabled Button',
-  disabled: true,
-};
-
-export const WithLoading = Template.bind({});
-WithLoading.args = {
-  label: 'Loading Button',
-  loading: true,
 };
 
 export const WithSize = Template.bind({});
@@ -67,4 +84,16 @@ export const WithFullWidth = Template.bind({});
 WithFullWidth.args = {
   label: 'Full Width Button',
   fullWidth: true,
+};
+
+export const WithDisabled = Template.bind({});
+WithDisabled.args = {
+  label: 'Disabled Button',
+  disabled: true,
+};
+
+export const WithOnClick = Template.bind({});
+WithOnClick.args = {
+  label: 'Clickable Button',
+  onClick: () => alert('Button clicked'),
 };
