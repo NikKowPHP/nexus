@@ -11,59 +11,72 @@ const Template: StoryFn = (args) => <Badge {...args} />;
 
 export const Default = Template.bind({});
 Default.args = {
-  label: 'Default',
+  label: 'Default Badge',
 };
 
-export const WithCount = Template.bind({});
-WithCount.args = {
-  label: 'Notifications',
-  count: 5,
+export const WithColor = Template.bind({});
+WithColor.args = {
+  label: 'Primary Badge',
+  color: 'blue',
 };
 
-export const WithDot = Template.bind({});
-WithDot.args = {
-  label: 'New',
-  dot: true,
+export const WithBackground = Template.bind({});
+WithBackground.args = {
+  label: 'Success Badge',
+  backgroundColor: 'green',
+  color: 'white',
 };
 
-export const WithCustomStyles = Template.bind({});
-WithCustomStyles.args = {
-  label: 'Custom',
-  styles: {
-    backgroundColor: '#4caf50',
-    color: '#fff',
-    borderRadius: '12px',
-    padding: '4px 8px',
-    fontSize: '12px',
-  },
+export const WithPillShape = Template.bind({});
+WithPillShape.args = {
+  label: 'Pill Badge',
+  pill: true,
 };
 
-export const WithOnClick = Template.bind({});
-WithOnClick.args = {
-  label: 'Clickable',
-  onClick: () => alert('Badge clicked'),
+export const WithOutline = Template.bind({});
+WithOutline.args = {
+  label: 'Outline Badge',
+  outline: true,
 };
 
 export const WithIcon = Template.bind({});
 WithIcon.args = {
-  label: 'Icon',
-  icon: '🔔',
+  label: 'Icon Badge',
+  icon: '🔍',
 };
 
-export const WithTooltip = Template.bind({});
-WithTooltip.args = {
-  label: 'Tooltip',
-  tooltip: 'This is a tooltip',
+export const WithCounter = Template.bind({});
+WithCounter.args = {
+  label: 'Counter Badge',
+  counter: 5,
 };
 
-export const WithStatus = Template.bind({});
-WithStatus.args = {
-  label: 'Active',
-  status: 'success',
+export const WithDot = Template.bind({});
+WithDot.args = {
+  label: 'Dot Badge',
+  dot: true,
+};
+
+export const WithSize = Template.bind({});
+WithSize.args = {
+  label: 'Large Badge',
+  size: 'large',
 };
 
 export const WithPosition = Template.bind({});
 WithPosition.args = {
-  label: 'Positioned',
-  position: 'top-right',
+  label: 'Positioned Badge',
+  position: { top: -10, right: -10 },
+};
+
+export const WithOnClick = Template.bind({});
+WithOnClick.args = {
+  label: 'Clickable Badge',
+  onClick: () => alert('Badge clicked'),
+};
+
+export const WithTooltip = Template.bind({});
+WithTooltip.args = {
+  label: 'Tooltip Badge',
+  tooltip: 'This is a tooltip',
 };
