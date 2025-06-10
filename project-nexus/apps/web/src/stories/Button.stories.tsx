@@ -39,27 +39,32 @@ WithIcon.args = {
   icon: '🔍',
 };
 
-export const Disabled = Template.bind({});
-Disabled.args = {
-  label: 'Disabled Button',
-  disabled: true,
-};
-
 export const WithOnClick = Template.bind({});
 WithOnClick.args = {
   label: 'Clickable Button',
   onClick: () => alert('Button clicked'),
 };
 
-export const WithCustomStyles = Template.bind({});
-WithCustomStyles.args = {
-  label: 'Styled Button',
-  styles: {
-    backgroundColor: '#4caf50',
-    color: '#fff',
-    border: 'none',
-    borderRadius: '5px',
-    padding: '10px 20px',
-    fontSize: '16px',
-  },
+export const Disabled = Template.bind({});
+Disabled.args = {
+  label: 'Disabled Button',
+  disabled: true,
+};
+
+export const WithLoading = Template.bind({});
+WithLoading.args = {
+  label: 'Loading Button',
+  loading: true,
+};
+
+export const WithSize = Template.bind({});
+WithSize.args = {
+  label: 'Large Button',
+  size: 'large',
+};
+
+export const WithFullWidth = Template.bind({});
+WithFullWidth.args = {
+  label: 'Full Width Button',
+  fullWidth: true,
 };
