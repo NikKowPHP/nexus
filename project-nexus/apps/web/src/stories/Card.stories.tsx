@@ -25,7 +25,7 @@ WithImage.args = {
 export const WithActions = Template.bind({});
 WithActions.args = {
   title: 'Card with Actions',
-  content: 'This card includes action buttons.',
+  content: 'This card has action buttons.',
   actions: [
     { label: 'Action 1', onClick: () => alert('Action 1 clicked') },
     { label: 'Action 2', onClick: () => alert('Action 2 clicked') },
@@ -35,6 +35,18 @@ WithActions.args = {
 export const WithFooter = Template.bind({});
 WithFooter.args = {
   title: 'Card with Footer',
-  content: 'This card includes a footer.',
+  content: 'This card has a footer section.',
   footer: 'Card footer content',
+};
+
+export const WithCustomStyles = Template.bind({});
+WithCustomStyles.args = {
+  title: 'Styled Card',
+  content: 'This card has custom styles.',
+  styles: {
+    backgroundColor: '#f0f0f0',
+    border: '1px solid #ccc',
+    borderRadius: '8px',
+    padding: '16px',
+  },
 };
