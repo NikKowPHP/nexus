@@ -11,57 +11,63 @@ const Template: StoryFn = (args) => <TabBar {...args} />;
 
 export const Default = Template.bind({});
 Default.args = {
-  items: [
-    { label: 'Home', icon: '🏠' },
-    { label: 'Search', icon: '🔍' },
-    { label: 'Notifications', icon: '🔔', count: 5 },
-    { label: 'Profile', icon: '👤' },
+  tabs: [
+    { label: 'Home', onClick: () => alert('Home clicked') },
+    { label: 'Profile', onClick: () => alert('Profile clicked') },
+    { label: 'Settings', onClick: () => alert('Settings clicked') },
+  ],
+};
+
+export const WithIcons = Template.bind({});
+WithIcons.args = {
+  tabs: [
+    { label: 'Home', icon: '🏠', onClick: () => alert('Home clicked') },
+    { label: 'Profile', icon: '👤', onClick: () => alert('Profile clicked') },
+    { label: 'Settings', icon: '⚙️', onClick: () => alert('Settings clicked') },
+  ],
+};
+
+export const WithBadges = Template.bind({});
+WithBadges.args = {
+  tabs: [
+    { label: 'Home', onClick: () => alert('Home clicked') },
+    { label: 'Messages', badge: 5, onClick: () => alert('Messages clicked') },
+    { label: 'Notifications', badge: 10, onClick: () => alert('Notifications clicked') },
   ],
 };
 
 export const WithCustomStyles = Template.bind({});
 WithCustomStyles.args = {
-  items: [
-    { label: 'Home', icon: '🏠' },
-    { label: 'Search', icon: '🔍' },
-    { label: 'Notifications', icon: '🔔' },
-    { label: 'Profile', icon: '👤' },
+  tabs: [
+    { label: 'Home', onClick: () => alert('Home clicked') },
+    { label: 'Profile', onClick: () => alert('Profile clicked') },
   ],
   styles: {
-    backgroundColor: '#fff',
+    backgroundColor: '#f8f9fa',
     borderTop: '1px solid #ddd',
-    padding: '8px 0',
+    padding: '10px 0',
   },
 };
 
-export const WithActiveTab = Template.bind({});
-WithActiveTab.args = {
-  items: [
-    { label: 'Home', icon: '🏠' },
-    { label: 'Search', icon: '🔍' },
-    { label: 'Notifications', icon: '🔔' },
-    { label: 'Profile', icon: '👤' },
+export const Centered = Template.bind({});
+Centered.args = {
+  tabs: [
+    { label: 'Home', onClick: () => alert('Home clicked') },
+    { label: 'Profile', onClick: () => alert('Profile clicked') },
+    { label: 'Settings', onClick: () => alert('Settings clicked') },
   ],
-  activeTab: 1,
+  centered: true,
 };
 
-export const WithOnClick = Template.bind({});
-WithOnClick.args = {
-  items: [
-    { label: 'Home', icon: '🏠' },
-    { label: 'Search', icon: '🔍' },
-    { label: 'Notifications', icon: '🔔' },
-    { label: 'Profile', icon: '👤' },
+export const Scrollable = Template.bind({});
+Scrollable.args = {
+  tabs: [
+    { label: 'Home', onClick: () => alert('Home clicked') },
+    { label: 'Profile', onClick: () => alert('Profile clicked') },
+    { label: 'Settings', onClick: () => alert('Settings clicked') },
+    { label: 'Messages', onClick: () => alert('Messages clicked') },
+    { label: 'Notifications', onClick: () => alert('Notifications clicked') },
+    { label: 'Help', onClick: () => alert('Help clicked') },
   ],
-  onClick: (index: number) => alert(`Tab ${index} clicked`),
-};
-
-export const WithBadge = Template.bind({});
-WithBadge.args = {
-  items: [
-    { label: 'Home', icon: '🏠' },
-    { label: 'Search', icon: '🔍' },
-    { label: 'Notifications', icon: '🔔', badge: 'New' },
-    { label: 'Profile', icon: '👤' },
-  ],
+  scrollable: true,
 };
