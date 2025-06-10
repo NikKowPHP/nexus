@@ -11,7 +11,23 @@ const Template: StoryFn = (args) => <Card {...args} />;
 
 export const Default = Template.bind({});
 Default.args = {
-  header: 'Card Header',
-  body: 'This is the card body content.',
-  footer: 'Card Footer',
+  title: 'Card Title',
+  content: 'This is a card content.',
+};
+
+export const WithImage = Template.bind({});
+WithImage.args = {
+  title: 'Card with Image',
+  content: 'This card has an image.',
+  image: 'https://example.com/image.jpg',
+};
+
+export const WithActions = Template.bind({});
+WithActions.args = {
+  title: 'Card with Actions',
+  content: 'This card has action buttons.',
+  actions: [
+    { label: 'Action 1', onClick: () => alert('Action 1 clicked') },
+    { label: 'Action 2', onClick: () => alert('Action 2 clicked') },
+  ],
 };
