@@ -14,7 +14,6 @@ Default.args = {
   items: [
     { label: 'Home', path: '/' },
     { label: 'About', path: '/about' },
-    { label: 'Services', path: '/services' },
     { label: 'Contact', path: '/contact' },
   ],
 };
@@ -24,7 +23,6 @@ WithLogo.args = {
   items: [
     { label: 'Home', path: '/' },
     { label: 'About', path: '/about' },
-    { label: 'Services', path: '/services' },
     { label: 'Contact', path: '/contact' },
   ],
   logo: 'https://example.com/logo.png',
@@ -47,6 +45,20 @@ WithDropdown.args = {
   ],
 };
 
+export const WithCustomStyles = Template.bind({});
+WithCustomStyles.args = {
+  items: [
+    { label: 'Home', path: '/' },
+    { label: 'About', path: '/about' },
+    { label: 'Contact', path: '/contact' },
+  ],
+  styles: {
+    backgroundColor: '#333',
+    color: '#fff',
+    padding: '10px 20px',
+  },
+};
+
 export const WithAuth = Template.bind({});
 WithAuth.args = {
   items: [
@@ -54,24 +66,7 @@ WithAuth.args = {
     { label: 'About', path: '/about' },
   ],
   auth: {
-    isLoggedIn: true,
-    userName: 'John Doe',
-    loginPath: '/login',
-    logoutPath: '/logout',
-  },
-};
-
-export const WithCustomStyles = Template.bind({});
-WithCustomStyles.args = {
-  items: [
-    { label: 'Home', path: '/' },
-    { label: 'About', path: '/about' },
-    { label: 'Services', path: '/services' },
-    { label: 'Contact', path: '/contact' },
-  ],
-  styles: {
-    backgroundColor: '#333',
-    color: '#fff',
-    activeColor: '#ff0',
+    isAuthenticated: true,
+    user: { name: 'John Doe' },
   },
 };
