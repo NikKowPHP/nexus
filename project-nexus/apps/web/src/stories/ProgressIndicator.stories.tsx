@@ -14,10 +14,15 @@ Default.args = {
   value: 50,
 };
 
-export const WithMinMax = Template.bind({});
-WithMinMax.args = {
-  value: 50,
-  min: 0,
+export const WithMin = Template.bind({});
+WithMin.args = {
+  value: 25,
+  min: 10,
+};
+
+export const WithMax = Template.bind({});
+WithMax.args = {
+  value: 75,
   max: 100,
 };
 
@@ -27,10 +32,10 @@ WithStep.args = {
   step: 10,
 };
 
-export const WithBuffer = Template.bind({});
-WithBuffer.args = {
+export const WithBackgroundColor = Template.bind({});
+WithBackgroundColor.args = {
   value: 50,
-  buffer: 75,
+  backgroundColor: 'lightgray',
 };
 
 export const WithColor = Template.bind({});
@@ -39,22 +44,16 @@ WithColor.args = {
   color: 'blue',
 };
 
-export const WithBackgroundColor = Template.bind({});
-WithBackgroundColor.args = {
+export const WithPadding = Template.bind({});
+WithPadding.args = {
   value: 50,
-  backgroundColor: 'lightgray',
+  padding: 'lg',
 };
 
-export const WithSize = Template.bind({});
-WithSize.args = {
+export const WithMargin = Template.bind({});
+WithMargin.args = {
   value: 50,
-  size: 'large',
-};
-
-export const WithRounded = Template.bind({});
-WithRounded.args = {
-  value: 50,
-  rounded: 'full',
+  margin: 'lg',
 };
 
 export const WithBorder = Template.bind({});
@@ -63,109 +62,116 @@ WithBorder.args = {
   border: '2px solid #000',
 };
 
+export const WithRounded = Template.bind({});
+WithRounded.args = {
+  value: 50,
+  rounded: 'lg',
+};
+
 export const WithShadow = Template.bind({});
 WithShadow.args = {
   value: 50,
   shadow: 'md',
 };
 
-export const WithOnChange = Template.bind({});
-WithOnChange.args = {
+export const WithWidth = Template.bind({});
+WithWidth.args = {
   value: 50,
-  onChange: (value: number) => alert(`Value changed: ${value}`),
+  width: '100%',
 };
 
-export const WithOnClick = Template.bind({});
-WithOnClick.args = {
+export const WithHeight = Template.bind({});
+WithHeight.args = {
   value: 50,
-  onClick: () => alert('ProgressIndicator clicked'),
+  height: '20px',
 };
 
-export const WithTooltip = Template.bind({});
-WithTooltip.args = {
+export const WithMinWidth = Template.bind({});
+WithMinWidth.args = {
   value: 50,
-  tooltip: 'Progress: 50%',
+  minWidth: '100px',
+};
+
+export const WithMinHeight = Template.bind({});
+WithMinHeight.args = {
+  value: 50,
+  minHeight: '10px',
+};
+
+export const WithMaxWidth = Template.bind({});
+WithMaxWidth.args = {
+  value: 50,
+  maxWidth: '300px',
+};
+
+export const WithMaxHeight = Template.bind({});
+WithMaxHeight.args = {
+  value: 50,
+  maxHeight: '30px',
+};
+
+export const WithOverflow = Template.bind({});
+WithOverflow.args = {
+  value: 50,
+  overflow: 'auto',
+  width: '300px',
 };
 
 export const WithCustomStyle = Template.bind({});
 WithCustomStyle.args = {
   value: 50,
-  style: { borderRadius: '50px' },
+  style: { borderRadius: '20px', backgroundColor: '#f0f8ff' },
 };
 
-export const WithLabel = Template.bind({});
-WithLabel.args = {
+export const WithClassName = Template.bind({});
+WithClassName.args = {
   value: 50,
-  label: 'Progress:',
-};
-
-export const WithLabelPosition = Template.bind({});
-WithLabelPosition.args = {
-  value: 50,
-  label: 'Progress:',
-  labelPosition: 'top',
-};
-
-export const WithLabelColor = Template.bind({});
-WithLabelColor.args = {
-  value: 50,
-  label: 'Progress:',
-  labelColor: 'blue',
-};
-
-export const WithLabelSize = Template.bind({});
-WithLabelSize.args = {
-  value: 50,
-  label: 'Progress:',
-  labelSize: 'large',
-};
-
-export const WithLabelStyle = Template.bind({});
-WithLabelStyle.args = {
-  value: 50,
-  label: 'Progress:',
-  labelStyle: { fontWeight: 'bold' },
-};
-
-export const WithLabelClassName = Template.bind({});
-WithLabelClassName.args = {
-  value: 50,
-  label: 'Progress:',
-  labelClassName: 'custom-label',
-};
-
-export const WithDisabled = Template.bind({});
-WithDisabled.args = {
-  value: 50,
-  disabled: true,
-};
-
-export const WithLoading = Template.bind({});
-WithLoading.args = {
-  value: 50,
-  loading: true,
-};
-
-export const WithIndeterminate = Template.bind({});
-WithIndeterminate.args = {
-  value: 50,
-  indeterminate: true,
-};
-
-export const WithStriped = Template.bind({});
-WithStriped.args = {
-  value: 50,
-  striped: true,
-};
-
-export const WithAnimated = Template.bind({});
-WithAnimated.args = {
-  value: 50,
-  animated: true,
+  className: 'custom-progress',
 };
 
 export const WithResponsive = Template.bind({});
 WithResponsive.args = {
   value: 50,
   responsive: true,
+};
+
+export const WithLabel = Template.bind({});
+WithLabel.args = {
+  value: 50,
+  label: 'Progress',
+};
+
+export const WithLabelPosition = Template.bind({});
+WithLabelPosition.args = {
+  value: 50,
+  label: 'Progress',
+  labelPosition: 'top',
+};
+
+export const WithLabelColor = Template.bind({});
+WithLabelColor.args = {
+  value: 50,
+  label: 'Progress',
+  labelColor: 'red',
+};
+
+export const WithLabelSize = Template.bind({});
+WithLabelSize.args = {
+  value: 50,
+  label: 'Progress',
+  labelSize: 'large',
+};
+
+export const WithLabelStyle = Template.bind({});
+WithLabelStyle.args = {
+  value: 50,
+  label: 'Progress',
+  labelStyle: { marginTop: '10px' },
+};
+
+export const WithLabelClassName = Template.bind({});
+WithLabelClassName.args = {
+  value: 50,
+  label: 'Progress',
+  labelClassName: 'progress-label',
 };
