@@ -16,21 +16,14 @@ Default.args = {
 
 export const WithColor = Template.bind({});
 WithColor.args = {
-  label: 'Primary Badge',
+  label: 'Colored Badge',
   color: 'blue',
 };
 
 export const WithBackgroundColor = Template.bind({});
 WithBackgroundColor.args = {
-  label: 'Success Badge',
-  backgroundColor: 'green',
-};
-
-export const WithTextColor = Template.bind({});
-WithTextColor.args = {
-  label: 'Warning Badge',
-  textColor: 'white',
-  backgroundColor: 'orange',
+  label: 'Background Color Badge',
+  backgroundColor: 'lightgray',
 };
 
 export const WithSize = Template.bind({});
@@ -42,51 +35,19 @@ WithSize.args = {
 export const WithRounded = Template.bind({});
 WithRounded.args = {
   label: 'Rounded Badge',
-  rounded: true,
+  rounded: 'full',
 };
 
-export const WithOutline = Template.bind({});
-WithOutline.args = {
-  label: 'Outline Badge',
-  outline: true,
+export const WithBorder = Template.bind({});
+WithBorder.args = {
+  label: 'Bordered Badge',
+  border: '2px solid #000',
 };
 
-export const WithIcon = Template.bind({});
-WithIcon.args = {
-  label: 'Icon Badge',
-  icon: '🔍',
-};
-
-export const WithDot = Template.bind({});
-WithDot.args = {
-  label: 'Dot Badge',
-  dot: true,
-};
-
-export const WithDotColor = Template.bind({});
-WithDotColor.args = {
-  label: 'Dot Color Badge',
-  dot: true,
-  dotColor: 'red',
-};
-
-export const WithPosition = Template.bind({});
-WithPosition.args = {
-  label: 'Positioned Badge',
-  position: 'top-right',
-};
-
-export const WithOffset = Template.bind({});
-WithOffset.args = {
-  label: 'Offset Badge',
-  offsetX: 10,
-  offsetY: 5,
-};
-
-export const WithCustomStyle = Template.bind({});
-WithCustomStyle.args = {
-  label: 'Styled Badge',
-  style: { marginTop: '10px', fontWeight: 'bold' },
+export const WithShadow = Template.bind({});
+WithShadow.args = {
+  label: 'Shadow Badge',
+  shadow: 'md',
 };
 
 export const WithOnClick = Template.bind({});
@@ -99,4 +60,69 @@ export const WithTooltip = Template.bind({});
 WithTooltip.args = {
   label: 'Tooltip Badge',
   tooltip: 'This is a tooltip',
+};
+
+export const WithCustomStyle = Template.bind({});
+WithCustomStyle.args = {
+  label: 'Styled Badge',
+  style: { borderRadius: '50px' },
+};
+
+export const WithIcon = Template.bind({});
+WithIcon.args = {
+  label: 'Icon Badge',
+  icon: '🏠',
+};
+
+export const WithIconPosition = Template.bind({});
+WithIconPosition.args = {
+  label: 'Icon Position Badge',
+  icon: '🏠',
+  iconPosition: 'right',
+};
+
+export const WithIconColor = Template.bind({});
+WithIconColor.args = {
+  label: 'Icon Color Badge',
+  icon: '🏠',
+  iconColor: 'red',
+};
+
+export const WithIconSize = Template.bind({});
+WithIconSize.args = {
+  label: 'Icon Size Badge',
+  icon: '🏠',
+  iconSize: 'large',
+};
+
+export const WithIconStyle = Template.bind({});
+WithIconStyle.args = {
+  label: 'Icon Style Badge',
+  icon: '🏠',
+  iconStyle: { marginRight: '5px' },
+};
+
+export const WithIconClassName = Template.bind({});
+WithIconClassName.args = {
+  label: 'Icon ClassName Badge',
+  icon: '🏠',
+  iconClassName: 'custom-icon',
+};
+
+export const WithDisabled = Template.bind({});
+WithDisabled.args = {
+  label: 'Disabled Badge',
+  disabled: true,
+};
+
+export const WithLoading = Template.bind({});
+WithLoading.args = {
+  label: 'Loading Badge',
+  loading: true,
+};
+
+export const WithResponsive = Template.bind({});
+WithResponsive.args = {
+  label: 'Responsive Badge',
+  responsive: true,
 };
