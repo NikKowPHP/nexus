@@ -45,13 +45,14 @@ Disabled.args = {
   disabled: true,
 };
 
-export const WithCustomStyles = Template.bind({});
-WithCustomStyles.args = {
-  label: 'Styled Button',
-  styles: {
-    backgroundColor: '#007bff',
-    color: '#fff',
-    borderRadius: '24px',
-    padding: '8px 16px',
-  },
+export const WithOnClick = Template.bind({});
+WithOnClick.args = {
+  label: 'Clickable Button',
+  onClick: () => alert('Button clicked'),
+};
+
+export const Loading = Template.bind({});
+Loading.args = {
+  label: 'Loading Button',
+  loading: true,
 };
