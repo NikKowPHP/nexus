@@ -1,5 +1,5 @@
 import React from 'react';
-import { Meta, Story } from '@storybook/react';
+import { Meta, StoryFn } from '@storybook/react';
 import Button from '../components/Button';
 
 export default {
@@ -7,23 +7,22 @@ export default {
   component: Button,
 } as Meta;
 
-const Template: Story = (args) => <Button {...args} />;
+const Template: StoryFn = (args) => <Button {...args} />;
 
 export const Primary = Template.bind({});
 Primary.args = {
-  variant: 'primary',
   label: 'Primary Button',
+  variant: 'primary',
 };
 
 export const Secondary = Template.bind({});
 Secondary.args = {
-  variant: 'secondary',
   label: 'Secondary Button',
+  variant: 'secondary',
 };
 
 export const Disabled = Template.bind({});
 Disabled.args = {
-  variant: 'primary',
   label: 'Disabled Button',
   disabled: true,
 };
