@@ -51,8 +51,15 @@ WithOnClick.args = {
   onClick: () => alert('Button clicked'),
 };
 
-export const Loading = Template.bind({});
-Loading.args = {
-  label: 'Loading Button',
-  loading: true,
+export const WithCustomStyles = Template.bind({});
+WithCustomStyles.args = {
+  label: 'Styled Button',
+  styles: {
+    backgroundColor: '#4caf50',
+    color: '#fff',
+    border: 'none',
+    borderRadius: '5px',
+    padding: '10px 20px',
+    fontSize: '16px',
+  },
 };
