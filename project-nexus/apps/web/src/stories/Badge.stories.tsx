@@ -5,6 +5,9 @@ import Badge from '../components/Badge';
 export default {
   title: 'Components/Badge',
   component: Badge,
+  parameters: {
+    layout: 'centered',
+  },
 } as Meta;
 
 const Template: StoryFn = (args) => <Badge {...args} />;
@@ -12,6 +15,24 @@ const Template: StoryFn = (args) => <Badge {...args} />;
 export const Default = Template.bind({});
 Default.args = {
   label: 'Badge',
+};
+
+export const Small = Template.bind({});
+Small.args = {
+  label: 'Small Badge',
+  size: 'small',
+};
+
+export const Medium = Template.bind({});
+Medium.args = {
+  label: 'Medium Badge',
+  size: 'medium',
+};
+
+export const Large = Template.bind({});
+Large.args = {
+  label: 'Large Badge',
+  size: 'large',
 };
 
 export const WithColor = Template.bind({});

@@ -5,6 +5,9 @@ import ProgressIndicator from '../components/ProgressIndicator';
 export default {
   title: 'Components/ProgressIndicator',
   component: ProgressIndicator,
+  parameters: {
+    layout: 'centered',
+  },
 } as Meta;
 
 const Template: StoryFn = (args) => <ProgressIndicator {...args} />;
@@ -12,6 +15,26 @@ const Template: StoryFn = (args) => <ProgressIndicator {...args} />;
 export const Default = Template.bind({});
 Default.args = {
   value: 50,
+};
+
+export const QuarterComplete = Template.bind({});
+QuarterComplete.args = {
+  value: 25,
+};
+
+export const HalfComplete = Template.bind({});
+HalfComplete.args = {
+  value: 50,
+};
+
+export const ThreeQuartersComplete = Template.bind({});
+ThreeQuartersComplete.args = {
+  value: 75,
+};
+
+export const FullyComplete = Template.bind({});
+FullyComplete.args = {
+  value: 100,
 };
 
 export const WithMin = Template.bind({});

@@ -5,9 +5,23 @@ import TabBar from '../components/TabBar';
 export default {
   title: 'Components/TabBar',
   component: TabBar,
+  parameters: {
+    layout: 'centered',
+  },
 } as Meta;
 
 const Template: StoryFn = (args) => <TabBar {...args} />;
+
+export const AnimatedIndicator = Template.bind({});
+AnimatedIndicator.args = {
+  items: [
+    { label: 'Home', value: 'home' },
+    { label: 'Profile', value: 'profile' },
+    { label: 'Settings', value: 'settings' },
+  ],
+  animatedIndicator: true,
+  activeTab: 'home',
+};
 
 export const Default = Template.bind({});
 Default.args = {

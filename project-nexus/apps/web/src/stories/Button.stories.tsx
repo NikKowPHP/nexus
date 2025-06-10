@@ -5,9 +5,24 @@ import Button from '../components/Button';
 export default {
   title: 'Components/Button',
   component: Button,
+  parameters: {
+    layout: 'centered',
+  },
 } as Meta;
 
 const Template: StoryFn = (args) => <Button {...args} />;
+
+export const Primary = Template.bind({});
+Primary.args = {
+  label: 'Primary Button',
+  variant: 'primary',
+};
+
+export const Secondary = Template.bind({});
+Secondary.args = {
+  label: 'Secondary Button',
+  variant: 'secondary',
+};
 
 export const Default = Template.bind({});
 Default.args = {

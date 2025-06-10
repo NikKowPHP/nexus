@@ -5,6 +5,12 @@ import NavBar from '../components/NavBar';
 export default {
   title: 'Components/NavBar',
   component: NavBar,
+  parameters: {
+    layout: 'fullscreen',
+    viewport: {
+      defaultViewport: 'responsive',
+    },
+  },
 } as Meta;
 
 const Template: StoryFn = (args) => <NavBar {...args} />;
@@ -14,6 +20,35 @@ Default.args = {
   items: [
     { label: 'Home', href: '/' },
     { label: 'About', href: '/about' },
+    { label: 'Contact', href: '/contact' },
+  ],
+};
+
+export const Responsive = Template.bind({});
+Responsive.args = {
+  items: [
+    { label: 'Home', href: '/' },
+    { label: 'About', href: '/about' },
+    { label: 'Contact', href: '/contact' },
+    { label: 'Products', href: '/products' },
+    { label: 'Support', href: '/support' },
+  ],
+  responsive: true,
+};
+
+export const WithDropdown = Template.bind({});
+WithDropdown.args = {
+  items: [
+    { label: 'Home', href: '/' },
+    {
+      label: 'Services',
+      href: '/services',
+      dropdownItems: [
+        { label: 'Consulting', href: '/services/consulting' },
+        { label: 'Development', href: '/services/development' },
+        { label: 'Design', href: '/services/design' },
+      ],
+    },
     { label: 'Contact', href: '/contact' },
   ],
 };
@@ -202,32 +237,6 @@ WithClassName.args = {
   className: 'custom-navbar',
 };
 
-export const WithResponsive = Template.bind({});
-WithResponsive.args = {
-  items: [
-    { label: 'Home', href: '/' },
-    { label: 'About', href: '/about' },
-    { label: 'Contact', href: '/contact' },
-  ],
-  responsive: true,
-};
-
-export const WithDropdown = Template.bind({});
-WithDropdown.args = {
-  items: [
-    { label: 'Home', href: '/' },
-    {
-      label: 'Services',
-      href: '/services',
-      dropdownItems: [
-        { label: 'Consulting', href: '/services/consulting' },
-        { label: 'Development', href: '/services/development' },
-        { label: 'Design', href: '/services/design' },
-      ],
-    },
-    { label: 'Contact', href: '/contact' },
-  ],
-};
 
 export const WithIcon = Template.bind({});
 WithIcon.args = {
