@@ -32,13 +32,6 @@ WithActions.args = {
   ],
 };
 
-export const WithFooter = Template.bind({});
-WithFooter.args = {
-  title: 'Card with Footer',
-  content: 'This card has a footer section.',
-  footer: 'Card footer content',
-};
-
 export const WithCustomStyles = Template.bind({});
 WithCustomStyles.args = {
   title: 'Styled Card',
@@ -49,4 +42,19 @@ WithCustomStyles.args = {
     borderRadius: '8px',
     padding: '16px',
   },
+};
+
+export const WithFooter = Template.bind({});
+WithFooter.args = {
+  title: 'Card with Footer',
+  content: 'This card has a footer section.',
+  footer: 'Card footer content',
+};
+
+export const Interactive = Template.bind({});
+Interactive.args = {
+  title: 'Interactive Card',
+  content: 'This card responds to hover.',
+  interactive: true,
+  onClick: () => alert('Card clicked'),
 };
