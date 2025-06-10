@@ -1,0 +1,12 @@
+.container {
+  width: 100%;
+  background-color: #e0e0e0;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.bar {
+  height: 8px;
+  background-color: #007bff;
+  transition: width 0.3s ease;
+}
