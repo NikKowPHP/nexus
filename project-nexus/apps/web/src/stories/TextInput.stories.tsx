@@ -11,17 +11,27 @@ const Template: StoryFn = (args) => <TextInput {...args} />;
 
 export const Default = Template.bind({});
 Default.args = {
-  placeholder: 'Enter text',
+  label: 'Default Input',
+  placeholder: 'Enter text here',
 };
 
 export const WithValue = Template.bind({});
 WithValue.args = {
-  placeholder: 'Enter text',
-  value: 'Initial value',
+  label: 'Input with Value',
+  placeholder: 'Enter text here',
+  value: 'Pre-filled text',
 };
 
-export const WithLabel = Template.bind({});
-WithLabel.args = {
-  placeholder: 'Enter text',
-  label: 'Label Text',
+export const Disabled = Template.bind({});
+Disabled.args = {
+  label: 'Disabled Input',
+  placeholder: 'This input is disabled',
+  disabled: true,
+};
+
+export const WithError = Template.bind({});
+WithError.args = {
+  label: 'Input with Error',
+  placeholder: 'Enter text here',
+  error: 'This is an error message',
 };
