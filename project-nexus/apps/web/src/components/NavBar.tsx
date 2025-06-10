@@ -1,28 +1,21 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styles from './NavBar.module.css';
-import Link from 'next/link';
 
 interface NavBarProps {
-  links: { href: string; label: string }[];
+  links?: string[];
+  logo?: string;
 }
 
-const NavBar: React.FC<NavBarProps> = ({ links }) => {
-  const [isOpen, setIsOpen] = useState(false);
-
+const NavBar: React.FC<NavBarProps> = ({ links = [], logo }) => {
   return (
     <nav className={styles.navbar}>
-      <div className={styles.brand}>MyApp</div>
-      <div className={styles.menuIcon} onClick={() => setIsOpen(!isOpen)}>
-        <div className={styles.bar} />
-        <div className={styles.bar} />
-        <div className={styles.bar} />
-      </div>
-      <ul className={`${styles.navLinks} ${isOpen ? styles.open : ''}`}>
+      {logo && <img src={logo} alt="Logo" className={styles.logo} />}
+      <ul className={styles.links}>
         {links.map((link, index) => (
-          <li key={index}>
-            <Link href={link.href}>
-              <a className={styles.navLink}>{link.label}</a>
-            </Link>
+          <li key={index} className={styles.linkItem}>
+            <a href={`#${link.toLowerCase()}`} className={styles.link}>
+              {link}
+            </a>
           </li>
         ))}
       </ul>
