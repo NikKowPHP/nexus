@@ -9,19 +9,27 @@ export default {
 
 const Template: StoryFn = (args) => <ProgressIndicator {...args} />;
 
-export const Default = Template.bind({});
-Default.args = {
+export const Small = Template.bind({});
+Small.args = {
+  size: 'small',
   value: 50,
 };
 
-export const Small = Template.bind({});
-Small.args = {
-  value: 25,
-  size: 'small',
+export const Medium = Template.bind({});
+Medium.args = {
+  size: 'medium',
+  value: 75,
 };
 
 export const Large = Template.bind({});
 Large.args = {
-  value: 75,
   size: 'large',
+  value: 25,
+};
+
+export const WithLabel = Template.bind({});
+WithLabel.args = {
+  size: 'medium',
+  value: 60,
+  label: 'Loading...',
 };
