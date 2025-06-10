@@ -17,7 +17,7 @@ Default.args = {
 export const WithLabel = Template.bind({});
 WithLabel.args = {
   value: 75,
-  label: 'Uploading...',
+  label: 'Upload Progress',
 };
 
 export const Determinate = Template.bind({});
@@ -31,8 +31,12 @@ Indeterminate.args = {
   indeterminate: true,
 };
 
-export const WithSize = Template.bind({});
-WithSize.args = {
+export const WithCustomStyles = Template.bind({});
+WithCustomStyles.args = {
   value: 60,
-  size: 60,
+  styles: {
+    backgroundColor: '#e0e0e0',
+    barColor: '#4caf50',
+    height: '10px',
+  },
 };
