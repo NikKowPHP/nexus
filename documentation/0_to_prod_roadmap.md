@@ -9,7 +9,7 @@
 *   **Goal:** Prepare the complete development and deployment environment.
 *   **Status:** [ ] Incomplete
 
-- [ ] **1.1. Initialize Project & Version Control**
+- [x] **1.1. Initialize Project & Version Control**
     - Create the Git repository and define the monorepo structure.
 
 - [ ] **1.2. Set Up Cloud Infrastructure**
