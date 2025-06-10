@@ -9,27 +9,30 @@ export default {
 
 const Template: StoryFn = (args) => <ProgressIndicator {...args} />;
 
-export const Small = Template.bind({});
-Small.args = {
-  size: 'small',
+export const Default = Template.bind({});
+Default.args = {
   value: 50,
-};
-
-export const Medium = Template.bind({});
-Medium.args = {
-  size: 'medium',
-  value: 75,
-};
-
-export const Large = Template.bind({});
-Large.args = {
-  size: 'large',
-  value: 25,
 };
 
 export const WithLabel = Template.bind({});
 WithLabel.args = {
-  size: 'medium',
+  value: 75,
+  label: 'Uploading...',
+};
+
+export const Determinate = Template.bind({});
+Determinate.args = {
+  value: 30,
+  determinate: true,
+};
+
+export const Indeterminate = Template.bind({});
+Indeterminate.args = {
+  indeterminate: true,
+};
+
+export const WithSize = Template.bind({});
+WithSize.args = {
   value: 60,
-  label: 'Loading...',
+  size: 60,
 };
