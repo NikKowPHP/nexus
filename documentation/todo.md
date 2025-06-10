@@ -62,24 +62,24 @@ Here is the `tasker_todo.md` for the Architect model. Its job is to take all exi
     - **(Target File):** `project_management/tasks/1.3_local_development_environment.md` (Overwrite)
     - **(LLM Action):** "Analyze the source file and convert its contents into the ultra-granular format. Ensure file creation and content pasting are separate, explicit steps."
 
-- [ ] **1.4. Re-format Core Data Structures**
+- [x] **1.4. Re-format Core Data Structures**
     - **(Source File):** `project_management/tasks/1.4_core_data_structures.md`
     - **(Target File):** `project_management/tasks/1.4_core_data_structures.md` (Overwrite)
     - **(LLM Action):** "Analyze the source file and convert its contents into the ultra-granular format. Specify the exact Prisma commands to be run."
 
-- [ ] **1.5. Re-format Core Authentication**
+- [x] **1.5. Re-format Core Authentication**
     - **(Source File):** `project_management/tasks/1.5_core_authentication.md`
     - **(Target File):** `project_management/tasks/1.5_core_authentication.md` (Overwrite)
     - **(LLM Action):** "Analyze the source file and convert its contents into the ultra-granular format. Break down 'Implement signup method' into creating the file, writing the function signature, implementing the Supabase call, and handling the response."
 
 ## Phase 2: Re-format Core Feature Tasks
 
-- [ ] **2.1. Re-format UI Component Library**
+- [x] **2.1. Re-format UI Component Library**
     - **(Source File):** `project_management/tasks/2.1_ui_component_library.md`
     - **(Target File):** `project_management/tasks/2.1_ui_component_library.md` (Overwrite)
     - **(LLM Action):** "Analyze the source file and convert its contents into the ultra-granular format. For each component (`Button`, `Card`, etc.), create separate tasks for file creation, base component code, styling with Tailwind, and state implementation (e.g., hover, disabled)."
 
-- [ ] **2.2. Re-format Roadmap & Node Viewing**
+- [x] **2.2. Re-format Roadmap & Node Viewing**
     - **(Source File):** `project_management/tasks/2.2_roadmap_node_viewing.md`
     - **(Target File):** `project_management/tasks/2.2_roadmap_node_viewing.md` (Overwrite)
     - **(LLM Action):** "Analyze the source file and convert its contents into the ultra-granular format. Separate the tasks for data fetching logic from the tasks for UI rendering."
