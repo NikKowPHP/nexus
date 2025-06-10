@@ -20,17 +20,29 @@ WithColor.args = {
   color: 'blue',
 };
 
-export const WithBackground = Template.bind({});
-WithBackground.args = {
+export const WithBackgroundColor = Template.bind({});
+WithBackgroundColor.args = {
   label: 'Success Badge',
   backgroundColor: 'green',
-  color: 'white',
 };
 
-export const WithPillShape = Template.bind({});
-WithPillShape.args = {
-  label: 'Pill Badge',
-  pill: true,
+export const WithTextColor = Template.bind({});
+WithTextColor.args = {
+  label: 'Warning Badge',
+  textColor: 'white',
+  backgroundColor: 'orange',
+};
+
+export const WithSize = Template.bind({});
+WithSize.args = {
+  label: 'Large Badge',
+  size: 'large',
+};
+
+export const WithRounded = Template.bind({});
+WithRounded.args = {
+  label: 'Rounded Badge',
+  rounded: true,
 };
 
 export const WithOutline = Template.bind({});
@@ -45,28 +57,36 @@ WithIcon.args = {
   icon: '🔍',
 };
 
-export const WithCounter = Template.bind({});
-WithCounter.args = {
-  label: 'Counter Badge',
-  counter: 5,
-};
-
 export const WithDot = Template.bind({});
 WithDot.args = {
   label: 'Dot Badge',
   dot: true,
 };
 
-export const WithSize = Template.bind({});
-WithSize.args = {
-  label: 'Large Badge',
-  size: 'large',
+export const WithDotColor = Template.bind({});
+WithDotColor.args = {
+  label: 'Dot Color Badge',
+  dot: true,
+  dotColor: 'red',
 };
 
 export const WithPosition = Template.bind({});
 WithPosition.args = {
   label: 'Positioned Badge',
-  position: { top: -10, right: -10 },
+  position: 'top-right',
+};
+
+export const WithOffset = Template.bind({});
+WithOffset.args = {
+  label: 'Offset Badge',
+  offsetX: 10,
+  offsetY: 5,
+};
+
+export const WithCustomStyle = Template.bind({});
+WithCustomStyle.args = {
+  label: 'Styled Badge',
+  style: { marginTop: '10px', fontWeight: 'bold' },
 };
 
 export const WithOnClick = Template.bind({});
