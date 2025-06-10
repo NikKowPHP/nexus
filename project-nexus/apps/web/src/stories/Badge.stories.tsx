@@ -11,118 +11,149 @@ const Template: StoryFn = (args) => <Badge {...args} />;
 
 export const Default = Template.bind({});
 Default.args = {
-  label: 'Default Badge',
+  label: 'Badge',
 };
 
 export const WithColor = Template.bind({});
 WithColor.args = {
-  label: 'Colored Badge',
+  label: 'Badge',
   color: 'blue',
 };
 
 export const WithBackgroundColor = Template.bind({});
 WithBackgroundColor.args = {
-  label: 'Background Color Badge',
+  label: 'Badge',
   backgroundColor: 'lightgray',
 };
 
-export const WithSize = Template.bind({});
-WithSize.args = {
-  label: 'Large Badge',
-  size: 'large',
+export const WithPadding = Template.bind({});
+WithPadding.args = {
+  label: 'Badge',
+  padding: 'lg',
 };
 
-export const WithRounded = Template.bind({});
-WithRounded.args = {
-  label: 'Rounded Badge',
-  rounded: 'full',
+export const WithMargin = Template.bind({});
+WithMargin.args = {
+  label: 'Badge',
+  margin: 'lg',
 };
 
 export const WithBorder = Template.bind({});
 WithBorder.args = {
-  label: 'Bordered Badge',
+  label: 'Badge',
   border: '2px solid #000',
+};
+
+export const WithRounded = Template.bind({});
+WithRounded.args = {
+  label: 'Badge',
+  rounded: 'lg',
 };
 
 export const WithShadow = Template.bind({});
 WithShadow.args = {
-  label: 'Shadow Badge',
+  label: 'Badge',
   shadow: 'md',
 };
 
-export const WithOnClick = Template.bind({});
-WithOnClick.args = {
-  label: 'Clickable Badge',
-  onClick: () => alert('Badge clicked'),
+export const WithWidth = Template.bind({});
+WithWidth.args = {
+  label: 'Badge',
+  width: '100px',
 };
 
-export const WithTooltip = Template.bind({});
-WithTooltip.args = {
-  label: 'Tooltip Badge',
-  tooltip: 'This is a tooltip',
+export const WithHeight = Template.bind({});
+WithHeight.args = {
+  label: 'Badge',
+  height: '30px',
+};
+
+export const WithMinWidth = Template.bind({});
+WithMinWidth.args = {
+  label: 'Badge',
+  minWidth: '50px',
+};
+
+export const WithMinHeight = Template.bind({});
+WithMinHeight.args = {
+  label: 'Badge',
+  minHeight: '20px',
+};
+
+export const WithMaxWidth = Template.bind({});
+WithMaxWidth.args = {
+  label: 'Badge',
+  maxWidth: '150px',
+};
+
+export const WithMaxHeight = Template.bind({});
+WithMaxHeight.args = {
+  label: 'Badge',
+  maxHeight: '40px',
+};
+
+export const WithOverflow = Template.bind({});
+WithOverflow.args = {
+  label: 'This is a very long badge text that should overflow',
+  overflow: 'auto',
+  width: '100px',
 };
 
 export const WithCustomStyle = Template.bind({});
 WithCustomStyle.args = {
-  label: 'Styled Badge',
-  style: { borderRadius: '50px' },
+  label: 'Badge',
+  style: { borderRadius: '20px', backgroundColor: '#f0f8ff' },
+};
+
+export const WithClassName = Template.bind({});
+WithClassName.args = {
+  label: 'Badge',
+  className: 'custom-badge',
+};
+
+export const WithResponsive = Template.bind({});
+WithResponsive.args = {
+  label: 'Badge',
+  responsive: true,
 };
 
 export const WithIcon = Template.bind({});
 WithIcon.args = {
-  label: 'Icon Badge',
+  label: 'Badge',
   icon: '🏠',
 };
 
 export const WithIconPosition = Template.bind({});
 WithIconPosition.args = {
-  label: 'Icon Position Badge',
+  label: 'Badge',
   icon: '🏠',
   iconPosition: 'right',
 };
 
 export const WithIconColor = Template.bind({});
 WithIconColor.args = {
-  label: 'Icon Color Badge',
+  label: 'Badge',
   icon: '🏠',
   iconColor: 'red',
 };
 
 export const WithIconSize = Template.bind({});
 WithIconSize.args = {
-  label: 'Icon Size Badge',
+  label: 'Badge',
   icon: '🏠',
   iconSize: 'large',
 };
 
 export const WithIconStyle = Template.bind({});
 WithIconStyle.args = {
-  label: 'Icon Style Badge',
+  label: 'Badge',
   icon: '🏠',
   iconStyle: { marginRight: '5px' },
 };
 
 export const WithIconClassName = Template.bind({});
 WithIconClassName.args = {
-  label: 'Icon ClassName Badge',
+  label: 'Badge',
   icon: '🏠',
-  iconClassName: 'custom-icon',
-};
-
-export const WithDisabled = Template.bind({});
-WithDisabled.args = {
-  label: 'Disabled Badge',
-  disabled: true,
-};
-
-export const WithLoading = Template.bind({});
-WithLoading.args = {
-  label: 'Loading Badge',
-  loading: true,
-};
-
-export const WithResponsive = Template.bind({});
-WithResponsive.args = {
-  label: 'Responsive Badge',
-  responsive: true,
+  iconClassName: 'badge-icon',
 };
