@@ -1,0 +1,38 @@
+.progress-dashboard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  max-width: 300px;
+  margin: 0 auto;
+}
+
+.progress-dashboard h2 {
+  font-size: 1.5em;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.progress-circle {
+  width: 150px;
+  height: 150px;
+  margin-bottom: 20px;
+}
+
+.streak-info {
+  text-align: center;
+}
+
+.streak-info h3 {
+  font-size: 1.2em;
+  margin-bottom: 5px;
+  color: #555;
+}
+
+.streak-info p {
+  font-size: 1em;
+  color: #333;
+}
