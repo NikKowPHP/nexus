@@ -1,11 +1,28 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './AdminLayout.module.css';
+import { isAdmin } from '@/lib/auth';
 
 interface AdminLayoutProps {
   children: React.ReactNode;
 }
 
 const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
+  const [isUserAdmin, setIsUserAdmin] = useState(false);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const checkAdminStatus = async () => {
+      const admin = await isAdmin(null);
+      setIsUserAdmin(admin);
+      setLoading(false);
+    };
+    checkAdminStatus();
+  }, []);
+
+  if (loading) {
+    return <div className={styles.adminLayout}>Loading...</div>;
+  }
+
   return (
     <div className={styles.adminLayout}>
       <aside className={styles.sidebar}>
@@ -14,6 +31,12 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
             <li>Dashboard</li>
             <li>User Management</li>
             <li>Content Moderation</li>
+            {isUserAdmin && (
+              <>
+                <li>Roadmaps</li>
+                <li>Nodes</li>
+              </>
+            )}
             <li>Settings</li>
           </ul>
         </nav>
