@@ -3,7 +3,7 @@ import Stripe from 'stripe';
 import { getSession } from '@supabase/auth-helpers-nextjs';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: '2022-11-15',
+  apiVersion: '2024-04-10' as any,
 });
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
