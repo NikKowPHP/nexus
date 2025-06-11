@@ -1,26 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
+import { isAdmin } from '../lib/auth';
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
 }
 
-const getAdminToken = () => {
-  if (typeof window === 'undefined') return null;
-  return localStorage.getItem('admin-token');
-};
-
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
   const router = useRouter();
-  const [isAdmin, setIsAdmin] = useState(false);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const checkAdminStatus = () => {
-      const token = getAdminToken();
-      if (token === 'admin-token') {
-        setIsAdmin(true);
-      } else {
+    const checkAdminStatus = async () => {
+      const admin = await isAdmin(null);
+      if (!admin) {
         router.push('/admin/login');
       }
       setLoading(false);
