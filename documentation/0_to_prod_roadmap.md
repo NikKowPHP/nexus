@@ -56,7 +56,7 @@
 - [x] **3.2. Implement Feature Gating & Access Control**
     - Lock/unlock content and features based on a user's subscription status.
 
-- [ ] **3.3. Build MVP Content Management System (CMS)**
+- [x] **3.3. Build MVP Content Management System (CMS)**
     - Create a secure admin interface for basic CRUD operations on roadmaps and nodes.
 
 ---
