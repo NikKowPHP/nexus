@@ -53,7 +53,7 @@
 - [x] **3.1. Integrate Subscription & Payments**
     - Implement the full Stripe subscription flow for "Nexus Pro".
 
-- [ ] **3.2. Implement Feature Gating & Access Control**
+- [x] **3.2. Implement Feature Gating & Access Control**
     - Lock/unlock content and features based on a user's subscription status.
 
 - [ ] **3.3. Build MVP Content Management System (CMS)**
