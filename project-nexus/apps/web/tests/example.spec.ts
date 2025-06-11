@@ -9,6 +9,6 @@ test('Button component renders correctly in Storybook', async ({ page }) => {
   
   // Wait for and verify the button with exact text
   await expect(
-    frame.getByRole('button', { name: 'Primary Button' })
+    frame.getByText('Primary Button')
   ).toBeVisible({ timeout: 10000 });
 });

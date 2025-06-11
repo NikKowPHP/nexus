@@ -1,21 +1,21 @@
 # Test info
 
 - Name: Button component renders correctly in Storybook
-- Location: /home/kasjer/Downloads/projects/nexus/project-nexus/apps/web/tests/example.spec.ts:3:5
+- Location: /home/kasjer/projects/nexus/project-nexus/apps/web/tests/example.spec.ts:3:5
 
 # Error details
 
 ```
-Error: Timed out 5000ms waiting for expect(locator).toBeVisible()
+Error: Timed out 10000ms waiting for expect(locator).toBeVisible()
 
-Locator: locator('#storybook-preview-iframe').contentFrame().locator('button:has-text("Primary Button")')
+Locator: getByText('Primary Button')
 Expected: visible
 Received: <element(s) not found>
 Call log:
-  - expect.toBeVisible with timeout 5000ms
-  - waiting for locator('#storybook-preview-iframe').contentFrame().locator('button:has-text("Primary Button")')
+  - expect.toBeVisible with timeout 10000ms
+  - waiting for getByText('Primary Button')
 
-    at /home/kasjer/Downloads/projects/nexus/project-nexus/apps/web/tests/example.spec.ts:10:77
+    at /home/kasjer/projects/nexus/project-nexus/apps/web/tests/example.spec.ts:13:5
 ```
 
 # Page snapshot
@@ -247,6 +247,12 @@ Call log:
     - img
     - img
     - text: Page
+  - link "Storybook 9 Learn what's new in Storybook":
+    - /url: /?path=/settings/whats-new
+    - img
+    - text: Storybook 9 Learn what's new in Storybook
+    - button "Dismiss notification":
+      - img
   - text: Visual tests Login required Run local tests Not run
   - button "Show settings":
     - img
@@ -280,11 +286,14 @@ Call log:
    3 | test('Button component renders correctly in Storybook', async ({ page }) => {
    4 |   await page.goto('http://localhost:6006/?path=/story/components-button--primary');
    5 |   
-   6 |   // Wait for and switch to the Storybook iframe
-   7 |   const storybookFrame = page.frameLocator('#storybook-preview-iframe');
-   8 |   
-   9 |   // Look for the exact button text from the story
-> 10 |   await expect(storybookFrame.locator('button:has-text("Primary Button")')).toBeVisible();
-     |                                                                             ^ Error: Timed out 5000ms waiting for expect(locator).toBeVisible()
-  11 | });
+   6 |   // Wait for Storybook iframe to load
+   7 |   const storybookFrame = await page.waitForSelector('#storybook-preview-iframe');
+   8 |   const frame = await storybookFrame.contentFrame();
+   9 |   
+  10 |   // Wait for and verify the button with exact text
+  11 |   await expect(
+  12 |     frame.getByText('Primary Button')
+> 13 |   ).toBeVisible({ timeout: 10000 });
+     |     ^ Error: Timed out 10000ms waiting for expect(locator).toBeVisible()
+  14 | });
 ```

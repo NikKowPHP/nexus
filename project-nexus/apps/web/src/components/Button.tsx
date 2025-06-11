@@ -4,12 +4,14 @@ import styles from './Button.module.css';
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: 'primary' | 'secondary';
   disabled?: boolean;
+  label?: string;
 }
 
 const Button: React.FC<ButtonProps> = ({
   children,
   variant = 'primary',
   disabled = false,
+  label,
   ...props
 }) => {
   return (
@@ -18,7 +20,7 @@ const Button: React.FC<ButtonProps> = ({
       disabled={disabled}
       {...props}
     >
-      {children}
+      {label || children}
     </button>
   );
 };
