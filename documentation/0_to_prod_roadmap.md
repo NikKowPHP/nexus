@@ -18,7 +18,7 @@
 - [x] **1.3. Establish Local Development Environment**
      - Implement and test the Docker Compose setup for consistent local development.
 
-- [ ] **1.4. Define Core Data Structures**
+- [x] **1.4. Define Core Data Structures**
     - Implement the Prisma schema and run the initial database migration.
 
 - [x] **1.5. Implement Core Authentication**
@@ -34,10 +34,10 @@
 - [x] **2.1. Build the UI Component Library**
     - Create the fundamental, reusable Cupertino-styled UI components.
 
-- [ ] **2.2. Implement Roadmap & Node Viewing**
+- [x] **2.2. Implement Roadmap & Node Viewing**
     - Build the UI to display the learning roadmaps and the content within each node.
 
-- [ ] **2.3. Implement the AI Assessment Loop**
+- [x] **2.3. Implement the AI Assessment Loop**
     - Build the full flow: user submits an assessment -> backend calls LLM -> frontend displays structured feedback.
 
 - [ ] **2.4. Implement Basic Gamification & Progress Tracking**

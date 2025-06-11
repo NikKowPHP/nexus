@@ -1,20 +1,20 @@
-# Node.js Version Incompatibility Issue
+# Assistance Needed: Prisma Migration Failure
 
-## Current Issue
-Storybook requires Node.js 20+, but current version is v18.20.8. This prevents both:
-- Running Storybook via npm scripts
-- Direct execution via `npx storybook` 
+## Task Description
+Update the Prisma schema for streak tracking and run the migration.
 
-## Error Message
-```
-To run Storybook you need to have Node.js 20 or higher
-Current version: v18.20.8
-```
+## Steps Taken
+1. Updated `prisma/schema.prisma` with new Streak model fields
+2. Attempted multiple commands to run the migration:
+   - `npx prisma migrate dev --name add_streak_fields`
+   - Specified schema path with `--schema`
+   - Tried changing directories
+   - Used `dotenv-cli` to load environment variables
 
-## Required Action
-1. Upgrade Node.js to version 20 or higher
-2. Verify installation with `node --version`
-3. Retry Storybook commands after upgrade
+## Errors Encountered
+- "Environment variable not found: DATABASE_URL"
+- "Invalid value for '-e' / '--export'"
+- "Could not determine executable to run"
 
-## Impact
-Blocks all Storybook operations and Phase 2 completion.
+## Current Status
+Migration remains unsuccessful after multiple approaches.
