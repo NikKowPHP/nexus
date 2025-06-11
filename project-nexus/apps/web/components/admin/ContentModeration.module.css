@@ -1,0 +1,14 @@
+.contentModeration {
+  padding: 20px;
+  background-color: #ffffff;
+}
+
+.contentModeration h2 {
+  margin-bottom: 20px;
+  font-size: 1.5em;
+}
+
+.contentModeration p {
+  font-size: 1.2em;
+  color: #666;
+}

@@ -1,0 +1,44 @@
+.userList {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.userList h2 {
+  margin-bottom: 20px;
+  font-size: 1.5em;
+}
+
+.userList .searchInput {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.userList table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+.userList th,
+.userList td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+.userList th {
+  background-color: #f2f2f2;
+  font-weight: bold;
+}
+
+.userList tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.userList tr:hover {
+  background-color: #f1f1f1;
+}
