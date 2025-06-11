@@ -42,7 +42,7 @@ Upon initiation, your first action is to check for a distress signal.
         **Problem:** Phase 2 E2E tests are failing. The error log suggests an issue with API authentication.
 
         - [ ] **Task 1: Add Diagnostic Logging**
-            - **(File):** `apps/web/src/middleware.ts` (or relevant auth file)
+            - **(File):** `/project-nexus/apps/web/src/middleware.ts` (or relevant auth file)
             - **(LLM Action):** "Add `console.log()` statements to the authentication middleware to print the incoming request headers and the decoded user token."
             - **(Verification):** "The `console.log` statements are present in the specified file."
         
