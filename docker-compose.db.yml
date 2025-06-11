@@ -13,4 +13,4 @@ services:
 
 networks:
   app-network:
-    name: project-nexus-network
+    driver: bridge
