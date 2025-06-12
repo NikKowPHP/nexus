@@ -19,32 +19,32 @@ We will resolve dependencies and deployment issues by:
     - **LLM Prompt:** "Modify `project-nexus/apps/web/package.json` to add an `engines` field specifying `node: ">=20.0.0"`."
     - **Verification:** `project-nexus/apps/web/package.json` contains `"engines": { "node": ">=20.0.0" }`.
 
-- [ ] **Task 2: Update Storybook ecosystem**
+- [x] **Task 2: Update Storybook ecosystem**
     - **Context:** The current working directory **must** be `project-nexus/apps/web`.
     - **Command:** `npm install storybook@9.0.8 eslint-plugin-storybook@9.0.8 --legacy-peer-deps`
     - **Verification:** `project-nexus/apps/web/package.json` shows updated versions for `storybook` and `eslint-plugin-storybook`.
 
-- [ ] **Task 3: Remove conflicting visx/zoom**
+- [x] **Task 3: Remove conflicting visx/zoom**
     - **Context:** The current working directory **must** be `project-nexus/apps/web`.
     - **Command:** `npm uninstall @visx/zoom`
     - **Verification:** `project-nexus/apps/web/package.json` no longer contains `@visx/zoom`.
 
-- [ ] **Task 4: Install zoom alternative**
+- [x] **Task 4: Install zoom alternative**
     - **Context:** The current working directory **must** be `project-nexus/apps/web`.
-    - **Command:** `npm install react-zoom-pan-pinch@4.0.0`
+    - **Command:** `npm install react-zoom-pan-pinch@3.7.0 --legacy-peer-deps`
     - **Verification:** `project-nexus/apps/web/package.json` contains `react-zoom-pan-pinch`.
 
-- [ ] **Task 5: Update Stripe dependencies**
+- [x] **Task 5: Update Stripe dependencies**
     - **Context:** The current working directory **must** be `project-nexus/apps/web`.
-    - **Command:** `npm install @stripe/stripe-js@2.0.0 @stripe/react-stripe-js@4.0.0`
+    - **Command:** `npm install @stripe/stripe-js@2.0.0 @stripe/react-stripe-js@3.7.0 --legacy-peer-deps`
     - **Verification:** `project-nexus/apps/web/package.json` shows updated versions for `@stripe/stripe-js` and `@stripe/react-stripe-js`.
 
-- [ ] **Task 6: Update zoom implementation**
+- [x] **Task 6: Update zoom implementation**
     - **Files:**
         - `project-nexus/apps/web/src/components/Roadmap.tsx`
     - **LLM Prompt:** "In `project-nexus/apps/web/src/components/Roadmap.tsx`, replace all imports of `@visx/zoom` with `react-zoom-pan-pinch` and update the component implementation to use `react-zoom-pan-pinch`'s `useControls` hook for zoom and pan functionality. Ensure the component renders correctly with the new library."
 
-- [ ] **Task 7: Test payment flow**
+- [x] **Task 7: Test payment flow**
     - **Context:** The current working directory **must** be `project-nexus/apps/web`.
     - **Command:** `npm run dev`
     - **Verification:**
