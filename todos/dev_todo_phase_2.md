@@ -7,7 +7,17 @@
 
 - [ ] **Task 2: Add social login providers (Google/GitHub)**
     - **LLM Prompt:** "Integrate Google and GitHub OAuth providers with NextAuth.js"
-    - **Verification:** Users can sign up/login using their social accounts
+    - **Steps:**
+        1. Add Google and GitHub providers to `pages/api/auth/[...nextauth].ts`
+        2. Create OAuth apps on Google Cloud and GitHub Developer settings
+        3. Add environment variables for OAuth credentials:
+           - GOOGLE_CLIENT_ID
+           - GOOGLE_CLIENT_SECRET
+           - GITHUB_CLIENT_ID
+           - GITHUB_CLIENT_SECRET
+        4. Update login page with social login buttons
+        5. Test both providers end-to-end
+    - **Verification:** Users can sign up/login using their Google or GitHub accounts
 
 ## Roadmap Interaction
 - [ ] **Task 3: Implement roadmap viewing interface**
