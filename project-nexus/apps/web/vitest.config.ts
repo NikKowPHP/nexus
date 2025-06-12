@@ -34,5 +34,15 @@ export default defineConfig({
         },
       },
     ],
-  },
+ },
+ resolve: {
+   alias: {
+     '@': path.resolve(dirname, 'src'),
+   },
+ },
+ css: {
+   modules: {
+     classNameStrategy: 'local',
+   },
+ },
 });
