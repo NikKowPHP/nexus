@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { signIn } from '../services/auth';
+import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/router';
 
 const LoginPage = () => {
@@ -10,11 +10,16 @@ const LoginPage = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    try {
-      await signIn(email, password);
+    const result = await signIn('email', {
+      email,
+      password,
+      redirect: false,
+    });
+
+    if (result?.error) {
+      setError(result.error);
+    } else {
       router.push('/');
-    } catch (err: any) {
-      setError(err.message);
     }
   };
 
