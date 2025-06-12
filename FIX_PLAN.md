@@ -4,7 +4,7 @@
   - **Action:** Create separate directories for unit, integration, and e2e tests
   - **Verification:** Clear separation in `project-nexus/apps/web/tests/`
 
-- [ ] **Task 2: Migrate Jest tests to Vitest**
+- [x] **Task 2: Migrate Jest tests to Vitest**
   - **Action:** Update all test files using Jest APIs to Vitest equivalents
   - **Verification:** No `jest` references remain in test files
 

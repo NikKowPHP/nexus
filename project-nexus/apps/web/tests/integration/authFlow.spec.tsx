@@ -2,25 +2,26 @@ import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import LoginPage from '../../pages/admin/login';
 import { useRouter } from 'next/router';
+import { vi, Mock } from 'vitest';
 
-jest.mock('next/router', () => ({
-  useRouter: jest.fn(),
+vi.mock('next/router', () => ({
+  useRouter: vi.fn(),
 }));
 
 describe('Authentication Flow', () => {
   it('should allow a user to log in', async () => {
-    const mockPush = jest.fn();
-    (useRouter as jest.Mock).mockReturnValue({ push: mockPush });
+    const mockPush = vi.fn();
+    (useRouter as Mock).mockReturnValue({ push: mockPush });
 
-    global.fetch = jest.fn(() =>
+    global.fetch = vi.fn(() =>
       Promise.resolve({
         ok: true,
         json: () => Promise.resolve({}),
       })
-    ) as jest.Mock;
+    ) as Mock;
 
     // Mock localStorage
-    Storage.prototype.setItem = jest.fn();
+    Storage.prototype.setItem = vi.fn();
 
     render(<LoginPage />);
 
