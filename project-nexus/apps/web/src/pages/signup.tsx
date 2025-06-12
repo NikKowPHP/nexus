@@ -12,7 +12,8 @@ const SignupPage = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const { user, error } = await signUp(email, password);
+      const { data, error } = await signUp(email, password);
+      const user = data?.user;
       if (error) throw error;
       setSuccess('Check your email to confirm your account.');
       setError('');

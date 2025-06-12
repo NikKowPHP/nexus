@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
 import { supabase } from '../services/auth';
-import { User, Session } from '@supabase/supabase-js';
+import { User, Session, AuthChangeEvent } from '@supabase/supabase-js';
 
 interface AuthContextProps {
   user: User | null;
@@ -14,17 +14,20 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const session = supabase.auth.session();
-    setUser(session?.user || null);
-    setLoading(false);
+    const fetchSession = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      setUser(session?.user || null);
+      setLoading(false);
+    };
+    fetchSession();
 
-    const { data: authListener } = supabase.auth.onAuthStateChange((_event: any, session: Session | null) => {
+    const { data: authListener } = supabase.auth.onAuthStateChange((event: AuthChangeEvent, session: Session | null) => {
       setUser(session?.user || null);
       setLoading(false);
     });
 
     return () => {
-      authListener.unsubscribe();
+      authListener.subscription.unsubscribe();
     };
   }, []);
 
