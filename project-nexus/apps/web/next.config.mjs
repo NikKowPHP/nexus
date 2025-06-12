@@ -1,5 +1,5 @@
 import { withSentryConfig } from '@sentry/nextjs';
-import securityHeaders from './headers';
+import securityHeaders from './headers.js';
 
 const nextConfig = {
   reactStrictMode: true,

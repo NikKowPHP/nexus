@@ -1,0 +1,5 @@
+{
+    "ignore": {
+    "customPatterns": ["*.test.ts", "docs/**", "public/**", "todos/**", "project-nexus/apps/web/playwright-report/**", "project-nexus/apps/web/src/stories/Configure.mdx", "documentation/business_plan.md" ]
+  }
+}

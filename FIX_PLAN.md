@@ -1,14 +1,48 @@
-# INTERVENTION FIX PLAN (ATOMIC)
+# Revised Dependency Conflict Resolution Plan
 
-**Problem:** The Developer AI failed on a Prisma migration task. The error "Environment variable not found: DATABASE_URL" indicates the command was run from the wrong directory. The task list was ambiguous about the required working directory.
+## Root Cause Analysis
+The dependency conflicts stem from:
+1. `@visx/zoom@3.12.0` requiring React 16-18
+2. `eslint-plugin-storybook@9.0.8` requiring Storybook 9.x
+3. Current project using React 19.1.0 and Storybook 8.6.14
 
-**Solution:** Add an explicit `(Context)` to the failing task and retry.
+## Resolution Strategy
+We will resolve dependencies in stages:
+1. First address Storybook compatibility
+2. Then remove conflicting `@visx/zoom`
+3. Finally update Stripe dependencies
 
-- [ ] **Task 1: Correct the Ambiguous Task**
-    - **(File):** `project_management/tasks/1.4_core_data_structures.md`
-    - **(LLM Action):** "In the target file, locate 'Task 3: Run Initial Migration'. Before the `(LLM Action)` line, insert a new line with the following content: `    - **(Context):** The current working directory **must** be `project-nexus/apps/web`."
-    - **(Verification):** "The file `project_management/tasks/1.4_core_data_structures.md` now contains the `(Context)` line for Task 3."
+## Implementation Plan
 
-- [ ] **Task 2: Prepare for Retry**
-    - **(LLM Action):** "Delete the `NEEDS_ASSISTANCE.md` file from the root directory."
-    - **(Verification):** "The file `NEEDS_ASSISTANCE.md` no longer exists."
+- [ ] **Task 1: Update Storybook ecosystem**
+  - **Command:** `npm install storybook@9.0.8 eslint-plugin-storybook@9.0.8`
+  - **Verification:** `package.json` shows updated versions
+
+- [ ] **Task 2: Remove conflicting visx/zoom**
+  - **Command:** `npm uninstall @visx/zoom`
+  - **Verification:** `package.json` no longer contains @visx/zoom
+
+- [ ] **Task 3: Install zoom alternative**
+  - **Command:** `npm install react-zoom-pan-pinch@4.0.0`
+  - **Verification:** `package.json` contains react-zoom-pan-pinch
+
+- [ ] **Task 4: Update Stripe dependencies**
+  - **Command:** `npm install @stripe/stripe-js@2.0.0 @stripe/react-stripe-js@4.0.0`
+  - **Verification:** `package.json` shows updated versions
+
+- [ ] **Task 5: Update zoom implementation**
+  - **Files:** 
+    - `project-nexus/apps/web/src/components/CheckoutForm.tsx`
+    - `project-nexus/apps/web/src/components/Roadmap.tsx`
+  - **LLM Prompt:** "Replace all imports of @visx/zoom with react-zoom-pan-pinch and update component implementations"
+
+- [ ] **Task 6: Test payment flow**
+  - **Command:** `npm run dev`
+  - **Verification:** 
+    1. Start dev server
+    2. Complete test checkout
+    3. Confirm no errors
+
+- [ ] **Task 7: Clean up and reset**
+  - **LLM Prompt:** "Delete NEEDS_ARCHITECTURAL_REVIEW.md and NEEDS_ASSISTANCE.md"
+  - **Verification:** Both files removed
