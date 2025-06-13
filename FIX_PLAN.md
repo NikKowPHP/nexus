@@ -38,7 +38,7 @@
 
 ### Task 3: Restructure Test Directories
 ```markdown
-- [ ] **Create dedicated directories**  
+- [x] **Create dedicated directories**
   Reorganize tests:
   ```
   tests/
