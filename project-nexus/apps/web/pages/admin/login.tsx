@@ -1,4 +1,4 @@
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/router.js';
 import { useState } from 'react';
 
 export default function AdminLogin() {
@@ -28,7 +28,7 @@ export default function AdminLogin() {
         const data = await response.json();
         setError(data.message || 'Login failed');
       }
-    } catch (err) {
+    } catch {
       setError('Failed to connect to server');
     }
   };

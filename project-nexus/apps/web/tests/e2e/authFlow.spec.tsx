@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import LoginPage from '../../pages/admin/login';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/router.js';
 import { vi, Mock } from 'vitest';
 
 vi.mock('next/router', () => ({

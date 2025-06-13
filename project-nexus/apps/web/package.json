@@ -15,7 +15,9 @@
     "test:unit": "vitest tests/unit",
     "test:e2e": "playwright test",
     "test:install": "playwright install",
-    "test": "npm run test:unit && npm run test:e2e",
+    "test": "npm run test:sequential",
+    "test:parallel": "concurrently -k \"npm run test:unit\" \"npm run test:e2e\"",
+    "test:sequential": "npm run test:unit && npm run test:e2e",
     "build-storybook": "storybook build"
   },
   "dependencies": {
@@ -50,6 +52,7 @@
     "@tailwindcss/postcss": "^4.1.10",
     "@testing-library/jest-dom": "^6.4.2",
     "@testing-library/react": "^15.0.0-beta.0",
+    "@types/jest": "^29.5.14",
     "@types/jsdom": "^21.1.7",
     "@types/node": "^20",
     "@types/react": "^19",

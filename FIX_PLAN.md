@@ -75,7 +75,7 @@
 
 ### Task 6: Verify Fixes
 ```markdown
-- [ ] **Run test suite**  
+- [x] **Run test suite**
   Execute `npm test` and confirm:
   - All unit tests pass via Vitest
   - All e2e tests pass via Playwright
@@ -86,6 +86,6 @@
 
 ### Task 7: Reset System State
 ```markdown
-- [ ] **Clean up signal file**  
+- [x] **Clean up signal file**
   - **LLM Prompt:** "Delete NEEDS_ARCHITECTURAL_REVIEW.md from root directory"
   - **Verification:** File removed
