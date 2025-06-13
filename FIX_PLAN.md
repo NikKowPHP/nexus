@@ -1,91 +1,27 @@
-# Comprehensive Test Infrastructure Fix Plan
+# Strategic Fix Plan: Resolving Phantom Tab State
 
-## Root Causes Identified
-1. **Tooling Conflict**: Playwright tests executed via Vitest runner
-2. **Improper Test Organization**: Unit and integration tests mixed
-3. **Async Handling**: Missing `act()` in React component tests
+## Problem
+Phantom `NEEDS_ARCHITECTURAL_REVIEW.md` in VSCode tabs blocking autonomous flow.
 
-## Phase 1: Test Runner Separation
+## Root Cause
+1. File deleted but tab remains open
+2. Orchestrator uses tab presence for decisions
+3. No validation of file existence beyond tab state
 
-### Task 1: Reconfigure Vitest
-```markdown
-- [x] **Update Vitest configuration**
-  Modify `project-nexus/apps/web/vitest.config.ts` to exclude Playwright tests:
-  ```ts
-  export default defineConfig({
-    test: {
-      include: ['tests/unit/**/*.{test,spec}.{js,ts,tsx}'],
-      exclude: ['tests/integration/**/*'],
-    }
-  })
-  ```
-```
+## Fix Plan
+- [x] **Task 1: Delete phantom file from disk**
+    - **LLM Prompt:** "Delete NEEDS_ARCHITECTURAL_REVIEW.md from root directory"
+    - **Verification:** `ls` shows file missing
 
-### Task 2: Create Playwright Runner
-```markdown
-- [x] **Add Playwright test script**
-  Update `project-nexus/apps/web/package.json`:
-  ```diff
-  "scripts": {
-    "test:unit": "vitest tests/unit",
-    "test:e2e": "playwright test",
-    "test": "npm run test:unit && npm run test:e2e"
-  }
-  ```
-```
+- [ ] **Task 2: Close phantom tab in VSCode**
+    - **LLM Prompt:** "Execute VSCode command: 'workbench.action.closeActiveEditor' for NEEDS_ARCHITECTURAL_REVIEW.md"
+    - **Verification:** File disappears from open tabs
 
-## Phase 2: Test Organization
+- [ ] **Task 3: Update Orchestrator decision logic**
+    - **LLM Prompt:** "Modify Orchestrator rules to verify file existence, not just tab presence"
+    - **File:** `.roo/rules-orchestrator-senior/rules.md`
+    - **Change:** Add filesystem check before mode switching
 
-### Task 3: Restructure Test Directories
-```markdown
-- [x] **Create dedicated directories**
-  Reorganize tests:
-  ```
-  tests/
-    unit/       # Vitest tests
-    e2e/        # Playwright tests
-  ```
-  Move existing integration tests to `tests/e2e`
-```
-
-### Task 4: Update Test Imports
-```markdown
-- [x] **Fix import paths**
-  Update import statements in all test files to reflect new paths
-```
-
-## Phase 3: Async Test Fixes
-
-### Task 5: Fix ProtectedRoute Test
-```markdown
-- [x] **Wrap state updates in act()**
-  Modify `tests/unit/protectedRoute.test.tsx`:
-  ```tsx
-  import { act, render } from '@testing-library/react';
-  
-  test('renders without crashing', async () => {
-    await act(async () => {
-      render(<ProtectedRoute><div>Test</div></ProtectedRoute>);
-    });
-  });
-  ```
-```
-
-## Phase 4: Validation
-
-### Task 6: Verify Fixes
-```markdown
-- [x] **Run test suite**
-  Execute `npm test` and confirm:
-  - All unit tests pass via Vitest
-  - All e2e tests pass via Playwright
-  - No act() warnings
-```
-
-## Mandatory Cleanup
-
-### Task 7: Reset System State
-```markdown
-- [x] **Clean up signal file**
-  - **LLM Prompt:** "Delete NEEDS_ARCHITECTURAL_REVIEW.md from root directory"
-  - **Verification:** File removed
+- [ ] **Task 4: Clean up and reset**
+    - **LLM Prompt:** "Delete NEEDS_ARCHITECTURAL_REVIEW.md"
+    - **Verification:** File not in tabs or filesystem

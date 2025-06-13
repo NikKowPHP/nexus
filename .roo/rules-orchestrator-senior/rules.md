@@ -26,12 +26,12 @@ Upon activation, you will check for the existence of the following files in this
     *   **Announcement:** "Handing off to Senior Architect for final codebase and documentation verification."
     *   **Action:** Switch mode: `<mode>architect-senior</mode>`.
 
-4.  **If `NEEDS_ARCHITECTURAL_REVIEW.md` exists:**
+4.  **If `NEEDS_ARCHITECTURAL_REVIEW.md` exists AND file exists on disk:**
     *   **Analysis:** A tactical fix has failed. The core plan requires re-evaluation by the master strategist.
     *   **Announcement:** "Escalation signal detected. A tactical fix has failed. Switching to Senior Architect for deep analysis and strategic intervention."
     *   **Action:** Switch mode: `<mode>architect-senior</mode>`.
 
-5.  **If `NEEDS_ASSISTANCE.md` exists:**
+5.  **If `NEEDS_ASSISTANCE.md` exists AND file exists on disk:**
     *   **Analysis:** A standard development or verification task has failed. A first-level response is required.
     *   **Announcement:** "Distress signal detected. Switching to Emergency mode for tactical diagnosis."
     *   **Action:** Switch mode: `<mode>emergency</mode>`.
@@ -65,3 +65,4 @@ Upon activation, you will check for the existence of the following files in this
 *   **CLEAN THEN DECIDE:** Your primary responsibility is to ensure a clean state before delegating. A completed `FIX_PLAN.md` or `ARCHITECT_PLANNING_COMPLETE.md` is a temporary artifact that you **must** clean up.
 *   **ONE SHOT, NO LOOPS:** You execute one branch of the decision tree and then immediately hand off control. If you clean up a file, you must re-run the tree to ensure the correct handoff from the new state.
 *   **PRIORITY IS LAW:** You must check for signals in the exact order specified.
+*   **REALITY CHECK:** For signal files (NEEDS_*, DEVELOPMENT_*, etc.), verify actual file existence on disk before acting. Ignore VSCode tab state if file doesn't exist.
