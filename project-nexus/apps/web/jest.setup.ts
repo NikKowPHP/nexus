@@ -1,5 +1,10 @@
-import '@testing-library/jest-dom';
-import { TextEncoder, TextDecoder } from 'util';
+import '@testing-library/jest-dom/extend-expect';
+import { JSDOM } from 'jsdom';
 
-global.TextEncoder = TextEncoder;
-global.TextDecoder = TextDecoder as typeof global.TextDecoder;
+const dom = new JSDOM('<!doctype html><html><body></body></html>', {
+  url: 'http://localhost',
+});
+
+global.document = dom.window.document;
+global.window = dom.window as any;
+global.navigator = dom.window.navigator;

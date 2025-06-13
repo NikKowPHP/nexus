@@ -6,22 +6,22 @@ import Button from '../../src/components/Button';
 describe('Button Component', () => {
   it('renders the button with children', () => {
     render(<Button>Click me</Button>);
-    expect(screen.getByText('Click me')).toBeInTheDocument();
+    expect(screen.getByText('Click me')).toBeInDOM();
   });
 
   it('renders the button with a label', () => {
     render(<Button label="Submit" />);
-    expect(screen.getByText('Submit')).toBeInTheDocument();
+    expect(screen.getByText('Submit')).toBeInDOM();
   });
 
   it('renders the button with the primary variant', () => {
     render(<Button variant="primary">Primary</Button>);
-    expect(screen.getByText('Primary')).toHaveClass('primary');
+    expect(screen.getByText('Primary')).toHaveClassname('primary');
   });
 
   it('renders the button with the secondary variant', () => {
     render(<Button variant="secondary">Secondary</Button>);
-    expect(screen.getByText('Secondary')).toHaveClass('secondary');
+    expect(screen.getByText('Secondary')).toHaveClassname('secondary');
   });
 
   it('renders the button with the disabled state', () => {
