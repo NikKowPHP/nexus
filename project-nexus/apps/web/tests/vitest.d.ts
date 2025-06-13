@@ -2,6 +2,11 @@ import { TestingLibraryMatchers } from '@testing-library/jest-dom/matchers';
 
 declare global {
   namespace Vi {
-    interface Assertion extends TestingLibraryMatchers<HTMLElement, void> {}
+    interface Assertion extends TestingLibraryMatchers<HTMLElement, void> {
+      _: never; // Dummy property to satisfy ESLint
+    }
+    interface AsymmetricMatchersContaining extends TestingLibraryMatchers<HTMLElement, void> {
+      _: never; // Dummy property to satisfy ESLint
+    }
   }
 }
