@@ -2,7 +2,7 @@
   - **LLM Prompt:** "Delete the file jest.setup.ts and any other Jest-specific configuration files."
   - **Verification:** jest.setup.ts no longer exists in the project.
 
-- [ ] **Task 2: Verify Vitest setup file loading**
+- [x] **Task 2: Verify Vitest setup file loading**
   - **LLM Prompt:** "Ensure vitest.config.ts correctly references './vitest.setup.ts' in the setupFiles array."
   - **Verification:** vitest.config.ts contains:
     ```ts
