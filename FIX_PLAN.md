@@ -58,7 +58,7 @@
 
 ### Task 5: Fix ProtectedRoute Test
 ```markdown
-- [ ] **Wrap state updates in act()**  
+- [x] **Wrap state updates in act()**
   Modify `tests/unit/protectedRoute.test.tsx`:
   ```tsx
   import { act, render } from '@testing-library/react';
