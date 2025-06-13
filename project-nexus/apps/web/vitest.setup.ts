@@ -1,10 +1,13 @@
 import { expect } from 'vitest';
-import * as matchers from '@testing-library/jest-dom';
+import * as matchers from '@testing-library/jest-dom/matchers';
 import { JSDOM } from 'jsdom';
 
 declare global {
   interface Window {
-    // Dummy property to satisfy ESLint - this merges with existing Window type
+    // Additional DOM type declarations
+    HTMLElement: typeof HTMLElement;
+    Node: typeof Node;
+    // Dummy property to satisfy ESLint
     _test?: never;
   }
 }
