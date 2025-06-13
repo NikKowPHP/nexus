@@ -9,7 +9,7 @@
     setupFiles: ['./vitest.setup.ts']
     ```
 
-- [ ] **Task 3: Add Vitest type definitions**
+- [x] **Task 3: Add Vitest type definitions**
   - **LLM Prompt:** "Create tests/vitest.d.ts with:
     ```ts
     /// <reference types="@testing-library/jest-dom/vitest" />
