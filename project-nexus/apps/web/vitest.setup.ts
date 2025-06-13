@@ -1,5 +1,8 @@
-import '@testing-library/jest-dom/vitest';
+import { expect } from 'vitest';
+import * as matchers from '@testing-library/jest-dom';
 import { JSDOM } from 'jsdom';
+
+expect.extend(matchers);
 
 const dom = new JSDOM('<!doctype html><html><body></body></html>', {
   url: 'http://localhost',
