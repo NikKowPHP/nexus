@@ -14,7 +14,7 @@
     plugins: [react({ jsxRuntime: 'automatic' })]
     ```
 
-- [ ] **Task 3: Update vitest.setup.ts with proper imports**
+- [x] **Task 3: Update vitest.setup.ts with proper imports**
   - **LLM Prompt:** "Update vitest.setup.ts:
     1. Import matchers from '@testing-library/jest-dom/vitest'
     2. Remove unnecessary window type declarations
