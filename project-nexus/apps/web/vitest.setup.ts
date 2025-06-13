@@ -1,4 +1,4 @@
-import '@testing-library/jest-dom/extend-expect';
+import '@testing-library/jest-dom/vitest';
 import { JSDOM } from 'jsdom';
 
 const dom = new JSDOM('<!doctype html><html><body></body></html>', {
@@ -6,5 +6,5 @@ const dom = new JSDOM('<!doctype html><html><body></body></html>', {
 });
 
 global.document = dom.window.document;
-global.window = dom.window as any;
+global.window = dom.window as unknown as Window & typeof globalThis;
 global.navigator = dom.window.navigator;
