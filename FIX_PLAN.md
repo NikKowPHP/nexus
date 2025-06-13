@@ -1,30 +1,26 @@
-- [x] **Task 1: Ensure JSDOM globals are properly set**
-  - **LLM Prompt:** "Modify vitest.setup.ts to explicitly set the JSDOM globals at the beginning of the file, before any imports or other code."
-  - **Verification:** vitest.setup.ts contains:
+- [x] **Task 1: Remove residual Jest configuration**
+  - **LLM Prompt:** "Delete the file jest.setup.ts and any other Jest-specific configuration files."
+  - **Verification:** jest.setup.ts no longer exists in the project.
+
+- [ ] **Task 2: Verify Vitest setup file loading**
+  - **LLM Prompt:** "Ensure vitest.config.ts correctly references './vitest.setup.ts' in the setupFiles array."
+  - **Verification:** vitest.config.ts contains:
     ```ts
-    import { JSDOM } from 'jsdom';
-
-    const dom = new JSDOM('<!doctype html><html><body></body></html>', {
-      url: 'http://localhost',
-    });
-
-    global.document = dom.window.document;
-    global.window = dom.window as Window & typeof globalThis;
-    global.navigator = dom.window.navigator;
-
-    import { expect } from 'vitest';
-    import * as matchers from '@testing-library/jest-dom/vitest';
-    expect.extend(matchers);
+    setupFiles: ['./vitest.setup.ts']
     ```
 
-- [x] **Task 2: Remove potentially conflicting type declarations**
-  - **LLM Prompt:** "Remove the contents of tests/globals.d.ts to avoid any type conflicts with the JSDOM environment."
-  - **Verification:** tests/globals.d.ts is empty.
+- [ ] **Task 3: Add Vitest type definitions**
+  - **LLM Prompt:** "Create tests/vitest.d.ts with:
+    ```ts
+    /// <reference types="@testing-library/jest-dom/vitest" />
+    ```
+    and ensure it's included in tsconfig.test.json"
+  - **Verification:** tests/vitest.d.ts exists with correct content.
 
-- [ ] **Task 3: Verify test execution**
-  - **LLM Prompt:** "Run `npx vitest tests/unit/Button.test.tsx` to verify the test environment is correctly configured and the basic test case passes."
-  - **Verification:** Tests run successfully without "document is not defined" errors and all assertions pass.
+- [ ] **Task 4: Verify test execution**
+  - **LLM Prompt:** "Run `npx vitest tests/unit/Button.test.tsx` to verify the test environment is correctly configured."
+  - **Verification:** The tests run successfully without "document is not defined" errors.
 
-- [ ] **Task 4: Clean up and reset for autonomous handoff**
-  - **LLM Prompt:** "Delete the file `NEEDS_ASSISTANCE.md` from the root directory."
-  - **Verification:** The file `NEEDS_ASSISTANCE.md` no longer exists.
+- [ ] **Task 5: Clean up and reset for autonomous handoff**
+  - **LLM Prompt:** "Delete the file `NEEDS_ARCHITECTURAL_REVIEW.md` from the root directory."
+  - **Verification:** The file `NEEDS_ARCHITECTURAL_REVIEW.md` no longer exists.
