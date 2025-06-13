@@ -7,7 +7,7 @@
     - Add @testing-library/jest-dom/vitest as a devDependency"
   - **Verification:** package.json shows updated versions and removed Jest packages
 
-- [ ] **Task 2: Configure React plugin in vitest.config.ts**
+- [x] **Task 2: Configure React plugin in vitest.config.ts**
   - **LLM Prompt:** "Modify vitest.config.ts to explicitly configure the React plugin with jsxRuntime: 'automatic'"
   - **Verification:** vitest.config.ts contains:
     ```ts
