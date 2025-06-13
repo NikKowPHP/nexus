@@ -1,18 +1,91 @@
-# Fix Plan: System State Reset
+# Comprehensive Test Infrastructure Fix Plan
 
-## Root Cause Analysis
-The `NEEDS_ARCHITECTURAL_REVIEW.md` file is listed in environment_details but cannot be accessed, indicating a state inconsistency in the autonomous system.
+## Root Causes Identified
+1. **Tooling Conflict**: Playwright tests executed via Vitest runner
+2. **Improper Test Organization**: Unit and integration tests mixed
+3. **Async Handling**: Missing `act()` in React component tests
 
-## Resolution Plan
+## Phase 1: Test Runner Separation
 
-### Task 1: Clean up all signal files
-- [x] **LLM Prompt:** "Delete the following files if they exist: NEEDS_ARCHITECTURAL_REVIEW.md, NEEDS_ASSISTANCE.md, FIX_PLAN.md, ARCHITECT_PLANNING_COMPLETE.md"
-- **Verification:** None of the listed files exist in the root directory
+### Task 1: Reconfigure Vitest
+```markdown
+- [x] **Update Vitest configuration**
+  Modify `project-nexus/apps/web/vitest.config.ts` to exclude Playwright tests:
+  ```ts
+  export default defineConfig({
+    test: {
+      include: ['tests/unit/**/*.{test,spec}.{js,ts,tsx}'],
+      exclude: ['tests/integration/**/*'],
+    }
+  })
+  ```
+```
 
-### Task 2: Reset development plan
-- [x] **LLM Prompt:** "Update todos/master_development_plan.md to mark Phase 4 as active"
-- **Verification:** Phase 4 shows as `[ ]` in todos/master_development_plan.md
+### Task 2: Create Playwright Runner
+```markdown
+- [ ] **Add Playwright test script**  
+  Update `project-nexus/apps/web/package.json`:
+  ```diff
+  "scripts": {
+    "test:unit": "vitest tests/unit",
+    "test:e2e": "playwright test",
+    "test": "npm run test:unit && npm run test:e2e"
+  }
+  ```
+```
 
-### Task 3: Clean up and reset for autonomous handoff
-- [x] **LLM Prompt:** "Delete the file `NEEDS_ARCHITECTURAL_REVIEW.md` from the root directory."
-- **Verification:** The file `NEEDS_ARCHITECTURAL_REVIEW.md` no longer exists
+## Phase 2: Test Organization
+
+### Task 3: Restructure Test Directories
+```markdown
+- [ ] **Create dedicated directories**  
+  Reorganize tests:
+  ```
+  tests/
+    unit/       # Vitest tests
+    e2e/        # Playwright tests
+  ```
+  Move existing integration tests to `tests/e2e`
+```
+
+### Task 4: Update Test Imports
+```markdown
+- [ ] **Fix import paths**  
+  Update import statements in all test files to reflect new paths
+```
+
+## Phase 3: Async Test Fixes
+
+### Task 5: Fix ProtectedRoute Test
+```markdown
+- [ ] **Wrap state updates in act()**  
+  Modify `tests/unit/protectedRoute.test.tsx`:
+  ```tsx
+  import { act, render } from '@testing-library/react';
+  
+  test('renders without crashing', async () => {
+    await act(async () => {
+      render(<ProtectedRoute><div>Test</div></ProtectedRoute>);
+    });
+  });
+  ```
+```
+
+## Phase 4: Validation
+
+### Task 6: Verify Fixes
+```markdown
+- [ ] **Run test suite**  
+  Execute `npm test` and confirm:
+  - All unit tests pass via Vitest
+  - All e2e tests pass via Playwright
+  - No act() warnings
+```
+
+## Mandatory Cleanup
+
+### Task 7: Reset System State
+```markdown
+- [ ] **Clean up signal file**  
+  - **LLM Prompt:** "Delete NEEDS_ARCHITECTURAL_REVIEW.md from root directory"
+  - **Verification:** File removed
