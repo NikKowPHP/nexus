@@ -11,7 +11,7 @@ describe('Card Component', () => {
 
   it('applies the correct CSS module class', () => {
     render(<Card body="This is a card" />);
-    const cardElement = screen.getByRole('region');
+    const cardElement = screen.getByTestId('card');
     expect(cardElement).toHaveClass('card');
   });
 });

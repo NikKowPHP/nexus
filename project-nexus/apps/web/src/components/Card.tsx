@@ -9,7 +9,7 @@ interface CardProps {
 
 const Card: React.FC<CardProps> = ({ header, body, footer }) => {
   return (
-    <div className={styles.card}>
+    <div className={styles.card} data-testid="card">
       {header && <div className={styles.header}>{header}</div>}
       {body && <div className={styles.body}>{body}</div>}
       {footer && <div className={styles.footer}>{footer}</div>}
