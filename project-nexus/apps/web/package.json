@@ -13,10 +13,9 @@
     "lint": "next lint",
     "storybook": "storybook dev -p 6006",
     "test:unit": "vitest tests/unit",
-    "test:integration": "vitest tests/integration",
     "test:e2e": "playwright test",
     "test:install": "playwright install",
-    "test": "vitest tests/unit tests/integration",
+    "test": "npm run test:unit && npm run test:e2e",
     "build-storybook": "storybook build"
   },
   "dependencies": {

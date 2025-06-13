@@ -23,7 +23,7 @@
 
 ### Task 2: Create Playwright Runner
 ```markdown
-- [ ] **Add Playwright test script**  
+- [x] **Add Playwright test script**
   Update `project-nexus/apps/web/package.json`:
   ```diff
   "scripts": {
