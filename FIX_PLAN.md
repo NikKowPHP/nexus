@@ -40,7 +40,7 @@
   - **LLM Prompt:** "Delete jest.setup.ts and any other Jest-specific configuration files"
   - **Verification:** jest.setup.ts no longer exists in the project
 
-- [ ] **Task 5: Add Vitest type definitions**
+- [x] **Task 5: Add Vitest type definitions**
   - **LLM Prompt:** "Create tests/vitest.d.ts with:
     ```ts
     /// <reference types="@testing-library/jest-dom/vitest" />

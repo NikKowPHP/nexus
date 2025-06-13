@@ -13,6 +13,6 @@
     "**/*.test.tsx",
     "**/*.spec.ts",
     "**/*.spec.tsx",
-    "jest.setup.ts"
+    "tests/vitest.d.ts"
   ]
 }
