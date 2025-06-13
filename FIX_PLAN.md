@@ -17,7 +17,7 @@
     expect.extend(matchers);
     ```
 
-- [ ] **Task 2: Remove potentially conflicting type declarations**
+- [x] **Task 2: Remove potentially conflicting type declarations**
   - **LLM Prompt:** "Remove the contents of tests/globals.d.ts to avoid any type conflicts with the JSDOM environment."
   - **Verification:** tests/globals.d.ts is empty.
 
