@@ -29,7 +29,7 @@ expect.extend(matchers);
 ```
 
 ### Task 2: Verify vitest.config.ts
-- **LLM Prompt:** "Ensure vitest.config.ts has correct jsdom environment setup"
+- [x] **LLM Prompt:** "Ensure vitest.config.ts has correct jsdom environment setup"
 - **Verification:** Confirm configuration matches recommended settings
 
 ```ts
