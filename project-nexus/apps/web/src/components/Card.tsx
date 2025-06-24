@@ -7,6 +7,7 @@ interface CardProps {
   footer?: ReactNode;
   className?: string;
 }
+// ROO-AUDIT-TAG :: 2.1_ui_component_library.md :: END
 
 const Card: React.FC<CardProps> = ({ header, body, footer, className }) => {
   return (

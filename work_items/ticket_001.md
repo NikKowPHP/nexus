@@ -1,0 +1,1 @@
+migrate from next auth to supabase auth in all relevant components

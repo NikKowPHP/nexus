@@ -1,3 +1,4 @@
+// ROO-AUDIT-TAG :: 1.4_core_data_structures.md :: Prisma schema definition
 generator client {
   provider = "prisma-client-js"
 }
@@ -17,6 +18,7 @@ model User {
   accounts      Account[]
   sessions      Session[]
 }
+// ROO-AUDIT-TAG :: 1.4_core_data_structures.md :: END
 
 model Account {
   id                 String  @id @default(cuid())
@@ -51,3 +53,4 @@ model VerificationToken {
 
   @@unique([identifier, token])
 }
+// ROO-AUDIT-TAG :: 1.4_core_data_structures.md :: END

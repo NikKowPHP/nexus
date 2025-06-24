@@ -1,6 +1,7 @@
+// ROO-AUDIT-TAG :: 1.5_core_authentication.md :: Update Login Page for Supabase
 import { useState } from 'react';
-import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/router';
+import { supabase } from '@/lib/supabase';
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
@@ -10,17 +11,21 @@ const LoginPage = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const result = await signIn('email', {
-      email,
-      password,
-      redirect: false,
-    });
+    try {
+      const { error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
 
-    if (result?.error) {
-      setError(result.error);
-    } else {
-      router.push('/');
+      if (error) {
+        setError(error.message);
+      } else {
+        router.push('/');
+      }
+    } catch {
+      setError('An unexpected error occurred');
     }
+    // ROO-AUDIT-TAG :: 1.5_core_authentication.md :: END
   };
 
   return (

@@ -1,3 +1,4 @@
+// ROO-AUDIT-TAG :: 2.1_ui_component_library.md :: Create Button Component
 import React from 'react';
 import styles from './Button.module.css';
 
@@ -6,6 +7,7 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   disabled?: boolean;
   label?: string;
 }
+// ROO-AUDIT-TAG :: 2.1_ui_component_library.md :: END
 
 const Button: React.FC<ButtonProps> = ({
   children,

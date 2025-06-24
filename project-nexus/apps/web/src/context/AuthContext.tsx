@@ -1,22 +1,32 @@
-import { createContext, useContext, ReactNode } from 'react';
-import { useSession } from 'next-auth/react';
-import { User } from 'next-auth';
+// ROO-AUDIT-TAG :: 1.5_core_authentication.md :: Update AuthContext for Supabase
+import { createContext, useContext, ReactNode, useEffect, useState } from 'react';
+import { supabase } from '@/lib/supabase';
+import { Session } from '@supabase/supabase-js';
 
 interface AuthContextProps {
-  user: User | null;
+  user: Session['user'] | null;
   loading: boolean;
 }
 
 const AuthContext = createContext<AuthContextProps>({ user: null, loading: true });
 
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const { data: session, status } = useSession();
-  
+  const [user, setUser] = useState<Session['user'] | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      (event: string, session: Session | null) => {
+        setUser(session?.user ?? null);
+        setLoading(false);
+      }
+    );
+
+    return () => subscription?.unsubscribe();
+  }, []);
+
   return (
-    <AuthContext.Provider value={{
-      user: session?.user || null,
-      loading: status === 'loading'
-    }}>
+    <AuthContext.Provider value={{ user, loading }}>
       {children}
     </AuthContext.Provider>
   );
@@ -25,3 +35,4 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 export const useAuth = () => {
   return useContext(AuthContext);
 };
+// ROO-AUDIT-TAG :: 1.5_core_authentication.md :: END

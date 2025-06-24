@@ -1,3 +1,4 @@
+// ROO-AUDIT-TAG :: 2.2_roadmap_node_viewing.md :: Roadmap component implementation
 import { TransformComponent, TransformWrapper } from 'react-zoom-pan-pinch';
 import { RoadmapData } from '../lib/roadmapData';
 
@@ -22,3 +23,4 @@ export default function Roadmap({ data }: { data: RoadmapData }) {
     </TransformWrapper>
   );
 }
+// ROO-AUDIT-TAG :: 2.2_roadmap_node_viewing.md :: END
