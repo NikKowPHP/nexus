@@ -1,15 +1,39 @@
 // ROO-AUDIT-TAG :: 2.3_ai_assessment_loop.md :: Assessment submission form component
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { supabase } from '../lib/supabase';
 
-export default function AssessmentSubmission() {
+export default function AssessmentSubmission({ assessmentId }: { assessmentId: string }) {
   const [content, setContent] = useState('');
   const [file, setFile] = useState<File | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState('');
+  const [attempts, setAttempts] = useState(0);
+  const maxAttempts = 3;
+
+  useEffect(() => {
+    const fetchAttempts = async () => {
+      const { data, error } = await supabase
+        .from('assessments')
+        .select('attempts')
+        .eq('id', assessmentId)
+        .single();
+
+      if (!error && data) {
+        setAttempts(data.attempts || 0);
+      }
+    };
+
+    fetchAttempts();
+  }, [assessmentId]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    if (attempts >= maxAttempts) {
+      setError('Maximum attempts reached');
+      return;
+    }
+
     setIsSubmitting(true);
     setError('');
 
@@ -29,12 +53,16 @@ export default function AssessmentSubmission() {
         .insert({ 
           content,
           file_url: fileUrl,
-          user_id: (await supabase.auth.getUser()).data.user?.id 
-        });
+          user_id: (await supabase.auth.getUser()).data.user?.id,
+          attempts: attempts + 1
+        })
+        .eq('id', assessmentId);
 
       if (submissionError) throw submissionError;
       
       // Reset form
+      setContent('');
+      setAttempts(prev => prev + 1);
       setContent('');
       setFile(null);
     } catch (err) {
@@ -74,13 +102,23 @@ export default function AssessmentSubmission() {
 
       {error && <p className="text-red-500">{error}</p>}
 
-      <button
-        type="submit"
-        disabled={isSubmitting}
-        className="bg-blue-500 text-white px-4 py-2 rounded disabled:bg-gray-400"
-      >
-        {isSubmitting ? 'Submitting...' : 'Submit Assessment'}
-      </button>
+      <div className="text-sm text-gray-600">
+        Attempt {attempts + 1} of {maxAttempts}
+      </div>
+
+      {attempts >= maxAttempts ? (
+        <div className="text-red-500">
+          Maximum attempts reached. You cannot submit again.
+        </div>
+      ) : (
+        <button
+          type="submit"
+          disabled={isSubmitting || attempts >= maxAttempts}
+          className="bg-blue-500 text-white px-4 py-2 rounded disabled:bg-gray-400"
+        >
+          {isSubmitting ? 'Submitting...' : 'Submit Assessment'}
+        </button>
+      )}
     </form>
   );
 }
