@@ -19,6 +19,15 @@ export type Theme = {
     bodyLarge: { fontSize: string; fontWeight: number; lineHeight: number }
     bodyMedium: { fontSize: string; fontWeight: number; lineHeight: number }
     bodySmall: { fontSize: string; fontWeight: number; lineHeight: number }
+  },
+  spacing: {
+    xs: string
+    sm: string
+    md: string
+    lg: string
+    xl: string
+    '2xl': string
+    '3xl': string
   }
 }
 
@@ -42,6 +51,15 @@ export const defaultTheme: Theme = {
     bodyLarge: { fontSize: '1.25rem', fontWeight: 400, lineHeight: 1.6 },
     bodyMedium: { fontSize: '1rem', fontWeight: 400, lineHeight: 1.6 },
     bodySmall: { fontSize: '0.875rem', fontWeight: 400, lineHeight: 1.6 }
+  },
+  spacing: {
+    xs: '0.25rem',
+    sm: '0.5rem',
+    md: '1rem',
+    lg: '1.5rem',
+    xl: '2rem',
+    '2xl': '3rem',
+    '3xl': '4rem'
   }
 }
 // ROO-AUDIT-TAG :: 2.1_ui_component_library.md :: END
