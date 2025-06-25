@@ -47,6 +47,25 @@ export default async function handler(
       // ROO-AUDIT-TAG :: 2.3_ai_assessment_loop.md :: AI feedback generation
       const aiResponse = await generateAIFeedback(textContent);
       
+      // ROO-AUDIT-TAG :: 2.3_ai_assessment_loop.md :: Response evaluation logic
+      function evaluateAIResponse(response: { feedback: string; score: number }) {
+        if (response.feedback.length < 50) {
+          throw new Error('Feedback is too short');
+        }
+        
+        if (response.score < 0 || response.score > 100) {
+          throw new Error('Invalid score value');
+        }
+        
+        if (response.feedback.includes('Sample feedback')) {
+          throw new Error('Placeholder feedback detected');
+        }
+        
+        return true;
+      }
+      
+      evaluateAIResponse(aiResponse);
+      
       const { error: dbError } = await supabase
         .from('assessments')
         .update({
