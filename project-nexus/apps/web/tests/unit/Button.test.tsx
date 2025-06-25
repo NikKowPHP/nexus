@@ -7,6 +7,7 @@ vi.mock('../../src/components/Button.module.css', () => ({
     button: 'button',
     primary: 'primary',
     secondary: 'secondary',
+    outline: 'outline',
     disabled: 'disabled'
   }
 }));
@@ -30,6 +31,11 @@ describe('Button Component', () => {
   it('renders the button with the secondary variant', () => {
     render(<Button variant="secondary" />);
     expect(screen.getByRole('button')).toHaveClass('secondary');
+  });
+
+  it('renders the button with the outline variant', () => {
+    render(<Button variant="outline" />);
+    expect(screen.getByRole('button')).toHaveClass('outline');
   });
 
   it('renders the button with the disabled state', () => {
