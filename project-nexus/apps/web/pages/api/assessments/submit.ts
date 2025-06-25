@@ -10,10 +10,35 @@ async function generateAIFeedback(content: string): Promise<{
 }> {
   // Placeholder for actual AI API integration
   // In real implementation, this would call an external AI service
+  // ROO-AUDIT-TAG :: 2.3_ai_assessment_loop.md :: Scoring system implementation
+  function calculateScore(feedback: string): number {
+    let score = 50; // Base score
+    
+    // Score increases with feedback length
+    score += Math.min(feedback.length / 10, 30);
+    
+    // Adjust score based on positive/negative keywords
+    const positiveKeywords = ['excellent', 'good', 'proper', 'correct'];
+    const negativeKeywords = ['poor', 'incorrect', 'needs improvement'];
+    
+    positiveKeywords.forEach(word => {
+      if (feedback.toLowerCase().includes(word)) score += 5;
+    });
+    
+    negativeKeywords.forEach(word => {
+      if (feedback.toLowerCase().includes(word)) score -= 5;
+    });
+    
+    // Ensure score stays within 0-100 bounds
+    return Math.min(Math.max(score, 0), 100);
+  }
+
+  const feedback = `Sample feedback for: ${content.substring(0, 50)}...`;
   return {
-    feedback: `Sample feedback for: ${content.substring(0, 50)}...`,
-    score: Math.random() * 100
+    feedback,
+    score: calculateScore(feedback)
   };
+  // ROO-AUDIT-TAG :: 2.3_ai_assessment_loop.md :: END
 }
 // ROO-AUDIT-TAG :: 2.3_ai_assessment_loop.md :: END
 
