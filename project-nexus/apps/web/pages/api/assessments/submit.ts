@@ -2,6 +2,7 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import pdfParse from 'pdf-parse';
 import mammoth from 'mammoth';
 import { supabase } from '@/lib/supabase';
+import { sendFeedbackNotification } from '@/lib/notificationService';
 
 // ROO-AUDIT-TAG :: 2.3_ai_assessment_loop.md :: AI feedback generator
 async function generateAIFeedback(content: string): Promise<{
@@ -101,6 +102,18 @@ export default async function handler(
         .eq('id', req.body.assessmentId);
 
       if (dbError) throw dbError;
+
+      // Get user email from assessment
+      const { data: assessmentData, error: assessmentError } = await supabase
+        .from('assessments')
+        .select('user_email')
+        .eq('id', req.body.assessmentId)
+        .single();
+
+      if (assessmentError) throw assessmentError;
+      
+      // Send notification
+      await sendFeedbackNotification(assessmentData.user_email, req.body.assessmentId);
 
       res.status(200).json({
         message: 'Assessment processed',
