@@ -48,6 +48,7 @@ export default async function handler(
   res: NextApiResponse
 ) {
   if (req.method === 'POST') {
+    let currentAssessment: { attempts: number } | undefined;
     try {
       let textContent = '';
 
@@ -92,12 +93,32 @@ export default async function handler(
       
       evaluateAIResponse(aiResponse);
       
+      // ROO-AUDIT-TAG :: 2.3_ai_assessment_loop.md :: Implement retry mechanism
+      // Get current assessment state
+      const { data: currentAssessment, error: fetchError } = await supabase
+        .from('assessments')
+        .select('attempts')
+        .eq('id', req.body.assessmentId)
+        .single();
+
+      if (fetchError) throw fetchError;
+      
+      // Check attempt limit
+      if (currentAssessment.attempts >= 3) {
+        return res.status(400).json({
+          error: 'Maximum attempts reached',
+          code: 'MAX_ATTEMPTS'
+        });
+      }
+
+      // Update assessment with new attempt count
       const { error: dbError } = await supabase
         .from('assessments')
         .update({
           ai_feedback: aiResponse.feedback,
           score: aiResponse.score,
-          status: 'processed'
+          status: 'processed',
+          attempts: currentAssessment.attempts + 1
         })
         .eq('id', req.body.assessmentId);
 
@@ -121,9 +142,34 @@ export default async function handler(
         score: aiResponse.score
       });
       // ROO-AUDIT-TAG :: 2.3_ai_assessment_loop.md :: END
-    } catch (error) {
-      console.error('Error processing assessment:', error);
-      res.status(500).json({ error: 'Failed to process assessment' });
+    } catch (err) {
+      console.error('Error processing assessment:', err);
+      
+      type ErrorResponse = {
+        error: string;
+        code?: string;
+        attempts?: number;
+        maxAttempts?: number;
+      };
+
+      let errorResponse: ErrorResponse = { error: 'Failed to process assessment' };
+      
+      if (err instanceof Error) {
+        if (err.message.includes('MAX_ATTEMPTS')) {
+          errorResponse = {
+            error: 'Maximum attempts reached',
+            code: 'MAX_ATTEMPTS'
+          };
+        } else if (currentAssessment?.attempts !== undefined) {
+          errorResponse = {
+            ...errorResponse,
+            attempts: currentAssessment.attempts,
+            maxAttempts: 3
+          };
+        }
+      }
+      
+      res.status(500).json(errorResponse);
     }
   } else {
     res.setHeader('Allow', ['POST']);

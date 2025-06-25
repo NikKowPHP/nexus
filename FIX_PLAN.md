@@ -1,32 +1,19 @@
-# Fix Plan: Resolve Supabase Import Issue
+# Database Migration Fix Plan (Updated)
 
-## Problem
-Unable to import supabase client in `project-nexus/apps/web/pages/api/assessments/submit.ts` due to path resolution errors.
+## Issue Diagnosed
+Environment variables from `.env.local` not loading during Prisma migration.
 
-## Diagnosis
-- Incorrect path resolution despite valid configurations in `tsconfig.json`.
-- Path alias `@/lib/supabase` should map to `src/lib/supabase`.
+## Required Fixes
+1. Install dotenv-cli for environment variable loading:
+```bash
+npm install -g dotenv-cli
+```
 
-## Solution Steps
-1. **Update Import Statement**:
-   ```typescript
-   // In submit.ts
-   import { supabase } from '@/lib/supabase';
-   ```
-2. **Verify Path Alias**:
-   - Ensure `tsconfig.json` has:
-     ```json
-     "baseUrl": ".",
-     "paths": {
-       "@/*": ["./src/*"]
-     }
-     ```
-3. **Restart TypeScript Server**:
-   - If the error persists, restart the IDE or run `npm run dev -- --force` to rebuild.
+2. Run the migration with explicit environment file loading:
+```bash
+npx dotenv -e .env.local -- npx prisma migrate dev --name add_attempts_field --schema=./prisma/schema.prisma
+```
 
-4. **Test Implementation**:
-   - Confirm that the import works and the supabase client is accessible.
-
-## Verification
-- Check that the import error no longer appears.
-- Ensure the application compiles and runs without issues.
+## Verification Steps
+1. Confirm the migration creates the `attempts` column in the database
+2. Check that Prisma Client can connect using the DATABASE_URL

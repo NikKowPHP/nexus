@@ -1,101 +1,20 @@
-// ROO-AUDIT-TAG :: 1.4_core_data_structures.md :: Correct Prisma schema implementation
+// ROO-AUDIT-TAG :: FIX_PLAN.md :: Add PostgreSQL datasource configuration
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
-generator client {
-  provider = "prisma-client-js"
-}
-
-enum NodeType {
-  THEORY
-  PRACTICE
-  QUIZ
-}
-
-model User {
-  id        String      @id @default(uuid())
-  email     String      @unique
-  name      String?
-  password  String
-  createdAt DateTime    @default(now())
-  updatedAt DateTime
-  roadmaps  Roadmap[]
-  progress  NodeProgress[]
-  streaks   Streak[]
-  xps       XP[]
-  badges    Badge[]
-  habits    Habit[]
-}
-
-model Roadmap {
-  id          String      @id @default(uuid())
-  title       String
-  description String?
-  createdAt   DateTime    @default(now())
-  updatedAt   DateTime
-  user        User        @relation(fields: [userId], references: [id])
-  userId      String
-  parent      Roadmap?    @relation("RoadmapChildren", fields: [parentId], references: [id])
-  parentId    String?
-  children    Roadmap[]   @relation("RoadmapChildren")
-  nodes       Node[]
-}
-
-model Node {
-  id           String        @id @default(uuid())
-  title        String
-  description  String
-  type         NodeType
-  estimatedTime Int
-  content      Json?
-  roadmap      Roadmap       @relation(fields: [roadmapId], references: [id])
-  roadmapId    String
-  progress     NodeProgress[]
-}
-
-model NodeProgress {
-  id          String    @id @default(uuid())
-  user        User      @relation(fields: [userId], references: [id])
-  userId      String
-  node        Node      @relation(fields: [nodeId], references: [id])
-  nodeId      String
-  completed   Boolean   @default(false)
-  completedAt DateTime?
-}
-
-model Streak {
-  id          String    @id @default(uuid())
-  user        User      @relation(fields: [userId], references: [id])
-  userId      String
-  count       Int
-  lastUpdated DateTime  @default(now())
-}
-
-model XP {
-  id        String    @id @default(uuid())
-  user      User      @relation(fields: [userId], references: [id])
-  userId    String
-  amount    Int
-  source    String
-  earnedAt  DateTime  @default(now())
-}
-
-model Badge {
-  id       String    @id @default(uuid())
-  user     User      @relation(fields: [userId], references: [id])
-  userId   String
-  name     String
-  earnedAt DateTime  @default(now())
-}
-
-model Habit {
+// ROO-AUDIT-TAG :: 2.3_ai_assessment_loop.md :: Add attempts field to Assessment model
+model Assessment {
   id           String    @id @default(uuid())
-  user         User      @relation(fields: [userId], references: [id])
-  userId       String
-  description  String
-  completed    Boolean   @default(false)
-  completedAt  DateTime?
+  user_id      String
+  roadmap_id   String
+  content      String?
+  ai_feedback  String?
+  score        Float?
+  status       String    @default("pending")
+  created_at   DateTime  @default(now())
+  updated_at   DateTime  @updatedAt
+  attempts     Int       @default(1) // Added for retry mechanism
 }
-// ROO-AUDIT-TAG :: 1.4_core_data_structures.md :: END
+// ROO-AUDIT-TAG :: 2.3_ai_assessment_loop.md :: END
