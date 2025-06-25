@@ -41,4 +41,53 @@
   background-color: #dc2626;
   color: white;
 }
+/* Achievement badge styles */
+.achievementBadge {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  background-color: #f3f4f6;
+  width: 300px;
+}
+
+.badgeImage {
+  width: 64px;
+  height: 64px;
+  object-fit: contain;
+}
+
+.badgeInfo {
+  flex: 1;
+}
+
+.badgeName {
+  margin: 0;
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.badgeDescription {
+  margin: 0.25rem 0 0;
+  font-size: 0.875rem;
+  color: #4b5563;
+}
+
+.locked {
+  opacity: 0.5;
+  filter: grayscale(100%);
+}
+
+.lockedLabel {
+  display: inline-block;
+  margin-top: 0.5rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  background-color: #e5e7eb;
+  color: #374151;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
 /* ROO-AUDIT-TAG :: 2.1_ui_component_library.md :: END */
