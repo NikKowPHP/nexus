@@ -10,6 +10,7 @@ interface ProgressDashboardProps {
 const ProgressDashboard: React.FC<ProgressDashboardProps> = ({ userId }) => {
   const [progress, setProgress] = useState<number>(0);
   const [streak, setStreak] = useState<number>(0);
+  const [xp, setXp] = useState<number>(0);
 
   useEffect(() => {
     const fetchProgress = async () => {
@@ -18,9 +19,10 @@ const ProgressDashboard: React.FC<ProgressDashboardProps> = ({ userId }) => {
         const response = await fetch(`/api/progress?userId=${userId}`);
         const data = await response.json();
 
-        // Update progress and streak
+        // Update progress, streak and XP
         setProgress(data.progressPercentage);
-        setStreak(data.streak.currentStreak);
+        setStreak(data.streak);
+        setXp(data.xp);
       } catch (error) {
         console.error('Error fetching progress:', error);
       }
@@ -47,6 +49,10 @@ const ProgressDashboard: React.FC<ProgressDashboardProps> = ({ userId }) => {
             backgroundColor: '#3e98c7',
           })}
         />
+      </div>
+      <div className={styles['xp-info']}>
+        <h3>Experience Points</h3>
+        <p>{xp} XP</p>
       </div>
       <div className={styles['streak-info']}>
         <h3>Current Streak</h3>
