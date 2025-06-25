@@ -1,6 +1,21 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import pdfParse from 'pdf-parse';
 import mammoth from 'mammoth';
+import { supabase } from '@/lib/supabase';
+
+// ROO-AUDIT-TAG :: 2.3_ai_assessment_loop.md :: AI feedback generator
+async function generateAIFeedback(content: string): Promise<{
+  feedback: string;
+  score: number;
+}> {
+  // Placeholder for actual AI API integration
+  // In real implementation, this would call an external AI service
+  return {
+    feedback: `Sample feedback for: ${content.substring(0, 50)}...`,
+    score: Math.random() * 100
+  };
+}
+// ROO-AUDIT-TAG :: 2.3_ai_assessment_loop.md :: END
 
 export default async function handler(
   req: NextApiRequest,
@@ -29,11 +44,26 @@ export default async function handler(
         return res.status(400).json({ error: 'No content provided' });
       }
 
-      // TODO: Process textContent with AI
+      // ROO-AUDIT-TAG :: 2.3_ai_assessment_loop.md :: AI feedback generation
+      const aiResponse = await generateAIFeedback(textContent);
+      
+      const { error: dbError } = await supabase
+        .from('assessments')
+        .update({
+          ai_feedback: aiResponse.feedback,
+          score: aiResponse.score,
+          status: 'processed'
+        })
+        .eq('id', req.body.assessmentId);
+
+      if (dbError) throw dbError;
+
       res.status(200).json({
-        message: 'Assessment received',
-        content: textContent
+        message: 'Assessment processed',
+        feedback: aiResponse.feedback,
+        score: aiResponse.score
       });
+      // ROO-AUDIT-TAG :: 2.3_ai_assessment_loop.md :: END
     } catch (error) {
       console.error('Error processing assessment:', error);
       res.status(500).json({ error: 'Failed to process assessment' });
