@@ -4,8 +4,14 @@ export type BadgeType = {
   name: string;
   description: string;
   imageUrl: string;
-  unlockCondition: () => boolean;
+  unlockCondition: (progress: UserProgress) => boolean;
 };
+
+export interface UserProgress {
+  completedNodes: string[];
+  currentStreak: number;
+  totalXP: number;
+}
 
 export const BADGE_TYPES: Record<string, BadgeType> = {
   FIRST_STEP: {
@@ -13,14 +19,14 @@ export const BADGE_TYPES: Record<string, BadgeType> = {
     name: 'First Step',
     description: 'Complete your first node',
     imageUrl: '/badges/first-step.svg',
-    unlockCondition: () => false // TODO: Implement condition
+    unlockCondition: (progress: UserProgress) => progress.completedNodes.length > 0
   },
   WEEKLY_STREAK: {
     id: 'weekly_streak',
     name: 'Weekly Streak',
     description: 'Maintain a 7-day streak',
     imageUrl: '/badges/weekly-streak.svg',
-    unlockCondition: () => false // TODO: Implement condition
+    unlockCondition: (progress: UserProgress) => progress.currentStreak >= 7
   },
   // Add more badge types here
 };
