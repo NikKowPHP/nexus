@@ -1,24 +1,44 @@
+/* ROO-AUDIT-TAG :: 2.1_ui_component_library.md :: Create Badge Component */
 .badge {
   display: inline-flex;
   align-items: center;
-  justify-content: center;
-  border-radius: 999px;
-  font-weight: 600;
-  color: white;
-  padding: 0.25rem 0.5rem;
-}
-
-.small {
-  font-size: 0.75rem;
-  padding: 0.25rem 0.5rem;
-}
-
-.medium {
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
   font-size: 0.875rem;
-  padding: 0.375rem 0.75rem;
+  font-weight: 500;
+  line-height: 1.25rem;
 }
 
-.large {
-  font-size: 1rem;
-  padding: 0.5rem 1rem;
+.badge .icon {
+  margin-right: 0.375rem;
 }
+
+.badge .text {
+  white-space: nowrap;
+}
+
+.primary {
+  background-color: #2563eb;
+  color: white;
+}
+
+.secondary {
+  background-color: #4b5563;
+  color: white;
+}
+
+.success {
+  background-color: #059669;
+  color: white;
+}
+
+.warning {
+  background-color: #d97706;
+  color: white;
+}
+
+.danger {
+  background-color: #dc2626;
+  color: white;
+}
+/* ROO-AUDIT-TAG :: 2.1_ui_component_library.md :: END */
