@@ -1,6 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { prisma } from '@/lib/db';
 import { calculateStreak } from '@/lib/streak';
+import { calculateLevel } from '@/lib/levels';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { userId } = req.query;
@@ -10,7 +11,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
 
   try {
-    // ROO-AUDIT-TAG :: 2.4_gamification_progress_tracking.md :: XP calculation implementation
+    // ROO-AUDIT-TAG :: 2.4_gamification_progress_tracking.md :: XP and level calculation
     // Calculate the user's streak
     const streak = await calculateStreak(userId);
 
@@ -34,11 +35,17 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const streakBonus = streak.currentStreak >= 7 ? 50 : 0;
     const totalXP = (user?.xp || 0) + baseXP + streakBonus;
 
+    // Calculate level progression
+    const levelData = calculateLevel(totalXP);
+
     // Return the progress data
     res.status(200).json({
       progressPercentage,
       streak: streak.currentStreak,
       xp: totalXP,
+      level: levelData.level,
+      levelProgress: levelData.progress,
+      nextLevelXp: levelData.nextLevelXp,
     });
     // ROO-AUDIT-TAG :: 2.4_gamification_progress_tracking.md :: END
   } catch (error) {

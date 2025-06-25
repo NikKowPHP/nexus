@@ -11,6 +11,9 @@ const ProgressDashboard: React.FC<ProgressDashboardProps> = ({ userId }) => {
   const [progress, setProgress] = useState<number>(0);
   const [streak, setStreak] = useState<number>(0);
   const [xp, setXp] = useState<number>(0);
+  const [level, setLevel] = useState<number>(0);
+  const [levelProgress, setLevelProgress] = useState<number>(0);
+  const [nextLevelXp, setNextLevelXp] = useState<number>(0);
 
   useEffect(() => {
     const fetchProgress = async () => {
@@ -19,10 +22,13 @@ const ProgressDashboard: React.FC<ProgressDashboardProps> = ({ userId }) => {
         const response = await fetch(`/api/progress?userId=${userId}`);
         const data = await response.json();
 
-        // Update progress, streak and XP
+        // Update progress, streak, XP and level data
         setProgress(data.progressPercentage);
         setStreak(data.streak);
         setXp(data.xp);
+        setLevel(data.level);
+        setLevelProgress(data.levelProgress);
+        setNextLevelXp(data.nextLevelXp);
       } catch (error) {
         console.error('Error fetching progress:', error);
       }
@@ -50,8 +56,20 @@ const ProgressDashboard: React.FC<ProgressDashboardProps> = ({ userId }) => {
           })}
         />
       </div>
+      <div className={styles['level-info']}>
+        <h3>Level {level}</h3>
+        <div className={styles['progress-bar']}>
+          <div
+            className={styles['progress-fill']}
+            style={{ width: `${levelProgress}%` }}
+          ></div>
+          <span className={styles['progress-text']}>
+            {xp} / {nextLevelXp} XP
+          </span>
+        </div>
+      </div>
       <div className={styles['xp-info']}>
-        <h3>Experience Points</h3>
+        <h3>Total Experience</h3>
         <p>{xp} XP</p>
       </div>
       <div className={styles['streak-info']}>
