@@ -1,27 +1,52 @@
-services:
-# ROO-AUDIT-TAG :: 1.3_local_development_environment.md :: Docker app configuration
-  next-dev:
-    image: node:18
-    working_dir: /app
-    volumes:
-      - .:/app
-    ports:
-      - "3350:3000"
-    command: npm run dev
-    environment:
-      SUPABASE_URL: ${SUPABASE_URL}
-      SUPABASE_KEY: ${SUPABASE_KEY}
-# ROO-AUDIT-TAG :: 1.3_local_development_environment.md :: END
+# ROO-AUDIT-TAG :: 1.3_local_development_environment.md :: Create Docker Compose configuration for database services
+version: '3.8'
 
-  next-proxy:
+services:
+  # Database service (from existing docker-compose.db.yml)
+  db:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: project_nexus
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # MailHog for local email testing
+  mailhog:
+    image: mailhog/mailhog:latest
+    ports:
+      - "8025:8025" # Web UI
+      - "1025:1025" # SMTP server
+
+  # Node.js app service (from existing docker-compose.proxy.yml)
+  app:
     image: node:18
     working_dir: /app
     volumes:
       - .:/app
-    ports:
-      - "3351:3000"
     command: npm run dev
     environment:
-      HTTP_PROXY: http://proxy.example.com:8080
-      SUPABASE_URL: ${SUPABASE_URL}
-      SUPABASE_KEY: ${SUPABASE_KEY}
+      NODE_ENV: development
+      DATABASE_URL: postgresql://postgres:postgres@db:5432/project_nexus
+      SMTP_HOST: mailhog
+      SMTP_PORT: 1025
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+networks:
+  app-network:
+    driver: bridge
+    name: project-nexus-network
+# ROO-AUDIT-TAG :: 1.3_local_development_environment.md :: END

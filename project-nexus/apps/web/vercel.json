@@ -3,5 +3,52 @@
     "env": {
       "NPM_FLAGS": "--legacy-peer-deps"
     }
-  }
+  },
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "/api/$1"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/$1"
+    }
+  ],
+  "functions": {
+    "api/**/*.js": {
+      "memory": 1024,
+      "maxDuration": 10
+    }
+  },
+  "env": {
+    "production": {
+      "NODE_ENV": "production",
+      "API_URL": "https://api.production.example.com"
+    },
+    "preview": {
+      "NODE_ENV": "preview",
+      "API_URL": "https://api.preview.example.com"
+    }
+  },
+  "deployHooks": [
+    {
+      "name": "Post-deploy notification",
+      "url": "https://api.example.com/webhook/deploy",
+      "config": {
+        "env": "PRODUCTION"
+      }
+    }
+  ],
+  "previewBuilders": [
+    {
+      "use": "@vercel/next",
+      "config": {
+        "overrides": {
+          "env": {
+            "NODE_ENV": "preview"
+          }
+        }
+      }
+    }
+  ]
 }

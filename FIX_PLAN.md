@@ -1,33 +1,24 @@
-# Roadmap Component Fix Plan
+# Critical Fix Plan
 
-## 1. Create Missing Roadmap Component
-- Create file at `packages/ui/src/components/Roadmap.tsx`
-- Implement basic roadmap component structure:
+## 1. Implement API Input Validation
+- [ ] Install Zod validation library
+- [ ] Create validation schemas for Node and Roadmap models
+- [ ] Add validation middleware to Node API routes
+- [ ] Add validation middleware to Roadmap API routes
+- [ ] Write unit tests for validation
 
-```tsx
-// ROO-AUDIT-TAG :: 2.2_roadmap_node_viewing.md :: Create Roadmap.tsx component
-import React from 'react';
+## 2. Complete AI Feedback UI
+- [ ] Create FeedbackDisplay component
+- [ ] Implement feedback rendering logic
+- [ ] Add styling for feedback sections
+- [ ] Integrate loading states
 
-const Roadmap = () => {
-  return (
-    <div className="roadmap">
-      <h2>Product Roadmap</h2>
-      {/* Node viewing implementation will be added here */}
-    </div>
-  );
-};
+## 3. Update Documentation
+- [ ] Mark validation task as incomplete in security hardening file
+- [ ] Verify all task files reflect current implementation status
+- [ ] Update project manifest with current state
 
-export default Roadmap;
-// ROO-AUDIT-TAG :: 2.2_roadmap_node_viewing.md :: END
-```
-
-## 2. Verify Task Completion
-- Confirm `work_breakdown/tasks/2.2_roadmap_node_viewing.md` contains:
-  - [x] Create Roadmap.tsx component
-  - [ ] Implement Node Click Handling (Task 7)
-
-## 3. Update Manifest
-- Set `active_plan_file` to "FIX_PLAN.md" in `project_manifest.json`
-
-## 4. Cleanup
-- Delete `signals/NEEDS_ASSISTANCE.md`
+## Implementation Notes:
+- All changes must be tested
+- Follow existing code patterns
+- Update documentation as you go
