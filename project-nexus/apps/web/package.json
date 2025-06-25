@@ -18,8 +18,12 @@
     "test": "npm run test:sequential",
     "test:parallel": "concurrently -k \"npm run test:unit\" \"npm run test:e2e\"",
     "test:sequential": "npm run test:unit && npm run test:e2e",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "db:studio": "npx prisma studio",
+    "format": "prettier --write .",
+    "check": "npm run lint && tsc --noEmit"
   },
+  "_audit": "ROO-AUDIT-TAG :: 1.3_local_development_environment.md :: Create npm scripts for common development tasks",
   "dependencies": {
     "@prisma/client": "^6.9.0",
     "@sentry/nextjs": "^9.28.1",

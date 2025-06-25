@@ -9,8 +9,12 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "seed": "ts-node prisma/seed.ts"
+    "seed": "ts-node prisma/seed.ts",
+    "db:start": "docker-compose -f docker-compose.db.yml up -d",
+    "db:stop": "docker-compose -f docker-compose.db.yml down",
+    "db:reset": "docker-compose -f docker-compose.db.yml down -v && docker-compose -f docker-compose.db.yml up -d && npm run seed"
   },
+  "_audit": "ROO-AUDIT-TAG :: 1.3_local_development_environment.md :: Create npm scripts for common development tasks",
   "dependencies": {
     "next": "^14.0.0",
     "react": "^18.2.0",

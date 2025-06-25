@@ -1,27 +1,45 @@
 import { useState } from 'react';
-import { signUp } from '../services/auth';
-import { useRouter } from 'next/router';
+import { supabase } from '@/lib/supabase';
 
 const SignupPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
-  const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError('');
+    setSuccess('');
+
+    // Password validation
+    if (password.length < 8) {
+      setError('Password must be at least 8 characters');
+      return;
+    }
+
     try {
-      const { data, error } = await signUp(email, password);
-      const user = data?.user;
+      const { data, error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          emailRedirectTo: `${window.location.origin}/login?redirectTo=${encodeURIComponent(router.query.redirectTo || '/')}`,
+        },
+      });
+
       if (error) throw error;
-      setSuccess('Check your email to confirm your account.');
-      setError('');
-    } catch (err: any) {
-      setError(err.message);
-      setSuccess('');
+      
+      if (data.user?.identities?.length === 0) {
+        setError('User already registered');
+      } else {
+        setSuccess('Check your email to confirm your account. You will be redirected after confirmation.');
+      }
+    } catch (err: unknown) {
+      const error = err as Error;
+      setError(error.message);
     }
   };
+  // ROO-AUDIT-TAG :: 1.5_core_authentication.md :: END
 
   return (
     <div>

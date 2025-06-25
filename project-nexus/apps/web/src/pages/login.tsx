@@ -11,21 +11,33 @@ const LoginPage = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError('');
+    
+    // Basic validation
+    if (!email || !password) {
+      setError('Please fill in all fields');
+      return;
+    }
+
     try {
-      const { error } = await supabase.auth.signInWithPassword({
+      const { data, error } = await supabase.auth.signInWithPassword({
         email,
         password,
       });
 
       if (error) {
         setError(error.message);
+      } else if (data?.user?.email_confirmed_at === null) {
+        setError('Please confirm your email before logging in');
       } else {
-        router.push('/');
+        // Handle redirect to original requested page or home
+        const redirectTo = router.query.redirectTo || '/';
+        router.push(typeof redirectTo === 'string' ? redirectTo : '/');
       }
     } catch {
       setError('An unexpected error occurred');
     }
-    // ROO-AUDIT-TAG :: 1.5_core_authentication.md :: END
+    // ROO-AUDIT-TAG :: 1.5_core_authentication.md :: Handle authentication redirects
   };
 
   return (
