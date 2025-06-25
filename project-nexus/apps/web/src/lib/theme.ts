@@ -28,6 +28,12 @@ export type Theme = {
     xl: string
     '2xl': string
     '3xl': string
+  },
+  breakpoints: {
+    sm: '640px',
+    md: '768px',
+    lg: '1024px',
+    xl: '1280px'
   }
 }
 
