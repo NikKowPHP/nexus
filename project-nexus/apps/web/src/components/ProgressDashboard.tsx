@@ -74,7 +74,12 @@ const ProgressDashboard: React.FC<ProgressDashboardProps> = ({ userId }) => {
       </div>
       <div className={styles['streak-info']}>
         <h3>Current Streak</h3>
-        <p>{streak} days</p>
+        <p>
+          {streak} day{streak !== 1 ? 's' : ''}
+          {streak > 0 && streak % 7 === 0 && (
+            <span className={styles['milestone-badge']}> 🔥 Milestone!</span>
+          )}
+        </p>
       </div>
     </div>
   );

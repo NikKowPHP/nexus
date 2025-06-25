@@ -1,53 +1,53 @@
 import { prisma } from './db';
 
+// ROO-AUDIT-TAG :: 2.4_gamification_progress_tracking.md :: Streak counter implementation
 /**
- * Calculate and update the streak for a user
+ * Update and return the streak for a user based on daily activity
  * @param userId - The ID of the user
- * @returns The updated streak data
+ * @returns The updated streak data with milestone information
  */
-export async function calculateStreak(userId: string) {
+export async function updateStreak(userId: string) {
   const now = new Date();
   const yesterday = new Date(now);
   yesterday.setDate(now.getDate() - 1);
 
-  // Get the user's current streak data
-  let streak = await prisma.streak.findUnique({
+  // Get or create the user's streak record
+  const streak = await prisma.streak.findUnique({
     where: { userId },
+  }) || await prisma.streak.create({
+    data: {
+      userId,
+      currentStreak: 0,
+      longestStreak: 0,
+      lastUpdatedAt: now,
+    },
   });
 
-  if (!streak) {
-    // Initialize streak if it doesn't exist
-    streak = await prisma.streak.create({
-      data: {
-        userId,
-        currentStreak: 0,
-        longestStreak: 0,
-        lastUpdatedAt: now,
-      },
-    });
-  }
-
-  // Calculate the time difference since the last update
+  // Calculate time since last update
   const timeSinceLastUpdate = now.getTime() - streak.lastUpdatedAt.getTime();
-  const hoursSinceLastUpdate = timeSinceLastUpdate / (1000 * 60 * 60);
+  const daysSinceLastUpdate = timeSinceLastUpdate / (1000 * 60 * 60 * 24);
 
-  if (hoursSinceLastUpdate < 24) {
-    // If less than 24 hours have passed, increment the current streak
+  // Update streak based on activity timing
+  if (daysSinceLastUpdate < 1) {
+    // Already updated today - no change
+    return streak;
+  } else if (daysSinceLastUpdate < 2) {
+    // Consecutive day - increment streak
     streak.currentStreak += 1;
   } else {
-    // If more than 24 hours have passed, reset the current streak
+    // Broken streak - reset to 1
     streak.currentStreak = 1;
   }
 
-  // Update the longest streak if necessary
+  // Update longest streak if needed
   if (streak.currentStreak > streak.longestStreak) {
     streak.longestStreak = streak.currentStreak;
   }
 
-  // Update the last updated timestamp
+  // Update last updated timestamp
   streak.lastUpdatedAt = now;
 
-  // Save the updated streak data
+  // Save and return updated streak with milestone info
   const updatedStreak = await prisma.streak.update({
     where: { userId },
     data: {
@@ -57,5 +57,18 @@ export async function calculateStreak(userId: string) {
     },
   });
 
-  return updatedStreak;
+  return {
+    ...updatedStreak,
+    isMilestone: isStreakMilestone(updatedStreak.currentStreak),
+  };
 }
+
+/**
+ * Check if streak count reaches a milestone
+ * @param streakCount - Current streak count
+ * @returns True if streak is a milestone (7, 14, 30 days etc)
+ */
+function isStreakMilestone(streakCount: number): boolean {
+  return streakCount > 0 && (streakCount % 7 === 0);
+}
+// ROO-AUDIT-TAG :: 2.4_gamification_progress_tracking.md :: END

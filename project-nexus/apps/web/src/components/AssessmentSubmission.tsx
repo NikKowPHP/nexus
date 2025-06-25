@@ -64,12 +64,18 @@ export default function AssessmentSubmission({ assessmentId }: { assessmentId: s
         fileUrl = data.path;
       }
 
+      const user = (await supabase.auth.getUser()).data.user;
+      if (!user) throw new Error('User not authenticated');
+
+      // Update streak first
+      await updateStreak(user.id);
+
       const { error: submissionError } = await supabase
         .from('assessments')
-        .insert({ 
+        .insert({
           content,
           file_url: fileUrl,
-          user_id: (await supabase.auth.getUser()).data.user?.id,
+          user_id: user.id,
           attempts: attempts + 1
         })
         .eq('id', assessmentId);
