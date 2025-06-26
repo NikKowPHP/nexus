@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
-import 'react-circular-progressbar/dist/styles.css';
 import styles from './ProgressDashboard.module.css';
+import ProgressBar from './ProgressBar';
+import Badge from './Badge';
+import { BADGE_TYPES, UserProgress } from '../lib/badgeTypes';
 
 interface ProgressDashboardProps {
   userId: string;
 }
 
+// ROO-AUDIT-TAG :: 2.4_gamification_progress_tracking.md :: Build ProgressDashboard for overview
 const ProgressDashboard: React.FC<ProgressDashboardProps> = ({ userId }) => {
   const [progress, setProgress] = useState<number>(0);
   const [streak, setStreak] = useState<number>(0);
@@ -14,6 +16,11 @@ const ProgressDashboard: React.FC<ProgressDashboardProps> = ({ userId }) => {
   const [level, setLevel] = useState<number>(0);
   const [levelProgress, setLevelProgress] = useState<number>(0);
   const [nextLevelXp, setNextLevelXp] = useState<number>(0);
+  const [userProgress, setUserProgress] = useState<UserProgress>({
+    completedNodes: [],
+    currentStreak: 0,
+    totalXP: 0
+  });
 
   useEffect(() => {
     const fetchProgress = async () => {
@@ -22,13 +29,18 @@ const ProgressDashboard: React.FC<ProgressDashboardProps> = ({ userId }) => {
         const response = await fetch(`/api/progress?userId=${userId}`);
         const data = await response.json();
 
-        // Update progress, streak, XP and level data
+        // Update progress data
         setProgress(data.progressPercentage);
         setStreak(data.streak);
         setXp(data.xp);
         setLevel(data.level);
         setLevelProgress(data.levelProgress);
         setNextLevelXp(data.nextLevelXp);
+        setUserProgress({
+          completedNodes: data.completedNodes || [],
+          currentStreak: data.streak || 0,
+          totalXP: data.xp || 0
+        });
       } catch (error) {
         console.error('Error fetching progress:', error);
       }
@@ -37,51 +49,54 @@ const ProgressDashboard: React.FC<ProgressDashboardProps> = ({ userId }) => {
     fetchProgress();
   }, [userId]);
 
+  const unlockedBadges = Object.values(BADGE_TYPES).filter(badge =>
+    badge.unlockCondition(userProgress)
+  );
+
   return (
-    <div className={styles['progress-dashboard']}>
-      <h2>Your Progress</h2>
-      <div className={styles['progress-circle']}>
-        <CircularProgressbar
-          value={progress}
-          text={`${progress}%`}
-          styles={buildStyles({
-            rotation: 0.5,
-            strokeLinecap: 'butt',
-            textSize: '16px',
-            pathTransitionDuration: 0.5,
-            pathColor: `rgba(62, 152, 199, ${progress / 100})`,
-            textColor: '#f88',
-            trailColor: '#d6d6d6',
-            backgroundColor: '#3e98c7',
-          })}
-        />
-      </div>
-      <div className={styles['level-info']}>
-        <h3>Level {level}</h3>
-        <div className={styles['progress-bar']}>
-          <div
-            className={styles['progress-fill']}
-            style={{ width: `${levelProgress}%` }}
-          ></div>
-          <span className={styles['progress-text']}>
-            {xp} / {nextLevelXp} XP
-          </span>
+    <div className={styles.dashboard}>
+      <h2 className={styles.title}>Progress Overview</h2>
+      
+      <div className={styles.progressSection}>
+        <h3>Level {level} Progress</h3>
+        <ProgressBar current={xp} max={nextLevelXp} />
+        <div className={styles.xpDisplay}>
+          <span>{xp} XP</span>
+          <span>Next level at {nextLevelXp} XP</span>
         </div>
       </div>
-      <div className={styles['xp-info']}>
-        <h3>Total Experience</h3>
-        <p>{xp} XP</p>
+
+      <div className={styles.stats}>
+        <div className={styles.statItem}>
+          <h4>Current Streak</h4>
+          <p>{streak} day{streak !== 1 ? 's' : ''}</p>
+        </div>
+        <div className={styles.statItem}>
+          <h4>Total XP</h4>
+          <p>{xp}</p>
+        </div>
       </div>
-      <div className={styles['streak-info']}>
-        <h3>Current Streak</h3>
-        <p>
-          {streak} day{streak !== 1 ? 's' : ''}
-          {streak > 0 && streak % 7 === 0 && (
-            <span className={styles['milestone-badge']}> 🔥 Milestone!</span>
-          )}
-        </p>
-      </div>
+
+      {unlockedBadges.length > 0 && (
+        <div className={styles.badgesSection}>
+          <h3>Unlocked Achievements</h3>
+          <div className={styles.badgesGrid}>
+            {unlockedBadges.map(badge => (
+              <Badge
+                key={badge.id}
+                badgeType={badge}
+                progress={userProgress}
+              />
+            ))}
+          </div>
+        </div>
+      )}
     </div>
+  );
+};
+// ROO-AUDIT-TAG :: 2.4_gamification_progress_tracking.md :: END
+
+export default ProgressDashboard;
   );
 };
 

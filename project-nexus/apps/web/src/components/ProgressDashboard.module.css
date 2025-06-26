@@ -1,38 +1,78 @@
-.progress-dashboard {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 20px;
-  background-color: #f9f9f9;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  max-width: 300px;
-  margin: 0 auto;
+/* ROO-AUDIT-TAG :: 2.4_gamification_progress_tracking.md :: Build ProgressDashboard for overview */
+.dashboard {
+  background: white;
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  max-width: 800px;
+  margin: 2rem auto;
 }
 
-.progress-dashboard h2 {
-  font-size: 1.5em;
-  margin-bottom: 10px;
-  color: #333;
-}
-
-.progress-circle {
-  width: 150px;
-  height: 150px;
-  margin-bottom: 20px;
-}
-
-.streak-info {
+.title {
+  font-size: 1.8rem;
+  color: #1a365d;
+  margin-bottom: 2rem;
   text-align: center;
 }
 
-.streak-info h3 {
-  font-size: 1.2em;
-  margin-bottom: 5px;
-  color: #555;
+.progressSection {
+  margin-bottom: 2rem;
 }
 
-.streak-info p {
-  font-size: 1em;
-  color: #333;
+.progressSection h3 {
+  font-size: 1.2rem;
+  color: #2d3748;
+  margin-bottom: 1rem;
 }
+
+.xpDisplay {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 0.5rem;
+  color: #4a5568;
+  font-size: 0.9rem;
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.statItem {
+  background: #f7fafc;
+  padding: 1rem;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.statItem h4 {
+  font-size: 1rem;
+  color: #718096;
+  margin-bottom: 0.5rem;
+}
+
+.statItem p {
+  font-size: 1.25rem;
+  color: #2d3748;
+  font-weight: 600;
+}
+
+.badgesSection {
+  border-top: 1px solid #e2e8f0;
+  padding-top: 2rem;
+}
+
+.badgesSection h3 {
+  font-size: 1.2rem;
+  color: #2d3748;
+  margin-bottom: 1.5rem;
+}
+
+.badgesGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1rem;
+}
+/* ROO-AUDIT-TAG :: 2.4_gamification_progress_tracking.md :: END */
