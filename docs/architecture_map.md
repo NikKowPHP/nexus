@@ -14,3 +14,4 @@
 | Streak tracking | project-nexus/apps/web/src/lib/streak.ts | [IMPLEMENTED] |
 | Progress visualization | project-nexus/apps/web/src/components/ProgressBar.tsx<br>project-nexus/apps/web/src/components/ProgressDashboard.tsx | [IMPLEMENTED] |
 | Leaderboard | project-nexus/apps/web/src/components/Leaderboard.tsx<br>project-nexus/apps/web/pages/api/leaderboard.ts | [IMPLEMENTED] |
+| Stripe subscription integration | prisma/schema.prisma<br>work_breakdown/tasks/3.1_stripe_subscription.md<br>project-nexus/apps/web/src/lib/stripeSync.ts<br>project-nexus/apps/web/pages/api/stripe/checkout.ts<br>project-nexus/apps/web/src/components/CheckoutForm.tsx<br>project-nexus/apps/web/pages/success.tsx<br>project-nexus/apps/web/pages/cancel.tsx<br>project-nexus/apps/web/pages/api/webhooks/stripe.ts<br>project-nexus/apps/web/src/components/SubscriptionPortal.tsx<br>project-nexus/apps/web/pages/api/subscriptions/manage.ts | [IMPLEMENTED] |

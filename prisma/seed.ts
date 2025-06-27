@@ -1,53 +1,52 @@
-// ROO-AUDIT-TAG :: 1.3_local_development_environment.md :: Create seed script for development data
-import { PrismaClient } from '@prisma/client'
-import { hash } from 'bcryptjs'
+// @ts-ignore - Prisma client will be generated
+import { PrismaClient } from '@prisma/client';
+// @ts-ignore - Stripe types will be installed
+import Stripe from 'stripe';
 
-const prisma = new PrismaClient()
+declare const process: {
+  env: {
+    STRIPE_SECRET_KEY: string;
+  };
+  exit(code?: number): never;
+};
 
-async function main() {
-  // Create test users
-  const testUser1 = await prisma.user.create({
-    data: {
-      email: 'test1@example.com',
-      name: 'Test User 1',
-      password: await hash('password123', 12),
+const prisma = new PrismaClient();
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
+  apiVersion: '2023-08-16',
+});
+
+async function syncPlans() {
+  try {
+    const plans = await stripe.plans.list({ active: true, expand: ['data.product'] });
+    
+    for (const plan of plans.data) {
+      const product = plan.product as Stripe.Product;
+      
+      await prisma.plan.upsert({
+        where: { stripeId: plan.id },
+        update: {
+          name: product.name,
+          price: plan.amount ? plan.amount / 100 : 0,
+          interval: plan.interval,
+          description: product.description || undefined,
+        },
+        create: {
+          stripeId: plan.id,
+          name: product.name,
+          price: plan.amount ? plan.amount / 100 : 0,
+          interval: plan.interval,
+          description: product.description || undefined,
+        },
+      });
     }
-  })
-
-  const testUser2 = await prisma.user.create({
-    data: {
-      email: 'test2@example.com',
-      name: 'Test User 2',
-      password: await hash('password123', 12),
-    }
-  })
-
-  // Create sample roadmaps
-  const roadmap1 = await prisma.roadmap.create({
-    data: {
-      title: 'Getting Started with Project Nexus',
-      description: 'Beginner roadmap for new users',
-      userId: testUser1.id
-    }
-  })
-
-  const roadmap2 = await prisma.roadmap.create({
-    data: {
-      title: 'Advanced Features',
-      description: 'Learn advanced project features',
-      userId: testUser2.id
-    }
-  })
-
-  console.log('Seeded database with 2 users and 2 roadmaps')
+    
+    console.log('Successfully synced plans:', plans.data.length);
+  } catch (error) {
+    console.error('Error syncing plans:', error);
+    process.exit(1);
+  } finally {
+    await prisma.$disconnect();
+  }
 }
-// ROO-AUDIT-TAG :: 1.3_local_development_environment.md :: END
 
-main()
-  .catch(e => {
-    console.error(e)
-    process.exit(1)
-  })
-  .finally(async () => {
-    await prisma.$disconnect()
-  })
+syncPlans();

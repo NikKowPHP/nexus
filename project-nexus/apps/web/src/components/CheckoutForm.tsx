@@ -1,67 +1,86 @@
 import { useState } from 'react';
+import { supabase } from '../lib/supabaseClient';
 
-interface CheckoutFormProps {
-  plan: string | null;
+interface Plan {
+  id: string;
+  name: string;
+  price: number;
+  interval: string;
 }
 
-export const CheckoutForm = ({ plan }: CheckoutFormProps) => {
-  const [error, setError] = useState<string | null>(null);
-  const [processing, setProcessing] = useState(false);
+export default function CheckoutForm({ plans }: { plans: Plan[] }) {
+  const [selectedPlan, setSelectedPlan] = useState<string>('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
 
-  const handleSubmit = async (event: React.FormEvent) => {
-    event.preventDefault();
-
-    if (!plan) {
-      setError('No plan selected');
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!selectedPlan) {
+      setError('Please select a plan');
       return;
     }
 
-    setProcessing(true);
-    setError(null);
+    setIsLoading(true);
+    setError('');
 
     try {
-      // Create a checkout session on the server
-      const response = await fetch('/api/subscriptions/create', {
+      const { data: { user }, error: authError } = await supabase.auth.getUser();
+      
+      if (authError || !user) {
+        throw new Error('Not authenticated');
+      }
+
+      const response = await fetch('/api/stripe/checkout', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${user.id}`
         },
-        body: JSON.stringify({ plan }),
+        body: JSON.stringify({ priceId: selectedPlan }),
       });
 
-      const data = await response.json();
-
-      if (response.ok && data.id) {
-        // Redirect to Stripe checkout
-        window.location.href = `/api/stripe/checkout?session_id=${data.id}`;
-      } else {
-        setError(data.error || 'Failed to create checkout session');
+      if (!response.ok) {
+        throw new Error('Failed to create checkout session');
       }
+
+      const { sessionId } = await response.json();
+      window.location.href = sessionId;
     } catch (err) {
-      if (err instanceof Error) {
-        setError(err.message);
-      } else {
-        setError('An unexpected error occurred');
-      }
+      setError(err instanceof Error ? err.message : 'Something went wrong');
+    } finally {
+      setIsLoading(false);
     }
-
-    setProcessing(false);
   };
 
   return (
-    <div className="checkout-form">
-      {plan && (
-        <div className="plan-summary">
-          <h3>You are purchasing:</h3>
-          <p>{plan.charAt(0).toUpperCase() + plan.slice(1)} Plan</p>
-        </div>
-      )}
-      <form onSubmit={handleSubmit}>
-        {error && <div className="error">{error}</div>}
-        <button type="submit" disabled={processing || !plan}>
-          {processing ? 'Processing...' : 'Pay'}
-        </button>
-      </form>
-    </div>
+    <form onSubmit={handleSubmit} className="space-y-4">
+      {error && <div className="text-red-500">{error}</div>}
+      
+      <div className="space-y-2">
+        {plans.map((plan) => (
+          <label key={plan.id} className="flex items-center space-x-2">
+            <input
+              type="radio"
+              name="plan"
+              value={plan.id}
+              checked={selectedPlan === plan.id}
+              onChange={(e) => setSelectedPlan(e.target.value)}
+              className="form-radio"
+            />
+            <span>
+              {plan.name} - ${plan.price}/{plan.interval}
+            </span>
+          </label>
+        ))}
+      </div>
+
+      <button
+        type="submit"
+        disabled={isLoading}
+        className="bg-blue-500 text-white px-4 py-2 rounded disabled:opacity-50"
+      >
+        {isLoading ? 'Processing...' : 'Subscribe'}
+      </button>
+    </form>
   );
-};
+}

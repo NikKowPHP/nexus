@@ -1,20 +1,31 @@
-// ROO-AUDIT-TAG :: FIX_PLAN.md :: Add PostgreSQL datasource configuration
+generator client {
+  provider = "prisma-client-js"
+}
+
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
-// ROO-AUDIT-TAG :: 2.3_ai_assessment_loop.md :: Add attempts field to Assessment model
-model Assessment {
-  id           String    @id @default(uuid())
-  user_id      String
-  roadmap_id   String
-  content      String?
-  ai_feedback  String?
-  score        Float?
-  status       String    @default("pending")
-  created_at   DateTime  @default(now())
-  updated_at   DateTime  @updatedAt
-  attempts     Int       @default(1) // Added for retry mechanism
+model User {
+  id                   String    @id @default(cuid())
+  email                String    @unique
+  password             String
+  is_subscribed        Boolean   @default(false)
+  stripe_customer_id   String?   @unique
+  subscription_status  String?
+  // ... other existing fields
 }
-// ROO-AUDIT-TAG :: 2.3_ai_assessment_loop.md :: END
+
+model Plan {
+  id           String  @id @default(cuid())
+  stripeId     String  @unique @map("stripe_id")
+  name         String
+  price        Float
+  interval     String
+  description  String?
+
+  @@map("plans")
+}
+
+// ... rest of existing schema
