@@ -1,17 +1,12 @@
 # Project Architecture Map
 
-| Feature | File Paths | Status |
-|---------|------------|--------|
-| Button component | project-nexus/apps/web/src/components/Button.tsx | [IMPLEMENTED] |
-| TextInput component | project-nexus/apps/web/src/components/TextInput.tsx | [IMPLEMENTED] |
-| Card component | project-nexus/apps/web/src/components/Card.tsx | [IMPLEMENTED] |
-| Badge component | project-nexus/apps/web/src/components/Badge.tsx | [IMPLEMENTED] |
-| Theme provider | project-nexus/apps/web/src/providers/ThemeProvider.tsx | [IMPLEMENTED] |
-| Storybook integration | project-nexus/apps/web/.storybook/main.js | [IMPLEMENTED] |
-| Assessment submission form | project-nexus/apps/web/src/components/AssessmentSubmission.tsx | [IMPLEMENTED] |
-| AI feedback generation | project-nexus/apps/web/src/lib/promptTemplates.ts | [IMPLEMENTED] |
-| XP system | project-nexus/apps/web/src/lib/levels.ts | [IMPLEMENTED] |
-| Streak tracking | project-nexus/apps/web/src/lib/streak.ts | [IMPLEMENTED] |
-| Progress visualization | project-nexus/apps/web/src/components/ProgressBar.tsx<br>project-nexus/apps/web/src/components/ProgressDashboard.tsx | [IMPLEMENTED] |
-| Leaderboard | project-nexus/apps/web/src/components/Leaderboard.tsx<br>project-nexus/apps/web/pages/api/leaderboard.ts | [IMPLEMENTED] |
-| Stripe subscription integration | prisma/schema.prisma<br>work_breakdown/tasks/3.1_stripe_subscription.md<br>project-nexus/apps/web/src/lib/stripeSync.ts<br>project-nexus/apps/web/pages/api/stripe/checkout.ts<br>project-nexus/apps/web/src/components/CheckoutForm.tsx<br>project-nexus/apps/web/pages/success.tsx<br>project-nexus/apps/web/pages/cancel.tsx<br>project-nexus/apps/web/pages/api/webhooks/stripe.ts<br>project-nexus/apps/web/src/components/SubscriptionPortal.tsx<br>project-nexus/apps/web/pages/api/subscriptions/manage.ts | [IMPLEMENTED] |
+| Feature | Primary File(s) | Status | Description |
+|---------|-----------------|--------|-------------|
+| User Authentication | project-nexus/apps/web/src/app/api/auth/route.ts<br>project-nexus/apps/web/src/components/auth/LoginForm.tsx<br>project-nexus/apps/web/src/components/auth/SignupForm.tsx | [IMPLEMENTED] | Secure signup, login, and session management |
+| Interactive Roadmap Viewer | project-nexus/apps/web/src/components/roadmap/RoadmapViewer.tsx<br>project-nexus/apps/web/src/lib/roadmapUtils.ts | [IMPLEMENTED] | Graph-based visualization for learning paths |
+| Flagship Content | project-nexus/apps/web/src/data/roadmaps/flagship.ts<br>project-nexus/apps/web/src/services/contentService.ts | [PLANNED] | 5-10 pre-built flagship learning roadmaps |
+| Complete Learning Loop | project-nexus/apps/web/src/components/learning/AssessmentForm.tsx<br>project-nexus/apps/web/src/services/aiFeedbackService.ts | [PLANNED] | View content, submit assessments, receive AI feedback |
+| Freemium Subscription Model | project-nexus/apps/web/src/app/api/stripe/route.ts<br>project-nexus/apps/web/src/components/subscription/SubscriptionButton.tsx | [PLANNED] | Stripe integration for "Nexus Pro" tier |
+| Basic Gamification System | project-nexus/apps/web/src/services/xpService.ts<br>project-nexus/apps/web/src/services/badgeService.ts<br>project-nexus/apps/web/src/services/streakService.ts | [IMPLEMENTED] | XP, badges, and streak tracking |
+
+*For implementation details, see [Component Map](component_map.md)*

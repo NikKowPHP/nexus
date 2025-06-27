@@ -1,6 +1,9 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { isAdmin } from '@/lib/auth';
 import { prisma } from '@/lib/db';
+import { XpService } from '@/services/xpService';
+import { BadgeService } from '@/services/badgeService';
+import { StreakService } from '@/services/streakService';
 
 export default async function handler(
   req: NextApiRequest,
@@ -37,10 +40,67 @@ export default async function handler(
       
       case 'PUT':
         // Update node
+        // Get current node state first
+        const currentNode = await prisma.node.findUnique({
+          where: { id: id as string },
+          select: { completed: true, userId: true }
+        });
+
         const updatedNode = await prisma.node.update({
           where: { id: id as string },
           data: req.body
         });
+
+        // Award XP if node was just completed
+        if (req.body.completed && !currentNode?.completed) {
+          try {
+            await XpService.awardXp({
+              userId: currentNode?.userId || '',
+              amount: 100, // Base XP for completion
+              source: 'node_completion'
+            });
+          } catch (error) {
+            console.error('Failed to award XP:', error);
+          }
+        }
+
+        // Record activity for streak tracking
+        if (req.body.completed && !currentNode?.completed) {
+          try {
+            await StreakService.recordActivity(currentNode?.userId || '');
+          } catch (error) {
+            console.error('Failed to record streak activity:', error);
+          }
+        }
+
+        // Check for node completion badges
+        if (req.body.completed && !currentNode?.completed) {
+          try {
+            const userId = currentNode?.userId || '';
+            
+            // Check total completed nodes
+            const { count } = await prisma.node.count({
+              where: {
+                userId,
+                completed: true
+              }
+            });
+
+            // Award badges based on milestones
+            if (count >= 10) {
+              await BadgeService.awardBadge(userId, 'node-master');
+            }
+            if (count >= 5) {
+              await BadgeService.awardBadge(userId, 'node-explorer');
+            }
+            if (count >= 1) {
+              await BadgeService.awardBadge(userId, 'node-beginner');
+            }
+          } catch (error) {
+            console.error('Failed to check for badge achievements:', error);
+          }
+        }
+
         return res.status(200).json(updatedNode);
       
       case 'DELETE':

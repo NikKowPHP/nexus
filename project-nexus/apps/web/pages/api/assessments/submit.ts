@@ -3,6 +3,7 @@ import pdfParse from 'pdf-parse';
 import mammoth from 'mammoth';
 import { supabase } from '@/lib/supabase';
 import { sendFeedbackNotification } from '@/lib/notificationService';
+import { BadgeService } from '@/services/badgeService';
 
 // ROO-AUDIT-TAG :: 2.3_ai_assessment_loop.md :: AI feedback generator
 async function generateAIFeedback(content: string): Promise<{
@@ -135,6 +136,35 @@ export default async function handler(
       
       // Send notification
       await sendFeedbackNotification(assessmentData.user_email, req.body.assessmentId);
+
+      // Get user ID from assessment
+      const { data: userData, error: userError } = await supabase
+        .from('assessments')
+        .select('user_id')
+        .eq('id', req.body.assessmentId)
+        .single();
+
+      if (!userError && userData?.user_id) {
+        try {
+          // Check for first submission badge
+          const userBadges = await BadgeService.getUserBadges(userData.user_id);
+          if (userBadges.length === 0) {
+            await BadgeService.awardBadge(userData.user_id, 'first-submission');
+          }
+
+          // Check for high score badge
+          if (aiResponse.score >= 80) {
+            await BadgeService.awardBadge(userData.user_id, 'high-score');
+          }
+
+          // Check for perfect score badge
+          if (aiResponse.score === 100) {
+            await BadgeService.awardBadge(userData.user_id, 'perfect-score');
+          }
+        } catch (error) {
+          console.error('Error awarding badges:', error);
+        }
+      }
 
       res.status(200).json({
         message: 'Assessment processed',
