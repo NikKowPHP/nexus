@@ -14,4 +14,12 @@ export interface RoadmapLink {
 }
 
 export type SimulationNode = RoadmapNode & SimulationNodeDatum;
+
+export interface Roadmap {
+  id: string;
+  title: string;
+  description: string;
+  nodes: RoadmapNode[];
+}
+
 export type SimulationLink = d3.SimulationLinkDatum<SimulationNode>;

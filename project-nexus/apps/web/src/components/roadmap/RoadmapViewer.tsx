@@ -1,23 +1,50 @@
 import { FC, useEffect, useRef, useState } from 'react';
 import * as d3 from 'd3';
-import { RoadmapNode, RoadmapLink, SimulationNode, SimulationLink } from '@/types/roadmap';
+import { Roadmap, RoadmapNode, RoadmapLink, SimulationNode, SimulationLink } from '@/types/roadmap';
 import { getNodeById } from '@/lib/roadmapUtils';
+import { ContentService } from '@/services/contentService';
+import { SubscriptionButton } from '@/components/subscription/SubscriptionButton';
 
 interface RoadmapViewerProps {
-  nodes: RoadmapNode[];
+  roadmapId: string;
   onNodeClick?: (nodeId: string) => void;
   currentNodeId?: string;
+  isSubscribed: boolean;
 }
 
-export const RoadmapViewer: FC<RoadmapViewerProps> = ({ 
-  nodes, 
+export const RoadmapViewer: FC<RoadmapViewerProps> = ({
+  roadmapId,
   onNodeClick,
-  currentNodeId
+  currentNodeId,
+  isSubscribed
 }) => {
   const svgRef = useRef<SVGSVGElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const [selectedNodeId, setSelectedNodeId] = useState<string | undefined>(currentNodeId);
   const [dimensions, setDimensions] = useState({ width: 0, height: 600 });
+  const [roadmap, setRoadmap] = useState<Roadmap | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchRoadmap = async () => {
+      try {
+        setLoading(true);
+        const data = ContentService.getRoadmapById(roadmapId);
+        if (!data) {
+          throw new Error('Roadmap not found');
+        }
+        setRoadmap(data);
+        setError(null);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'Failed to load roadmap');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchRoadmap();
+  }, [roadmapId]);
 
   useEffect(() => {
     if (!containerRef.current) return;
@@ -32,7 +59,7 @@ export const RoadmapViewer: FC<RoadmapViewerProps> = ({
   }, []);
 
   useEffect(() => {
-    if (!svgRef.current || !containerRef.current || dimensions.width === 0) return;
+    if (!svgRef.current || !containerRef.current || dimensions.width === 0 || !roadmap) return;
 
     const svg = d3.select(svgRef.current)
       .attr('width', dimensions.width)
@@ -42,13 +69,13 @@ export const RoadmapViewer: FC<RoadmapViewerProps> = ({
     svg.selectAll('*').remove();
 
     // Create simulation
-    const simulation = d3.forceSimulation<SimulationNode>(nodes as SimulationNode[])
+    const simulation = d3.forceSimulation<SimulationNode>(roadmap.nodes as SimulationNode[])
       .force('charge', d3.forceManyBody().strength(-1000))
       .force('center', d3.forceCenter(dimensions.width / 2, dimensions.height / 2))
       .force('link', d3.forceLink<SimulationNode, SimulationLink>()
         .id(d => d.id)
-        .links(nodes.flatMap(node => 
-          node.dependencies.map(depId => ({
+        .links(roadmap.nodes.flatMap((node: RoadmapNode) =>
+          node.dependencies.map((depId: string) => ({
             source: node.id,
             target: depId
           } as RoadmapLink))
@@ -58,7 +85,7 @@ export const RoadmapViewer: FC<RoadmapViewerProps> = ({
     // Create links
     const links = svg.append('g')
       .selectAll('line')
-      .data(nodes.flatMap(node => 
+      .data(roadmap.nodes.flatMap(node =>
         node.dependencies.map(depId => ({
           source: node.id,
           target: depId
@@ -71,15 +98,15 @@ export const RoadmapViewer: FC<RoadmapViewerProps> = ({
 
     // Highlight connections for selected node
     if (selectedNodeId) {
-      const selectedNode = getNodeById(nodes, selectedNodeId);
+      const selectedNode = getNodeById(roadmap.nodes, selectedNodeId);
       if (selectedNode) {
         links.attr('stroke', (l: any) => {
-            const sourceId = (l.source as SimulationNode).id || (l.source as string);
-            const targetId = (l.target as SimulationNode).id || (l.target as string);
+            const sourceId = typeof l.source === 'object' ? (l.source as SimulationNode).id : l.source;
+            const targetId = typeof l.target === 'object' ? (l.target as SimulationNode).id : l.target;
             return sourceId === selectedNodeId || targetId === selectedNodeId ? '#FF5722' : '#999';
-          }).attr('stroke-width', (l: any) => {
-            const sourceId = (l.source as SimulationNode).id || (l.source as string);
-            const targetId = (l.target as SimulationNode).id || (l.target as string);
+          }).attr('stroke-width', (l: SimulationLink) => {
+            const sourceId = typeof l.source === 'object' ? (l.source as SimulationNode).id : l.source;
+            const targetId = typeof l.target === 'object' ? (l.target as SimulationNode).id : l.target;
             return sourceId === selectedNodeId || targetId === selectedNodeId ? 3 : 2;
           });
       }
@@ -89,7 +116,7 @@ export const RoadmapViewer: FC<RoadmapViewerProps> = ({
     const nodeSize = dimensions.width < 768 ? 15 : 20;
     const nodeElements = svg.append('g')
       .selectAll('circle')
-      .data(nodes)
+      .data(roadmap.nodes)
       .join('circle')
       .attr('r', nodeSize)
       .attr('fill', d => d.completed ? '#4CAF50' : '#2196F3')
@@ -104,7 +131,7 @@ export const RoadmapViewer: FC<RoadmapViewerProps> = ({
     const labelFontSize = dimensions.width < 768 ? '0.8rem' : '1rem';
     const labels = svg.append('g')
       .selectAll('text')
-      .data(nodes)
+      .data(roadmap.nodes)
       .join('text')
       .text(d => d.title)
       .attr('text-anchor', 'middle')
@@ -115,10 +142,10 @@ export const RoadmapViewer: FC<RoadmapViewerProps> = ({
     // Update positions on each tick
     simulation.on('tick', () => {
       links
-        .attr('x1', d => (d.source as SimulationNode).x || 0)
-        .attr('y1', d => (d.source as SimulationNode).y || 0)
-        .attr('x2', d => (d.target as SimulationNode).x || 0)
-        .attr('y2', d => (d.target as SimulationNode).y || 0);
+        .attr('x1', d => typeof d.source === 'object' ? (d.source as SimulationNode).x || 0 : 0)
+        .attr('y1', d => typeof d.source === 'object' ? (d.source as SimulationNode).y || 0 : 0)
+        .attr('x2', d => typeof d.target === 'object' ? (d.target as SimulationNode).x || 0 : 0)
+        .attr('y2', d => typeof d.target === 'object' ? (d.target as SimulationNode).y || 0 : 0);
 
       nodeElements
         .attr('cx', d => d.x || 0)
@@ -141,7 +168,21 @@ export const RoadmapViewer: FC<RoadmapViewerProps> = ({
     return () => {
       simulation.stop();
     };
-  }, [nodes, onNodeClick, selectedNodeId, dimensions]);
+  }, [roadmap, onNodeClick, selectedNodeId, dimensions]);
+
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error}</div>;
+  if (!roadmap) return null;
+
+  if (!isSubscribed) {
+    return (
+      <div className="p-6 text-center">
+        <h2 className="text-xl font-bold mb-4">Premium Content</h2>
+        <p className="mb-4">Subscribe to access this interactive roadmap</p>
+        <SubscriptionButton isSubscribed={false} />
+      </div>
+    );
+  }
 
   return (
     <div ref={containerRef} className="roadmap-container">
