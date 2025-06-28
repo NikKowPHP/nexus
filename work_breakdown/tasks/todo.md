@@ -35,7 +35,7 @@
 
 **Goal:** Build out the remaining Admin and Content Management features that were planned but not fully implemented.
 
--   [ ] **Task 2.1: Implement Content Workflow Status in Schema**
+-   [x] **Task 2.1: Implement Content Workflow Status in Schema**
     -   [ ] **Action:** Open `prisma/schema.prisma`.
     -   [ ] **Action:** In the `Node` model, add a new field: `status String @default("DRAFT")`.
     -   [ ] **Action:** In the `Roadmap` model, add a new field: `status String @default("DRAFT")`.
@@ -43,13 +43,13 @@
     -   [HUMAN] **Action:** A human operator must run `npx prisma migrate dev --name add_content_status` in the `project-nexus/apps/web` directory to apply this schema change to the database.
     -   [ ] **Action:** Run `npx prisma generate` to update the Prisma Client with the new fields.
 
--   [ ] **Task 2.2: Implement Content Workflow in Node Editor**
+-   [x] **Task 2.2: Implement Content Workflow in Node Editor**
     -   [ ] **Action:** Open `project-nexus/apps/web/components/admin/NodeEditor.tsx`.
     -   [ ] **Action:** Add a `<select>` dropdown to the form for the `status` field, with options for "Draft", "Published", and "Archived".
     -   [ ] **Action:** Ensure the `handleChange` and `handleSubmit` functions correctly manage and send the `status` field to the API.
     -   [ ] **Action:** Open `project-nexus/apps/web/pages/api/admin/nodes/[...].ts`. In the `POST` and `PUT` methods, ensure the `status` field from the request body is saved to the database.
 
--   [ ] **Task 2.3: Build Admin Analytics Placeholders**
+-   [x] **Task 2.3: Build Admin Analytics Placeholders**
     -   [ ] **Action:** Create a new component file: `project-nexus/apps/web/components/admin/AnalyticsDashboard.tsx`.
     -   [ ] **Action:** In this new component, add placeholder UI elements for "Total Users", "Active Subscriptions", and a simple bar chart placeholder for "User Growth". Do not implement data fetching logic yet.
     -   [ ] **Action:** Open `project-nexus/apps/web/pages/admin/index.tsx`.

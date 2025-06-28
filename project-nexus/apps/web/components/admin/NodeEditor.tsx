@@ -9,6 +9,7 @@ const NodeEditor: React.FC = () => {
     type: 'lesson',
     roadmapId: '',
     order: 0,
+    status: 'DRAFT',
   });
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -92,6 +93,20 @@ const NodeEditor: React.FC = () => {
             <option value="lesson">Lesson</option>
             <option value="quiz">Quiz</option>
             <option value="exercise">Exercise</option>
+          </select>
+        </div>
+
+        <div className={styles.formGroup}>
+          <label htmlFor="status">Status:</label>
+          <select
+            id="status"
+            name="status"
+            value={formData.status}
+            onChange={handleChange}
+          >
+            <option value="DRAFT">Draft</option>
+            <option value="PUBLISHED">Published</option>
+            <option value="ARCHIVED">Archived</option>
           </select>
         </div>
 

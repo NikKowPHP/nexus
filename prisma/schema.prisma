@@ -7,6 +7,12 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum ContentStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
 model User {
   id                   String    @id @default(cuid())
   email                String    @unique
@@ -76,6 +82,28 @@ model UserStreak {
 
   @@index([user_id])
   @@map("user_streaks")
+}
+
+model Node {
+  id          String       @id @default(cuid())
+  title       String
+  description String
+  type        String
+  status      ContentStatus @default(DRAFT)
+  roadmap     Roadmap      @relation(fields: [roadmap_id], references: [id])
+  roadmap_id  String
+
+  @@map("nodes")
+}
+
+model Roadmap {
+  id          String       @id @default(cuid())
+  title       String
+  description String?
+  status      ContentStatus @default(DRAFT)
+  nodes       Node[]
+
+  @@map("roadmaps")
 }
 
 // ... rest of existing schema

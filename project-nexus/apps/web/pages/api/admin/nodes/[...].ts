@@ -10,7 +10,8 @@ const nodeSchema = z.object({
   title: z.string().min(1),
   description: z.string().min(1),
   type: z.enum(['concept', 'practice', 'project']),
-  roadmapId: z.string()
+  roadmapId: z.string(),
+  status: z.enum(['DRAFT', 'PUBLISHED', 'ARCHIVED'])
 });
 
 export default async function handler(
