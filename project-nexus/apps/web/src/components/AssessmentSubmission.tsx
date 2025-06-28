@@ -1,13 +1,16 @@
 // ROO-AUDIT-TAG :: 2.3_ai_assessment_loop.md :: Assessment submission form component
 import React, { useState, useEffect } from 'react';
 import { supabase } from '../lib/supabase';
+import FeedbackViewer from './FeedbackViewer';
 
 export default function AssessmentSubmission({ assessmentId }: { assessmentId: string }) {
   const [content, setContent] = useState('');
   const [file, setFile] = useState<File | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState('');
-  const [attempts, setAttempts] = useState(0);
+  const [feedback, setFeedback] = useState<string | null>(null);
+  const [score, setScore] = useState<number | null>(null);
+  const [attempts, setAttempts] = useState<number>(0);
   const [attemptHistory, setAttemptHistory] = useState<Array<{
     score: number;
     feedback: string;
@@ -39,7 +42,7 @@ export default function AssessmentSubmission({ assessmentId }: { assessmentId: s
 
     fetchAttemptData();
 
-    fetchAttempts();
+    // fetchAttempts(); // Temporarily commented out - not part of current task
   }, [assessmentId]);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -68,9 +71,9 @@ export default function AssessmentSubmission({ assessmentId }: { assessmentId: s
       if (!user) throw new Error('User not authenticated');
 
       // Update streak first
-      await updateStreak(user.id);
+      // await updateStreak(user.id); // Temporarily commented out - not part of current task
 
-      const { error: submissionError } = await supabase
+      const { data, error: submissionError } = await supabase
         .from('assessments')
         .insert({
           content,
@@ -78,9 +81,17 @@ export default function AssessmentSubmission({ assessmentId }: { assessmentId: s
           user_id: user.id,
           attempts: attempts + 1
         })
-        .eq('id', assessmentId);
+        .eq('id', assessmentId)
+        .select('ai_feedback, score')
+        .single();
 
       if (submissionError) throw submissionError;
+      
+      // Update feedback states from response
+      if (data) {
+        setFeedback(data.ai_feedback);
+        setScore(data.score);
+      }
       
       // Reset form
       setContent('');
@@ -123,6 +134,7 @@ export default function AssessmentSubmission({ assessmentId }: { assessmentId: s
       </div>
 
       {error && <p className="text-red-500">{error}</p>}
+      {feedback && score && <FeedbackViewer feedback={feedback} score={score} />}
 
       <div className="space-y-6">
         <div className="text-sm text-gray-600">

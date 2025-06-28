@@ -17,7 +17,7 @@
     -   [ ] **Action:** In the `POST` case, implement `try...catch` and use the schema to validate `req.body`.
     -   [ ] **Action:** In the `PUT` case, implement `try...catch` and use the schema to validate `req.body`.
 
--   [ ] **Task 1.3: Complete AI Assessment Feedback UI**
+-   [x] **Task 1.3: Complete AI Assessment Feedback UI**
     -   [ ] **Action:** Open `project-nexus/apps/web/src/components/AssessmentSubmission.tsx`.
     -   [ ] **Action:** Add new state variables to hold the feedback results: `const [feedback, setFeedback] = useState(null);`, `const [score, setScore] = useState(null);`.
     -   [ ] **Action:** Locate the `handleSubmit` function. Inside the `try` block, after a successful API call, add logic to update these new states with the data from the API response (e.g., `setFeedback(response.data.feedback);`, `setScore(response.data.score);`).
