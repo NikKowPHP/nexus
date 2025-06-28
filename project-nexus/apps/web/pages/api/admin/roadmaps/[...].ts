@@ -1,6 +1,11 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { isAdmin } from '../../../../src/lib/auth';
 import { prisma } from '../../../../src/lib/db';
+import { z } from 'zod';
+
+const roadmapSchema = z.object({
+  title: z.string().min(1)
+});
 
 export default async function handler(
   req: NextApiRequest,
@@ -30,18 +35,28 @@ export default async function handler(
       
       case 'POST':
         // Create new roadmap
-        const newRoadmap = await prisma.roadmap.create({
-          data: req.body
-        });
-        return res.status(201).json(newRoadmap);
+        try {
+          const validatedData = roadmapSchema.parse(req.body);
+          const newRoadmap = await prisma.roadmap.create({
+            data: validatedData
+          });
+          return res.status(201).json(newRoadmap);
+        } catch (error) {
+          return res.status(400).json({ error: 'Invalid input', details: error });
+        }
       
       case 'PUT':
         // Update roadmap
-        const updatedRoadmap = await prisma.roadmap.update({
-          where: { id: id as string },
-          data: req.body
-        });
-        return res.status(200).json(updatedRoadmap);
+        try {
+          const validatedData = roadmapSchema.parse(req.body);
+          const updatedRoadmap = await prisma.roadmap.update({
+            where: { id: id as string },
+            data: validatedData
+          });
+          return res.status(200).json(updatedRoadmap);
+        } catch (error) {
+          return res.status(400).json({ error: 'Invalid input', details: error });
+        }
       
       case 'DELETE':
         // Delete roadmap

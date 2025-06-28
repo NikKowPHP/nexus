@@ -10,7 +10,7 @@
     -   [ ] **Action:** In the `POST` case within the `handler`, wrap the `req.body` logic in a `try...catch` block. Use `yourNodeSchema.parse(req.body)` to validate the input. If it fails, return a 400 response with the Zod error.
     -   [ ] **Action:** In the `PUT` case, repeat the validation process using the same Zod schema.
 
--   [ ] **Task 1.2: Implement API Input Validation for Roadmaps**
+-   [x] **Task 1.2: Implement API Input Validation for Roadmaps**
     -   [ ] **Action:** Open `project-nexus/apps/web/pages/api/admin/roadmaps/[...].ts`.
     -   [ ] **Action:** Import Zod: `import { z } from 'zod';`.
     -   [ ] **Action:** Define a Zod schema for creating/updating a Roadmap, validating `title` (string, non-empty).
