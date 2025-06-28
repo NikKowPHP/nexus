@@ -2,7 +2,7 @@
 
 **Goal:** Address all outstanding issues identified by the last audit to ensure data integrity and feature completeness.
 
--   [ ] **Task 1.1: Implement API Input Validation for Nodes**
+-   [x] **Task 1.1: Implement API Input Validation for Nodes**
     -   [ ] **Action:** In the `project-nexus/apps/web` directory, run `npm install zod`.
     -   [ ] **Action:** Open `project-nexus/apps/web/pages/api/admin/nodes/[...].ts`.
     -   [ ] **Action:** At the top of the file, import Zod: `import { z } from 'zod';`.

@@ -4,6 +4,14 @@ import { prisma } from '@/lib/db';
 import { XpService } from '@/services/xpService';
 import { BadgeService } from '@/services/badgeService';
 import { StreakService } from '@/services/streakService';
+import { z } from 'zod';
+
+const nodeSchema = z.object({
+  title: z.string().min(1),
+  description: z.string().min(1),
+  type: z.enum(['concept', 'practice', 'project']),
+  roadmapId: z.string()
+});
 
 export default async function handler(
   req: NextApiRequest,
@@ -33,15 +41,22 @@ export default async function handler(
       
       case 'POST':
         // Create new node
-        const newNode = await prisma.node.create({
-          data: req.body
-        });
-        return res.status(201).json(newNode);
+        try {
+          const validatedData = nodeSchema.parse(req.body);
+          const newNode = await prisma.node.create({
+            data: validatedData
+          });
+          return res.status(201).json(newNode);
+        } catch (error) {
+          return res.status(400).json({ error: 'Invalid input', details: error });
+        }
       
       case 'PUT':
         // Update node
-        // Get current node state first
-        const currentNode = await prisma.node.findUnique({
+        try {
+          const validatedData = nodeSchema.parse(req.body);
+          // Get current node state first
+          const currentNode = await prisma.node.findUnique({
           where: { id: id as string },
           select: { completed: true, userId: true }
         });
@@ -102,6 +117,9 @@ export default async function handler(
         }
 
         return res.status(200).json(updatedNode);
+        } catch (error) {
+          return res.status(400).json({ error: 'Invalid input', details: error });
+        }
       
       case 'DELETE':
         // Delete node
